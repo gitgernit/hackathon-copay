@@ -1,0 +1,44 @@
+extend-exclude = [".github", "alembic"]
+force-exclude = true
+line-length = 79
+show-fixes = true
+src = ["src"]
+target-version = "py312"
+
+[format]
+quote-style = "single"
+skip-magic-trailing-comma = false
+
+[lint]
+extend-select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "B",  # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "ARG001", # unused arguments in functions
+]
+ignore = ["ANN101", "PERF101", "ISC001", "B008", "B904"]
+
+[lint.extend-per-file-ignores]
+"tests/**/*.py" = [
+    "S101", # Allow assert statements
+    "ARG",
+    "FBT",
+]
+"__init__.py" = [
+    "F403",
+]
+
+[lint.flake8-quotes]
+inline-quotes = 'single'
+
+[lint.flake8-tidy-imports]
+ban-relative-imports = 'all'
+
+[lint.mccabe]
+max-complexity = 7
+
+[lint.pyupgrade]
+keep-runtime-typing = true
