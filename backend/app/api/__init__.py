@@ -1,4 +1,4 @@
-__all__ = ['api_router']
+__all__: list[str] = []
 
+# Initialize all routes
 from .routes import *
-from .routers import api_router

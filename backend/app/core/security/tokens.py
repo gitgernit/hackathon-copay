@@ -1,17 +1,15 @@
 import datetime
+import typing
+
 import jwt
 
-import app.core.config
-
-config = app.core.config.config
-
-SECRET_KEY = config.SECRET_KEY
-ALGORITHM = 'HS256'
+from app.core.config import config
 
 
 def generate_token(
-    payload: dict, expires_delta: datetime.timedelta | None = None
-):
+    payload: dict[typing.Any, typing.Any],
+    expires_delta: datetime.timedelta | None = None,
+) -> str:
     to_encode = payload.copy()
 
     if expires_delta:
@@ -23,6 +21,8 @@ def generate_token(
         )
 
     to_encode.update({'exp': expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(
+        to_encode, config.JWT_SECRET_KEY, algorithm=config.JWT_ALGORITHM
+    )
 
     return encoded_jwt

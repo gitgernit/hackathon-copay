@@ -1,4 +1,4 @@
-__all__ = ['auth_router']
+__all__: list[str] = []
 
-from .routers import auth_router
-from .routes import *  # Initialize all paths
+# Initialize all routes
+from .routes import *
