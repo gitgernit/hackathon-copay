@@ -9,15 +9,6 @@ on:
       - opened
       - synchronize
 
-env:
-  STACK_NAME: 'fastapi-fullstack-template'
-  DOMAIN: 'localhost'
-  POSTGRES_USER: 'actions'
-  POSTGRES_PASSWORD: 'actions'
-  POSTGRES_DB: 'app'
-  DOCKER_IMAGE_BACKEND: 'backend'
-  DOCKER_IMAGE_FRONTEND: 'frontend'
-
 jobs:
   lint-backend:
     runs-on: ubuntu-latest
