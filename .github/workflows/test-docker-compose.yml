@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - run: docker compose build
+      - run: docker compose --env-file=.env.template build
       - run: docker compose --env-file=.env.template down -v --remove-orphans
       - run: docker compose --env-file=.env.template up -d --wait backend frontend
       - name: Test backend is up
