@@ -66,8 +66,10 @@ services:
       # any other service that needs to be publicly available with HTTPS
       - traefik-public
     env_file:
-      - .env.template
-      - .env
+      - path: .env.template
+        required: true
+      - path: .env
+        required: false
 
 volumes:
   # Create a volume to store the certificates, even if the container is recreated
