@@ -32,8 +32,8 @@ services:
     env_file:
       - .env
     environment:
-      - JWT_SECRET_KEY=${JWT_SECRET_KEY?Variable not set}
-      - JWT_ALGORITHM=${JWT_SECRET_KEY?Variable not set}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - JWT_ALGORITHM=${JWT_SECRET_KEY:-HS256}
 
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/utils/health-check"]
