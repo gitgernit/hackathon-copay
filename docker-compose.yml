@@ -12,8 +12,8 @@ services:
     volumes:
       - app-db-data:/var/lib/postgresql/data/pgdata
     env_file:
-      - .env
       - .env.template
+      - .env
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD?Variable not set}
@@ -31,8 +31,8 @@ services:
         condition: service_healthy
         restart: true
     env_file:
-      - .env
       - .env.template
+      - .env
     environment:
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       - JWT_ALGORITHM=${JWT_SECRET_KEY:-HS256}
@@ -92,8 +92,8 @@ services:
       # Enable redirection for HTTP and HTTPS
       - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.middlewares=https-redirect
     env_file:
-      - .env
       - .env.template
+      - .env
 
 volumes:
   app-db-data:
