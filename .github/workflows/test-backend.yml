@@ -24,8 +24,8 @@ jobs:
         with:
           version: "0.4.15"
           enable-cache: true
-      - run: docker compose down -v --remove-orphans
-      - run: docker compose up -d db
+      - run: docker compose --env-file=.env.template down -v --remove-orphans
+      - run: docker compose --env-file=.env.template up -d db
       - run: sleep 5
       - name: Migrate DB
         run: uv run bash scripts/prestart.sh
@@ -33,7 +33,7 @@ jobs:
       - name: Run tests
         run: uv run bash scripts/tests-start.sh "Coverage for ${{ github.sha }}"
         working-directory: backend
-      - run: docker compose down -v --remove-orphans
+      - run: docker compose --env-file=.env.template down -v --remove-orphans
       - name: Store coverage files
         uses: actions/upload-artifact@v4
         with:

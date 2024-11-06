@@ -16,10 +16,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - run: docker compose build
-      - run: docker compose down -v --remove-orphans
-      - run: docker compose up -d --wait backend frontend
+      - run: docker compose --env-file=.env.template down -v --remove-orphans
+      - run: docker compose --env-file=.env.template up -d --wait backend frontend
       - name: Test backend is up
         run: curl http://localhost:8000/api/utils/health-check
       - name: Test frontend is up
         run: curl http://localhost:5173
-      - run: docker compose down -v --remove-orphans
+      - run: docker compose --env-file=.env.template down -v --remove-orphans
