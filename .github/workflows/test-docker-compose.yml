@@ -9,8 +9,12 @@ on:
       - opened
       - synchronize
 
-jobs:
+env:
+  POSTGRES_USER: 'actions'
+  POSTGRES_PASSWORD: 'actions'
+  POSTGRES_DB: 'app'
 
+jobs:
   test-docker-compose:
     runs-on: ubuntu-latest
     steps:

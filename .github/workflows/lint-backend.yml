@@ -9,6 +9,11 @@ on:
       - opened
       - synchronize
 
+env:
+  POSTGRES_USER: 'actions'
+  POSTGRES_PASSWORD: 'actions'
+  POSTGRES_DB: 'app'
+
 jobs:
   lint-backend:
     runs-on: ubuntu-latest
