@@ -11,7 +11,7 @@ class Config(pydantic_settings.BaseSettings):
         extra='ignore',
     )
 
-    DATABASE_URL: str
+    DATABASE_URL: str = pydantic.fields.Field(default=None)
 
     JWT_SECRET_KEY: str = secrets.token_urlsafe(32)
     JWT_ALGORITHM: str = 'HS256'
