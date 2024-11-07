@@ -15,6 +15,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Dotenv Action
+        uses: falti/dotenv-action@v1.1.4
+        with:
+          path: '.env.template'
+          export-variables: 'true'
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
