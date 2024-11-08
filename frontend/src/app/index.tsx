@@ -1,10 +1,16 @@
-import {RouterProvider} from "react-router-dom";
-import {router} from "./router";
-import {FC} from "react";
-import React from "react";
+import { FC } from "react";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./router";
 
-import './main.css'
+import "./main.css";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 export const App: FC = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 };

@@ -8,12 +8,17 @@
     "build": "tsc && vite build",
     "lint": "biome check --apply-unsafe --no-errors-on-unmatched --files-ignore-unknown=true ./",
     "preview": "vite preview",
-    "generate-client": "openapi-ts --input ./openapi.json --output ./src/shared/api --client axios --exportSchemas true"
+    "generate-client": "openapi-ts --input ./openapi.json --output ./src/shared/api --client axios --exportSchemas true",
+    "generate": "openapi-generator-cli generate -g typescript-axios -i ./openapi.json -o ./src/shared/api/generated"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-scroll-area": "^1.2.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@tanstack/react-query": "^5.59.20",
     "@tanstack/react-query-devtools": "^5.59.20",
+    "@vkruglikov/react-telegram-web-app": "^2.1.9",
+    "@yudiel/react-qr-scanner": "^2.0.8",
     "axios": "^1.7.7",
     "clsx": "^2.1.1",
     "react": "^18.3.1",
