@@ -35,7 +35,7 @@ def authenticate(init_data: TelegramInputData) -> Token:
         ).hexdigest()
         != init_data.hash
     ):
-        return HTTPException(status_code=401, detail='Unauthorized')
+        raise HTTPException(status_code=401, detail='Unauthorized')
 
     engine = create_engine(url=config.DATABASE_URL)
     with Session(engine) as session:
