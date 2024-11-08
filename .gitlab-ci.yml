@@ -13,7 +13,6 @@ build:
   stage: build
   services:
     - docker:dind
-  image: docker:latest
   script:
     - docker-compose -f docker-compose.yml build
   artifacts:
@@ -23,11 +22,10 @@ build:
 
 deploy:
   stage: deploy
-  image: docker:latest
   services:
     - docker:dind
   script:
     - echo "Deploying application..."
     - docker-compose -f docker-compose.yml up -d --remove-orphans
   only:
-    - main
+    - master
