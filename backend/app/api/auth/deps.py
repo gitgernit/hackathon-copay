@@ -1,18 +1,23 @@
-from fastapi import HTTPException, Request
-from typing_extensions import Annotated, Doc
-import fastapi.security
+from logging import config
+from typing import Annotated
+from app.models.user import User
+from fastapi import Depends, Request, HTTPException
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials, OAuth2PasswordBearer
+import jwt
 
 from .utils import decode_jwt
 
-oauth2_scheme = fastapi.security.OAuth2PasswordBearer(tokenUrl='token')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
 
 
-class BearerAuth(fastapi.security.HTTPBearer):
-    def __init__(self, *, bearerFormat: str | None = None, scheme_name: str | None = None, description: str | None = None, auto_error: bool = True):
-        super().__init__(bearerFormat=bearerFormat, scheme_name=scheme_name, description=description, auto_error=auto_error)
 
-    async def __call__(self, request: Request) -> fastapi.security.HTTPAuthorizationCredentials | None:
-        credentials: fastapi.security.HTTPAuthorizationCredentials = await super(BearerAuth, self).__call__(request)
+class BearerAuth(HTTPBearer):
+    def __init__(self, auto_error: bool = True):
+        super(BearerAuth, self).__init__(auto_error=auto_error)
+
+    async def __call__(self, request: Request):
+        credentials: HTTPAuthorizationCredentials = await super(BearerAuth, self).__call__(request)
+
         if credentials:
             if not credentials.scheme == "Bearer":
                 raise HTTPException(status_code=403, detail="Invalid authentication scheme.")
@@ -34,3 +39,14 @@ class BearerAuth(fastapi.security.HTTPBearer):
             is_valid = True
 
         return is_valid
+
+
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+    try:
+        payload = jwt.decode(token, config.SECRET_KEY, algorithms=["HS256"])
+        user = await User.get_or_create_user(payload["user_id"], payload['username'])
+        return user
+    except jwt.ExpiredSignatureError:
+        return {"error": "Token is expired"}
+    except jwt.InvalidTokenError:
+        return {"error": "Invalid token"}

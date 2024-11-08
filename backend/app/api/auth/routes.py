@@ -21,7 +21,7 @@ from app.models.user import User
         401: {'description': 'Unauthorized', 'model': BasicResponse},
     },
 )
-def authenticate(init_data: TelegramInputData) -> Token:
+async def authenticate(init_data: TelegramInputData) -> Token:
     fields = init_data.dict()
     sorted_fields = sorted(fields.items())
     formatted = [f'{key}={value}' for key, value in sorted_fields]
@@ -37,20 +37,13 @@ def authenticate(init_data: TelegramInputData) -> Token:
     ):
         return HTTPException(status_code=401, detail='Unauthorized')
 
-    engine = create_engine(url=config.DATABASE_URL)
-    with Session(engine) as session:
-        user = session.get(User, init_data.user.id)
-        if not user:
-            user = User(
-                id=init_data.user.id,
-                username=init_data.user.username,
-            )
-            session.add(user)
-            session.commit()
+    user = await User.get_or_create_user(User(id=init_data.user.id, username=init_data.user.username))
+    
     return Token(
         access_token=app.core.security.tokens.generate_token(
             {
                 'user_id': user.id,
+                'username': user.username
             },
             expires_delta=timedelta(days=7),
         ),
