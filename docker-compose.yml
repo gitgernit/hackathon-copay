@@ -24,26 +24,19 @@ services:
   adminer:
     image: adminer
     restart: always
+    ports:
+      - 8080:8080
     networks:
-      - traefik-public
       - default
     depends_on:
       - db
     environment:
       - ADMINER_DESIGN=pepa-linha-dark
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=traefik-public
-      - traefik.constraint-label=traefik-public
-      - traefik.http.routers.hack-adminer-http.rule=Host(`adminer.${DOMAIN?Variable not set}`)
-      - traefik.http.routers.hack-adminer-http.entrypoints=http
-      - traefik.http.services.hack-adminer.loadbalancer.server.port=8080
 
   # prestart:
   #   build:
   #     context: ./backend
   #   networks:
-  #     - traefik-public
   #     - default
   #   depends_on:
   #     db:
@@ -62,7 +55,6 @@ services:
   backend:
     restart: always
     networks:
-      - traefik-public
       - default
     ports:
       - 8000:8000
@@ -89,46 +81,18 @@ services:
 
     build:
       context: ./backend
-    # labels:
-    #   - traefik.enable=true
-    #   - traefik.docker.network=traefik-public
-    #   - traefik.constraint-label=traefik-public
-
-    #   - traefik.http.services.hack-backend.loadbalancer.server.port=8000
-
-    #   - traefik.http.routers.hack-backend-http.rule=Host(`api.${DOMAIN?Variable not set}`)
-    #   - traefik.http.routers.hack-backend-http.entrypoints=http
 
   frontend:
     restart: always
     networks:
-      - traefik-public
       - default
     ports:
       - 8081:80
     build:
       context: ./frontend
       args:
-        - VITE_API_URL=https://api.${DOMAIN?Variable not set}
+        - VITE_API_URL=https://${DOMAIN?Variable not set}/api
         - NODE_ENV=production
-    # labels:
-    #   - traefik.enable=true
-    #   - traefik.docker.network=traefik-public
-    #   - traefik.constraint-label=traefik-public
-
-    #   - traefik.http.services.hack-frontend.loadbalancer.server.port=80
-
-    #   - traefik.http.routers.hack-frontend-http.rule=Host(`${DOMAIN?Variable not set}`)
-    #   - traefik.http.routers.hack-frontend-http.entrypoints=http
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=traefik-public
-      - traefik.constraint-label=traefik-public
-
-      - traefik.http.services.hack-frontend.loadbalancer.server.port=80
-
-      - traefik.http.routers.hack-frontend-http.rule=Host(`${DOMAIN?Variable not set}`)
-      - traefik.http.routers.hack-frontend-http.entrypoints=http
     env_file:
       - path: .env.template
         required: true
@@ -137,8 +101,3 @@ services:
 
 volumes:
   app-db-data:
-
-networks:
-  traefik-public:
-    # Allow setting it to false for testing
-    external: true
