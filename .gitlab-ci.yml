@@ -9,19 +9,6 @@ before_script:
   - echo "Setting up environment..."
   - export $(grep -v '^#' .env.template | xargs)
 
-build:
-  stage: build
-  services:
-    - docker:dind
-  tags:
-    - vps
-  script:
-    - docker compose -f docker-compose.yml build
-  artifacts:
-    paths:
-      - backend/target
-      - frontend/dist
-
 deploy:
   stage: deploy
   services:
@@ -30,6 +17,6 @@ deploy:
     - vps
   script:
     - echo "Deploying application..."
-    - docker compose -f docker-compose.yml up -d --remove-orphans
+    - docker compose -f docker-compose.yml up -d --build --remove-orphans
   only:
     - master
