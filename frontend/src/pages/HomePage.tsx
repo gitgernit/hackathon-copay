@@ -1,14 +1,16 @@
 import React, { useEffect } from "react"
-import { test_api } from './../api/server';
+import Test from './../api/server';
+import '../styles/Home.css'
+import GroupList from "../Components/GroupList/GroupList";
 
 export const HomePage = () => {
   useEffect(() => {
-    test_api()
+    Test.test_api()
   }, [])
 
   return (
-    <div>
-      home
+    <div className="wrapper">
+      <GroupList />
     </div>
   )
 }

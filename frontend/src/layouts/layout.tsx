@@ -1,18 +1,16 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
+import Header from '../Components/Header/Header'
+import Footer from '../Components/Footer/Footer'
 
 function Layout() {
   return (
     <>
-        <header>
-            <h1>Ваши группы</h1>
-        </header>
+        <Header />
         <main>
             <Outlet />
         </main>
-        <footer>
-            Команда 4891
-        </footer>
+        <Footer />
     </>
   )
 }
