@@ -1,36 +1,41 @@
 from datetime import timedelta
 from hashlib import sha256
 import hmac
-from typing import Annotated
 
-from fastapi import Depends, HTTPException, Response
-import jwt
-from sqlmodel import create_engine, Session
+from fastapi import HTTPException
+from sqlmodel import create_engine
+from sqlmodel import Session
 
-from app.api.auth.deps import oauth2_scheme
-from app.api.auth.exceptions import credentials_exception
 from app.api.auth.routers import auth_router
 from app.core.config import config
 import app.core.security.tokens
+from app.models.base import BasicResponse
+from app.models.telegram import TelegramInputData
 from app.models.tokens import Token
 from app.models.user import User
-from app.models.telegram import TelegramInputData
-from app.core.config import config
-from app.models.base import BasicResponse
 
-@auth_router.post('/token', responses={
-    401: {
-        "description": "Unauthorized", "model": BasicResponse
+
+@auth_router.post(
+    '/token',
+    responses={
+        401: {'description': 'Unauthorized', 'model': BasicResponse},
     },
-})
-def authenticate(init_data: TelegramInputData, response: Response) -> Token:
+)
+def authenticate(init_data: TelegramInputData) -> Token:
     fields = init_data.dict()
     sorted_fields = sorted(fields.items())
-    formatted = [f"{key}={value}" for key, value in sorted_fields]
-    data_check_string = "\n".join(formatted)
-    secret_key = hmac.new("WebAppData".encode(), config.BOT_TOKEN.encode(), sha256).hexdigest()
-    if hmac.new(secret_key.encode(), data_check_string.encode(), sha256).hexdigest() != init_data.hash:
-        return HTTPException(status_code=401, detail="Unauthorized")
+    formatted = [f'{key}={value}' for key, value in sorted_fields]
+    data_check_string = '\n'.join(formatted)
+    secret_key = hmac.new(
+        b'WebAppData', config.BOT_TOKEN.encode(), sha256
+    ).hexdigest()
+    if (
+        hmac.new(
+            secret_key.encode(), data_check_string.encode(), sha256
+        ).hexdigest()
+        != init_data.hash
+    ):
+        return HTTPException(status_code=401, detail='Unauthorized')
 
     engine = create_engine(url=config.DATABASE_URL)
     with Session(engine) as session:
@@ -43,11 +48,15 @@ def authenticate(init_data: TelegramInputData, response: Response) -> Token:
             session.add(user)
             session.commit()
     return Token(
-        access_token=app.core.security.tokens.generate_token({
-            "user_id": user.id,
-        }, expires_delta=timedelta(days=7)),
-        token_type="bearer",
+        access_token=app.core.security.tokens.generate_token(
+            {
+                'user_id': user.id,
+            },
+            expires_delta=timedelta(days=7),
+        ),
+        token_type='bearer',
     )
+
 
 @auth_router.get('/ping')
 def ping() -> str:
