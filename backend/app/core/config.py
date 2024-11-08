@@ -12,6 +12,7 @@ class Config(pydantic_settings.BaseSettings):
     )
 
     DATABASE_URL: str = pydantic.fields.Field(default=None)
+    BOT_TOKEN: str = pydantic.fields.Field(default=None)
 
     JWT_SECRET_KEY: str = secrets.token_urlsafe(32)
     JWT_ALGORITHM: str = 'HS256'
