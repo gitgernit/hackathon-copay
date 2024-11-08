@@ -1,0 +1,14 @@
+.group-item {
+    background-color: #f7f2fa;
+
+    width: 360px;
+    height: 80px;
+    padding: 16px 0px 16px 16px;
+    display: flex;
+
+    border-radius: 12px;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    -ms-border-radius: 12px;
+    -o-border-radius: 12px;
+}

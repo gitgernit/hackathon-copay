@@ -1,4 +1,6 @@
 import React from 'react'
+import  './GroupItem.css'
+import GroupLogo from '../GroupLogo/Footer'
 
 interface Props {
     group: {
@@ -10,7 +12,8 @@ interface Props {
 
 const GroupItem = ({group}: Props) => {
   return (
-    <div>
+    <div className='group-item'>
+        <GroupLogo name={group.name} />
         <h4>{group.name}</h4>
         <p>{group.membersCount}</p>
     </div>
