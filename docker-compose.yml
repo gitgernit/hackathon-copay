@@ -37,11 +37,6 @@ services:
       - traefik.constraint-label=traefik-public
       - traefik.http.routers.hack-adminer-http.rule=Host(`adminer.${DOMAIN?Variable not set}`)
       - traefik.http.routers.hack-adminer-http.entrypoints=http
-      - traefik.http.routers.hack-adminer-http.middlewares=https-redirect
-      - traefik.http.routers.hack-adminer-https.rule=Host(`adminer.${DOMAIN?Variable not set}`)
-      - traefik.http.routers.hack-adminer-https.entrypoints=https
-      - traefik.http.routers.hack-adminer-https.tls=true
-      - traefik.http.routers.hack-adminer-https.tls.certresolver=le
       - traefik.http.services.hack-adminer.loadbalancer.server.port=8080
 
   # prestart:
@@ -102,14 +97,6 @@ services:
       - traefik.http.routers.hack-backend-http.rule=Host(`api.${DOMAIN?Variable not set}`)
       - traefik.http.routers.hack-backend-http.entrypoints=http
 
-      - traefik.http.routers.hack-backend-https.rule=Host(`api.${DOMAIN?Variable not set}`)
-      - traefik.http.routers.hack-backend-https.entrypoints=https
-      - traefik.http.routers.hack-backend-https.tls=true
-      - traefik.http.routers.hack-backend-https.tls.certresolver=le
-
-      # Enable redirection for HTTP and HTTPS
-      - traefik.http.routers.hack-backend-http.middlewares=https-redirect
-
   frontend:
     restart: always
     networks:
@@ -129,14 +116,6 @@ services:
 
       - traefik.http.routers.hack-frontend-http.rule=Host(`${DOMAIN?Variable not set}`)
       - traefik.http.routers.hack-frontend-http.entrypoints=http
-
-      - traefik.http.routers.hack-frontend-https.rule=Host(`${DOMAIN?Variable not set}`)
-      - traefik.http.routers.hack-frontend-https.entrypoints=https
-      - traefik.http.routers.hack-frontend-https.tls=true
-      - traefik.http.routers.hack-frontend-https.tls.certresolver=le
-
-      # Enable redirection for HTTP and HTTPS
-      - traefik.http.routers.hack-frontend-http.middlewares=https-redirect
     env_file:
       - path: .env.template
         required: true
