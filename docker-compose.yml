@@ -12,13 +12,47 @@ services:
       timeout: 10s
     volumes:
       - app-db-data:/var/lib/postgresql/data/pgdata
-    env_file:
-      - path: .env.template
-        required: true
-      - path: .env
-        required: false
     environment:
-      PGDATA: /var/lib/postgresql/data/pgdata
+      - POSTGRES_PASSWORD=postgres
+
+  adminer:
+    image: adminer
+    restart: always
+    networks:
+      - traefik-public
+      - default
+    depends_on:
+      - db
+    environment:
+      - ADMINER_DESIGN=pepa-linha-dark
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-public
+      - traefik.constraint-label=traefik-public
+      - traefik.http.routers.hack-adminer-http.rule=Host(`adminer.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.hack-adminer-http.entrypoints=http
+      - traefik.http.routers.hack-adminer-http.middlewares=https-redirect
+      - traefik.http.routers.hack-adminer-https.rule=Host(`adminer.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.hack-adminer-https.entrypoints=https
+      - traefik.http.routers.hack-adminer-https.tls=true
+      - traefik.http.routers.hack-adminer-https.tls.certresolver=le
+      - traefik.http.services.hack-adminer.loadbalancer.server.port=8080
+
+  prestart:
+    build:
+      context: ./backend
+    networks:
+      - traefik-public
+      - default
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    command: bash scripts/prestart.sh
+    environment:
+      - DOMAIN=${DOMAIN}
+      - FRONTEND_HOST=${FRONTEND_HOST?Variable not set}
+      - ENVIRONMENT=production
 
   backend:
     restart: always
@@ -29,11 +63,17 @@ services:
       db:
         condition: service_healthy
         restart: true
+      prestart:
+        condition: service_completed_successfully
     env_file:
       - path: .env.template
         required: true
       - path: .env
         required: false
+    environment:
+      - DOMAIN=${DOMAIN}
+      - FRONTEND_HOST=${FRONTEND_HOST?Variable not set}
+      - ENVIRONMENT=production
 
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/utils/health-check"]
