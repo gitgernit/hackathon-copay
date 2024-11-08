@@ -17,7 +17,7 @@ deploy:
     - vps
   script:
     - echo "Deploying application..."
-    - echo "Using $BOT_TOKEN as BOT_TOKEN"
+    - echo "Using $TOKEN_TELEGRAM_API as TOKEN_TELEGRAM_API"
     - docker compose -f docker-compose.yml up -d --build --remove-orphans
   only:
     - master
