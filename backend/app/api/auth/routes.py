@@ -16,9 +16,13 @@ from app.models.tokens import Token
 from app.models.user import User
 from app.models.telegram import TelegramInputData
 from app.core.config import config
+from app.models.base import BasicResponse
 
-
-@auth_router.post('/token')
+@auth_router.post('/token', responses={
+    401: {
+        "description": "Unauthorized", "model": BasicResponse
+    },
+})
 def authenticate(init_data: TelegramInputData, response: Response) -> Token:
     fields = init_data.dict()
     sorted_fields = sorted(fields.items())
