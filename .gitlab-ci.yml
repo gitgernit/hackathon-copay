@@ -16,7 +16,7 @@ build:
   tags:
     - vps
   script:
-    - docker compose -f docker-compose.yml build
+    - sudo docker compose -f docker-compose.yml build
   artifacts:
     paths:
       - backend/target
@@ -30,6 +30,6 @@ deploy:
     - vps
   script:
     - echo "Deploying application..."
-    - docker compose -f docker-compose.yml up -d --remove-orphans
+    - sudo docker compose -f docker-compose.yml up -d --remove-orphans
   only:
     - master
