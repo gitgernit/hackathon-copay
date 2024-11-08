@@ -4,6 +4,7 @@ stages:
 
 variables:
   DOMAIN: "copay.prodanocontest.ru"
+  BOT_TOKEN: "7571512572:AAGA3Id7R32BYysSiVh9N7suj-xKTQPmCTc" 
 
 before_script:
   - echo "Setting up environment..."
