@@ -13,8 +13,10 @@ build:
   stage: build
   services:
     - docker:dind
+  tags:
+    - vps
   script:
-    - docker-compose -f docker-compose.yml build
+    - docker compose -f docker-compose.yml build
   artifacts:
     paths:
       - backend/target
@@ -24,8 +26,10 @@ deploy:
   stage: deploy
   services:
     - docker:dind
+  tags:
+    - vps
   script:
     - echo "Deploying application..."
-    - docker-compose -f docker-compose.yml up -d --remove-orphans
+    - docker compose -f docker-compose.yml up -d --remove-orphans
   only:
     - master
