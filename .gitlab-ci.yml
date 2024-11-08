@@ -18,6 +18,7 @@ deploy:
   script:
     - echo "Deploying application..."
     - echo "Using $TOKEN_TELEGRAM_API as TOKEN_TELEGRAM_API"
+    - docker compose -f docker-compose.traefik.yml up -d
     - docker compose -f docker-compose.yml up -d --build --remove-orphans
   only:
     - master
