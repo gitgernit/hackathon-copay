@@ -4,7 +4,6 @@ stages:
 
 variables:
   DOMAIN: "copay.prodanocontest.ru"
-  BOT_TOKEN: "7571512572:AAGA3Id7R32BYysSiVh9N7suj-xKTQPmCTc" 
 
 before_script:
   - echo "Setting up environment..."
@@ -18,6 +17,7 @@ deploy:
     - vps
   script:
     - echo "Deploying application..."
+    - echo "Using $BOT_TOKEN as BOT_TOKEN"
     - docker compose -f docker-compose.yml up -d --build --remove-orphans
   only:
     - master
