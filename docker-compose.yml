@@ -71,7 +71,6 @@ services:
         required: false
     environment:
       - DOMAIN=${DOMAIN}
-      - FRONTEND_HOST=${FRONTEND_HOST?Variable not set}
       - ENVIRONMENT=production
 
     healthcheck:
