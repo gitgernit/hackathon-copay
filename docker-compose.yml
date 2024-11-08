@@ -55,6 +55,11 @@ services:
         condition: service_healthy
         restart: true
     command: bash scripts/prestart.sh
+    env_file:
+      - path: .env.template
+        required: true
+      - path: .env
+        required: false
     environment:
       - DOMAIN=${DOMAIN}
       - ENVIRONMENT=production
