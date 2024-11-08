@@ -44,25 +44,25 @@ services:
       - traefik.http.routers.hack-adminer-https.tls.certresolver=le
       - traefik.http.services.hack-adminer.loadbalancer.server.port=8080
 
-  prestart:
-    build:
-      context: ./backend
-    networks:
-      - traefik-public
-      - default
-    depends_on:
-      db:
-        condition: service_healthy
-        restart: true
-    command: bash scripts/prestart.sh
-    env_file:
-      - path: .env.template
-        required: true
-      - path: .env
-        required: false
-    environment:
-      - DOMAIN=${DOMAIN}
-      - ENVIRONMENT=production
+  # prestart:
+  #   build:
+  #     context: ./backend
+  #   networks:
+  #     - traefik-public
+  #     - default
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #       restart: true
+  #   command: bash scripts/prestart.sh
+  #   env_file:
+  #     - path: .env.template
+  #       required: true
+  #     - path: .env
+  #       required: false
+  #   environment:
+  #     - DOMAIN=${DOMAIN}
+  #     - ENVIRONMENT=production
 
   backend:
     restart: always
@@ -73,8 +73,8 @@ services:
       db:
         condition: service_healthy
         restart: true
-      prestart:
-        condition: service_completed_successfully
+      # prestart:
+      #   condition: service_completed_successfully
     env_file:
       - path: .env.template
         required: true
