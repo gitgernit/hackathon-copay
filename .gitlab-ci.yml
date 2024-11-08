@@ -1,0 +1,33 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  DOMAIN: "copay.prodanocontest.ru"
+
+before_script:
+  - echo "Setting up environment..."
+  - export $(grep -v '^#' .env.template | xargs)
+
+build:
+  stage: build
+  services:
+    - docker:dind
+  image: docker:latest
+  script:
+    - docker-compose -f docker-compose.yml build
+  artifacts:
+    paths:
+      - backend/target
+      - frontend/dist
+
+deploy:
+  stage: deploy
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - echo "Deploying application..."
+    - docker-compose -f docker-compose.yml up -d --remove-orphans
+  only:
+    - main
