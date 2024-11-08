@@ -51,7 +51,6 @@ services:
     command: bash scripts/prestart.sh
     environment:
       - DOMAIN=${DOMAIN}
-      - FRONTEND_HOST=${FRONTEND_HOST?Variable not set}
       - ENVIRONMENT=production
 
   backend:
