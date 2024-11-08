@@ -24,20 +24,21 @@ from app.models.user import User
     },
 )
 async def authenticate(init_data: TelegramInputData) -> Token:
-    fields = init_data.model_dump()
-    sorted_fields = sorted(fields.items())
-    formatted = [f'{key}={value}' for key, value in sorted_fields]
-    data_check_string = '\n'.join(formatted)
-    secret_key = hmac.new(
-        b'WebAppData', config.BOT_TOKEN.encode(), sha256
-    ).hexdigest()
-    if (
-        hmac.new(
-            secret_key.encode(), data_check_string.encode(), sha256
+    if not config.DEBUG:
+        fields = init_data.model_dump()
+        sorted_fields = sorted(fields.items())
+        formatted = [f'{key}={value}' for key, value in sorted_fields]
+        data_check_string = '\n'.join(formatted)
+        secret_key = hmac.new(
+            b'WebAppData', config.BOT_TOKEN.encode(), sha256
         ).hexdigest()
-        != init_data.hash
-    ):
-        raise HTTPException(status_code=401, detail='Unauthorized')
+        if (
+            hmac.new(
+                secret_key.encode(), data_check_string.encode(), sha256
+            ).hexdigest()
+            != init_data.hash
+        ):
+            raise HTTPException(status_code=401, detail='Unauthorized')
 
     user = await User.get_or_create_user(
         User(id=init_data.user.id, username=init_data.user.username)

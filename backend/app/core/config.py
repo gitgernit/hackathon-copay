@@ -19,6 +19,7 @@ class Config(pydantic_settings.BaseSettings):
     SAMPLE_PAYLOAD: dict[str, str] = pydantic.fields.Field(
         default={}, exclude=True
     )
+    DEBUG: bool = pydantic.fields.Field(default=False)
 
 
 config = Config()
