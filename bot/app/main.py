@@ -4,6 +4,7 @@ import sys
 
 import aiogram.client.default
 import aiogram.dispatcher.dispatcher
+
 from app.core.config import config
 import app.routing.routers
 

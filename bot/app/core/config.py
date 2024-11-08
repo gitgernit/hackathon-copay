@@ -10,6 +10,7 @@ class Config(pydantic_settings.BaseSettings):
     )
 
     TOKEN_TELEGRAM_API: str = pydantic.fields.Field(default=None)
+    WEB_APP_URL: str = pydantic.fields.Field(default=None)
 
 
 config = Config()

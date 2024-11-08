@@ -1,4 +1,5 @@
 import aiogram
+
 import app.routing.base.routers
 
 routing_router = aiogram.Router(name=__package__)
