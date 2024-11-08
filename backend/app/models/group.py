@@ -15,5 +15,5 @@ class Group(SQLModel, table=True):
 
     users: list['User'] = Relationship(back_populates='groups')
 
-    async def add_member(self, member: User):
-        self.member.append(member)
+    async def add_user(self, user: User):
+        self.users.append(user)
