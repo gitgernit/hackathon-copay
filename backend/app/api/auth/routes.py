@@ -1,7 +1,6 @@
 from datetime import timedelta
 from hashlib import sha256
 import hmac
-import app.core.db.db
 
 import fastapi
 from fastapi import HTTPException
@@ -18,7 +17,10 @@ from app.models.user import User
 @auth_router.post(
     '/token',
     responses={
-        fastapi.status.HTTP_401_UNAUTHORIZED: {'description': 'Unauthorized', 'model': BasicResponse},
+        fastapi.status.HTTP_401_UNAUTHORIZED: {
+            'description': 'Unauthorized',
+            'model': BasicResponse,
+        },
     },
 )
 async def authenticate(init_data: TelegramInputData) -> Token:
@@ -37,14 +39,13 @@ async def authenticate(init_data: TelegramInputData) -> Token:
     ):
         raise HTTPException(status_code=401, detail='Unauthorized')
 
-    user = await User.get_or_create_user(User(id=init_data.user.id, username=init_data.user.username))
+    user = await User.get_or_create_user(
+        User(id=init_data.user.id, username=init_data.user.username)
+    )
 
     return Token(
         access_token=app.core.security.tokens.generate_token(
-            {
-                'user_id': user.id,
-                'username': user.username
-            },
+            {'user_id': user.id, 'username': user.username},
             expires_delta=timedelta(days=7),
         ),
         token_type='bearer',

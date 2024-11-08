@@ -1,11 +1,9 @@
-from typing import List, Optional
+from pydantic import BaseModel
 
-from pydantic import BaseModel
-from pydantic import BaseModel
 
 class OfdRequest(BaseModel):
     qr_data: str
-    
+
 
 class Item(BaseModel):
     name: str
@@ -23,14 +21,14 @@ class Data(BaseModel):
     shiftNumber: int
     operator: str
     operationType: int
-    items: List[Item]
-    nds18: Optional[int]
-    nds10: Optional[int]
-    nds0: Optional[int]
-    ndsNo: Optional[int]
+    items: list[Item]
+    nds18: int | None
+    nds10: int | None
+    nds0: int | None
+    ndsNo: int | None
     totalSum: int
-    cashTotalSum: Optional[int]
-    ecashTotalSum: Optional[int]
+    cashTotalSum: int | None
+    ecashTotalSum: int | None
     taxationType: int
     kktRegId: str
     kktNumber: str

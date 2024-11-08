@@ -1,9 +1,10 @@
 from sqlalchemy import BigInteger
 from sqlalchemy import Column
+from sqlmodel import create_engine
 from sqlmodel import Field
 from sqlmodel import Relationship
+from sqlmodel import Session
 from sqlmodel import SQLModel
-from sqlmodel import create_engine, Session
 
 from app.core.config import config
 

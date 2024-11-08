@@ -2,12 +2,11 @@ import datetime
 import typing
 
 import jwt
-
 import sqlmodel
+
 from app.core.config import config
 import app.models
 from app.models.user import User
-import app.core.db.db
 
 
 def generate_token(
@@ -36,7 +35,9 @@ def user_by_token(token: str) -> User | None:
     """Expects user_id to be in token payload"""
 
     try:
-        payload: dict = jwt.decode(token, config.JWT_SECRET_KEY, [config.JWT_ALGORITHM])
+        payload: dict = jwt.decode(
+            token, config.JWT_SECRET_KEY, [config.JWT_ALGORITHM]
+        )
 
     except (jwt.InvalidTokenError, jwt.InvalidSignatureError):
         return None
@@ -46,9 +47,7 @@ def user_by_token(token: str) -> User | None:
     if not user_id.isdigit():
         return None
 
-    session: sqlmodel.Session = app.core.db.db.get_db()
-
-    user = session.get(User, user_id)
+    with sqlmodel.Session(app.core.db.engine) as session:
+        user = session.get(User, user_id)
 
     return user
-
