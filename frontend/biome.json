@@ -5,10 +5,7 @@
   },
   "files": {
     "ignore": [
-      "node_modules",
-      "src/routeTree.gen.ts",
-      "playwright.config.ts",
-      "playwright-report"
+      "node_modules"
     ]
   },
   "linter": {
