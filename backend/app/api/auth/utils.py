@@ -1,4 +1,3 @@
-
 import jwt
 
 from app.core.config import config
