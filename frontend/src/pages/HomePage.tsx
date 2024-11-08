@@ -1,9 +1,14 @@
-import {Button} from "@/shared/ui/button";
+import React, { useEffect } from "react"
+import { test_api } from './../api/server';
 
 export const HomePage = () => {
+  useEffect(() => {
+    test_api()
+  }, [])
+
   return (
-    <div className='text-xl text-red-500'>
-      <Button>гойда</Button>
+    <div>
+      home
     </div>
   )
 }
