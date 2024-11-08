@@ -22,20 +22,5 @@ def authenticate() -> Token:
 
 
 @auth_router.get('/ping')
-def ping(token: Annotated[str, Depends(oauth2_scheme)]) -> str:
-    try:
-        payload = jwt.decode(
-            token, config.JWT_SECRET_KEY, [config.JWT_ALGORITHM]
-        )
-
-    except jwt.InvalidTokenError:
-        raise credentials_exception
-
-    for key in payload:
-        if (
-            key in config.SAMPLE_PAYLOAD
-            and config.SAMPLE_PAYLOAD[key] != payload[key]
-        ):
-            raise credentials_exception
-
+def ping() -> str:
     return 'pong'
