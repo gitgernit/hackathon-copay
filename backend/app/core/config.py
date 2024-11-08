@@ -16,7 +16,7 @@ class Config(pydantic_settings.BaseSettings):
     JWT_SECRET_KEY: str = secrets.token_urlsafe(32)
     JWT_ALGORITHM: str = 'HS256'
     SAMPLE_PAYLOAD: dict[str, str] = pydantic.fields.Field(
-        default={'foo': 'bar', 'john': 'doe'}, exclude=True
+        default={}, exclude=True
     )
 
 
