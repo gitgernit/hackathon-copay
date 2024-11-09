@@ -44,31 +44,21 @@ def create_event(
     return new_event
 
 
-# @events_router.delete(
-#     '/{event_id}',
-#     dependencies=[fastapi.Depends(app.api.auth.deps.get_current_user)],
-#     description='Delete an event',
-# )
-# def delete_event(
-#     event_id: uuid.UUID,
-# ):
-#     with sqlmodel.Session(app.core.db.engine) as session:
-#         session.delete(session.get(app.models.event.Event, event_id))
-#         session.commit()
-
-
-@events_router.get(
+@events_router.delete(
     '/{event_id}',
-    response_model=app.models.event.OutputEvent,
     dependencies=[fastapi.Depends(app.api.auth.deps.get_current_user)],
-    description='Get info for an event by the id',
+    description='Delete an event',
 )
-def event_by_id(event_id: uuid.UUID):
+def delete_event(
+    event_id: uuid.UUID,
+):
+    with sqlmodel.Session(app.core.db.engine) as session:
+        session.delete(session.get(app.models.event.Event, event_id))
+        session.commit()
+
+
+@events_router.get('/{event_id}')
+def event_by_id(event_id: uuid.UUID) -> app.models.event.OutputEvent:
     with sqlmodel.Session(app.core.db.engine) as session:
         event = session.get(app.models.event.Event, event_id)
-        new_event = app.models.event.OutputEvent(
-            id=event.id,
-            owner=event.owner,
-            users=[user.username for user in event.users],
-        )
-        return new_event
+        return event
