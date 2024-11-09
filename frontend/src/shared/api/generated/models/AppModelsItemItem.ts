@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -37,6 +36,12 @@ export interface AppModelsItemItem {
      * @memberof AppModelsItemItem
      */
     price: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof AppModelsItemItem
+     */
+    transactionId: string;
 }
 
 /**
@@ -45,6 +50,7 @@ export interface AppModelsItemItem {
 export function instanceOfAppModelsItemItem(value: object): value is AppModelsItemItem {
     if (!('title' in value) || value['title'] === undefined) return false;
     if (!('price' in value) || value['price'] === undefined) return false;
+    if (!('transactionId' in value) || value['transactionId'] === undefined) return false;
     return true;
 }
 
@@ -61,6 +67,7 @@ export function AppModelsItemItemFromJSONTyped(json: any, ignoreDiscriminator: b
         'id': json['id'] == null ? undefined : json['id'],
         'title': json['title'],
         'price': json['price'],
+        'transactionId': json['transaction_id'],
     };
 }
 
@@ -78,6 +85,7 @@ export function AppModelsItemItemFromJSONTyped(json: any, ignoreDiscriminator: b
         'id': value['id'],
         'title': value['title'],
         'price': value['price'],
+        'transaction_id': value['transactionId'],
     };
 }
 

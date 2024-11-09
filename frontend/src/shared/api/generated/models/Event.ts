@@ -12,19 +12,12 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
 /**
  * 
  * @export
  * @interface Event
  */
 export interface Event {
-    /**
-     * 
-     * @type {string}
-     * @memberof Event
-     */
-    name?: string;
     /**
      * 
      * @type {string}
@@ -63,7 +56,6 @@ export function EventFromJSONTyped(json: any, ignoreDiscriminator: boolean): Eve
     }
     return {
         
-        'name': json['name'] == null ? undefined : json['name'],
         'id': json['id'] == null ? undefined : json['id'],
         'ownerId': json['owner_id'],
         'invite': json['invite'] == null ? undefined : json['invite'],
@@ -81,7 +73,6 @@ export function EventFromJSONTyped(json: any, ignoreDiscriminator: boolean): Eve
 
     return {
         
-        'name': value['name'],
         'id': value['id'],
         'owner_id': value['ownerId'],
         'invite': value['invite'],
