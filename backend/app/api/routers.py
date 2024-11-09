@@ -26,5 +26,5 @@ api_router.include_router(
 api_router.include_router(
     app.api.calculate_debits.routers.calculate_debits_router,
     prefix='/calculate_debits',
-    tags=['transactions'],
+    tags=['calculate_debits'],
 )
