@@ -19,9 +19,7 @@ def generate_token(
         expire = datetime.datetime.now() + expires_delta
 
     else:
-        expire = datetime.datetime.now() + datetime.timedelta(
-            minutes=15
-        )
+        expire = datetime.datetime.now() + datetime.timedelta(minutes=15)
 
     to_encode.update({'exp': expire})
     encoded_jwt = jwt.encode(

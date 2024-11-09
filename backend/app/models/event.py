@@ -37,4 +37,4 @@ class Event(BaseEvent, table=True):
 class OutputEvent(BaseEvent):
     id: UUID
     owner: UUID
-    users: list[UUID]
+    users: list[int]
