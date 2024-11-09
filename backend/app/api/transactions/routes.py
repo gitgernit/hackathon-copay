@@ -116,18 +116,23 @@ async def create_transaction(
                 status_code=404, detail='Event not found'
             )
 
-        transaction = app.models.transactions.OutputTransaction(
+        transaction = app.models.transactions.Transaction(
             title=title,
-            payer=user.id,
+            payer_id=user.id,
             event_id=event.id,
-            closed=False,
-            items=[]
+            items=[],
+        )
+        output_transaction = app.models.transactions.OutputTransaction(
+            title=transaction.title,
+            payer=transaction.payer_id,
+            event_id=transaction.event_id,
+            closed=transaction.closed,
+            items=transaction.items,
         )
         session.add(transaction)
         session.commit()
-        session.refresh(transaction)
 
-    return transaction
+    return output_transaction
 
 
 @transactions_router.post(
