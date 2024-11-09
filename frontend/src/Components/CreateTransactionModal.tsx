@@ -2,21 +2,42 @@ import {FC, useState} from "react";
 import {Dialog, DialogContent, DialogHeader} from "../shared/ui/dialog";
 import {Input} from "../shared/ui/input";
 import React from "react";
+import { User } from "../shared/api/generated";
+import { eventsApi } from "../shared/api";
 
 export interface ModalProps {
   isOpen: boolean;
+  users: User[];
   onClose: () => void;
 }
 
-export const CreateTransactionModal: FC<ModalProps> = ({ isOpen, onClose }) => {
+export const CreateTransactionModal: FC<ModalProps> = ({ isOpen, onClose, users }) => {
   const [title, setTitle] = useState('')
   const [price, setPrice] = useState(0)
   const [user, setUser] = useState('')
+
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUser(event.target.value)
+  }
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    console.log(title, price, user)
+
+    try {
+      // eventsApi.ADD_NEW_TRANSACTION
+    } catch (error) {
+      console.error(error)
+    } finally {
+      isOpen = false
+    }
+  }
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
-        <DialogHeader>Добавить позицию</DialogHeader>
-        <form>
+        <DialogHeader>Создать новую транзакцию</DialogHeader>
+        <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="title">Название</label>
             <Input id='title' value={title} onChange={e => setTitle(e.target.value)} />
@@ -37,17 +58,23 @@ export const CreateTransactionModal: FC<ModalProps> = ({ isOpen, onClose }) => {
           </div>
           
           <div>
-            <label htmlFor="user">Пользователь:</label>
-            <Input
-              id='user'
+            <label htmlFor="user">Пользователь: </label>
+            <select 
+              className="select-user" 
+              id="user" 
+              name="user" 
               value={user}
-              onChange={(e) => {
-                setUser(e.target.value);
-              }}
-            />
+              onChange={handleChange}
+              >
+              {users.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.username}
+                </option>
+              ))}
+            </select>
           </div>
 
-          <button type="submit">Создать</button>
+          <button className="add-transaction ibm-plex-sans-semibold" type="submit">Создать</button>
         </form>
       </DialogContent>
     </Dialog>

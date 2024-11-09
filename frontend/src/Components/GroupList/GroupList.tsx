@@ -10,7 +10,7 @@ const GroupList = () => {
     queryFn: () => eventsApi.listEventsApiEventsGet(defaultReq),
   })
 
-  console.log(data) // БЕЗ name И users
+  // console.log(data)
   
   return (
     <div className='groups'>
