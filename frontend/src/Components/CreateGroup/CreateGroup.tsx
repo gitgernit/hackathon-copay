@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './CreateGroup.css'
 import { eventsApi } from '../../shared/api'
 import { AuthToken } from '../../api/server'
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 
 const CreateGroup = () => {
-    const [name, setName] = React.useState('')
+    const [name, setName] = useState('')
+    const [state, setState] = useState<'idle' | 'pending' | 'success' | 'error'>('idle')
     const [initDataUnsafe, initData] = useInitData() 
     console.log(initDataUnsafe, initData, 'tg data')
 
@@ -16,13 +17,20 @@ const CreateGroup = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        const token = await AuthToken.getToken(initDataUnsafe) 
+        if (!localStorage.getItem('token')) {
+            const token = await AuthToken.getToken(initDataUnsafe)
+            console.log(token)
+        }
         
-        eventsApi.createEventApiEventsPost({baseEvent:{name}}, {headers: {
-            authorization: `BEARER ${localStorage.getItem('token')}`
-        }})
+        try {
+            eventsApi.createEventApiEventsPost({baseEvent:{name}}, {headers: {
+                authorization: `Bearer ${localStorage.getItem('token')}`
+            }})
+        } catch (error) {
+            localStorage.removeItem('token')
+            setState('error')
+        } 
     }
-
     return (
         <form className='create-group-form' onSubmit={handleSubmit}>
             <input 
