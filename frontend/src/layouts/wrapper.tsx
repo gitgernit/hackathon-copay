@@ -4,15 +4,17 @@ import { AuthToken } from "@/api/server";
 import {useInitData} from "@vkruglikov/react-telegram-web-app";
 
 export const Wrapper = () => {
-  const [initUnsafe] = useInitData();
+  const [initUnsafe, init] = useInitData();
   
   useEffect(() => {
     (async () => {
-      if(initUnsafe) {
+      console.log('авторизация', init, initUnsafe)
+      
+      if(initUnsafe || init) {
         console.log(await AuthToken.getToken(initUnsafe as any))
       }
     })()
-  }, [initUnsafe]);
+  }, [initUnsafe, init]);
   
   return <Outlet />
 }
