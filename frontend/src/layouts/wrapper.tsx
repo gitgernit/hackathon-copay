@@ -9,7 +9,7 @@ export const Wrapper = () => {
   useEffect(() => {
     (async () => {
       if(initUnsafe) {
-        await AuthToken.getToken(initUnsafe as any)
+        console.log(await AuthToken.getToken(initUnsafe as any))
       }
     })()
   }, [initUnsafe]);
