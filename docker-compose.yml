@@ -79,8 +79,6 @@ services:
       db:
         condition: service_healthy
         restart: true
-      prestart:
-        condition: service_completed_successfully
     env_file:
       - path: .env.template
         required: true
@@ -89,7 +87,7 @@ services:
     environment:
       - DOMAIN=${DOMAIN}
       - ENVIRONMENT=production
-
+    command: "fastapi run --workers 16 app/main.py"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/utils/health-check"]
       interval: 10s
