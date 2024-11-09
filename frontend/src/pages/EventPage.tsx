@@ -1,14 +1,16 @@
-import {Link, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
-import React, {useState} from "react";
+import {useState} from "react";
 import {Scanner} from "@yudiel/react-qr-scanner";
 import {eventsApi} from "@/shared/api";
 import {CreateTransactionModal} from "../Components/CreateTransactionModal";
+import {BackButton} from "@vkruglikov/react-telegram-web-app";
 
 export const EventPage = () => {
   const { id } = useParams();
   const [isScanOpen, setIsScanOpen] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const navigate = useNavigate()
 
   const { data } = useQuery({
     queryKey: ["event", id],
@@ -67,9 +69,7 @@ export const EventPage = () => {
       
       <CreateTransactionModal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} />
       
-      <Link className='back' to='/'>
-        <span>&larr;</span>
-      </Link>
+      <BackButton onClick={() => navigate('/')}></BackButton>
     </div>
   );
 };
