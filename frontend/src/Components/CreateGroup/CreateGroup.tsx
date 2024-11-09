@@ -1,6 +1,6 @@
 import React from 'react'
 import './CreateGroup.css'
-import { groupsApi } from '../../shared/api'
+import { eventsApi } from '../../shared/api'
 import { AuthToken } from '../../api/server'
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 
@@ -18,7 +18,7 @@ const CreateGroup = () => {
 
         const token = await AuthToken.getToken(initDataUnsafe) 
         
-        groupsApi.createGroupApiGroupsPost({name}, {headers: {
+        eventsApi.createEventApiEventsPost({baseEvent:{name}}, {headers: {
             authorization: `BEARER ${localStorage.getItem('token')}`
         }})
     }
