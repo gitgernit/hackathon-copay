@@ -10,6 +10,7 @@ from app.api.auth.deps import BearerAuth, get_current_user
 from app.core.db import engine
 from app.models.event import Event
 from app.models.user import User
+from app.utils.telegram import send_telegram_message
 
 from .routers import calculate_debits_router
 
@@ -44,9 +45,7 @@ def calculate_event_debts(
                 positions = [
                     {
                         "price": item.price,
-                        "assigned_to_ids": [
-                            user.id for user in item.assigned_to
-                        ],
+                        "assigned_to_ids": [user.id for user in item.assigned_to],
                     }
                     for item in transaction.items
                 ]
@@ -59,11 +58,10 @@ def calculate_event_debts(
         if not transactions:
             return []
 
-        participants = [
-            {"id": user.id, "name": user.name} for user in event.users
-        ]
+        participants = [{"id": user.id, "name": user.name} for user in event.users]
         input_data = {
-            "participants": participants, "transactions": transactions,
+            "participants": participants,
+            "transactions": transactions,
         }
 
         response = requests.post(
@@ -77,6 +75,22 @@ def calculate_event_debts(
                 detail=f"Failed to calculate debts: {response.text}",
             )
 
+        debts = response.json()
+
         session.commit()
 
-        return response.json()
+        messages = {user.id: [] for user in event.users}
+
+        for debt in debts:
+            from_user = next(u for u in event.users if u.id == debt["from_user_id"])
+            to_user = next(u for u in event.users if u.id == debt["to_user_id"])
+            amount = debt["amount"]
+            messages[from_user.id].append(f"You owe {amount} to {to_user.name}.")
+            messages[to_user.id].append(f"{from_user.name} owes you {amount}.")
+
+        for user in event.users:
+            message_text = "\n".join(messages[user.id])
+            if message_text:
+                send_telegram_message(user.chat_id, message_text)
+
+        return debts
