@@ -1,35 +1,18 @@
-import { useEffect, useState } from 'react'
+import React from 'react'
 import GroupItem from '../GroupItem/GroupItem'
 import './GroupList.css'
-import React from 'react'
+import {useQuery} from "@tanstack/react-query";
+import {defaultReq, eventsApi} from "../../shared/api";
 
 const GroupList = () => {
-    const [groups, setGroups] = useState<any[]>([])
-
-    useEffect(() => {
-        // getgroups()
-        setGroups([
-            {
-                id: 1,
-                name: 'Название 1',
-                membersCount: 2,
-            },
-            {
-                id: 2,
-                name: 'Название 2',
-                membersCount: 5,
-            },
-            {
-                id: 3,
-                name: 'Название 3',
-                membersCount: 3,
-            },
-        ])
-    }, [])
-
+  const {data} = useQuery({
+    queryKey: ['events'],
+    queryFn: () => eventsApi.listEventApiEventsGet(defaultReq)
+  })
+  
   return (
     <div className='groups'>
-        {groups.map((group) => (
+        {data?.map((group) => (
             <GroupItem key={group.id} event={group} />
         ))}
     </div>

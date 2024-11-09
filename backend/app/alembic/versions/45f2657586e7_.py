@@ -1,8 +1,8 @@
-"""fix default closed field
+"""empty message
 
-Revision ID: 16d5d2104082
-Revises: 03f5d4114e03
-Create Date: 2024-11-09 12:33:08.546634
+Revision ID: 45f2657586e7
+Revises: c71fdca35b3b
+Create Date: 2024-11-09 13:59:42.600184
 
 """
 from typing import Sequence, Union
@@ -10,9 +10,10 @@ from typing import Sequence, Union
 from alembic import op
 import sqlalchemy as sa
 
+
 # revision identifiers, used by Alembic.
-revision: str = '16d5d2104082'
-down_revision: Union[str, None] = '03f5d4114e03'
+revision: str = '45f2657586e7'
+down_revision: Union[str, None] = 'c71fdca35b3b'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 

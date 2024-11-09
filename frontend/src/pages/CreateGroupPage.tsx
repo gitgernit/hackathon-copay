@@ -1,26 +1,8 @@
-import React, { useEffect } from 'react'
-import { useInitData } from '@vkruglikov/react-telegram-web-app';
-import { AuthToken } from '../api/server';
 import '../styles/CreateGroup.css'
 import CreateGroup from '../Components/CreateGroup/CreateGroup';
-import { Link } from 'react-router-dom';
-
-import '../styles/CreateGroup.css'
+import {Link} from 'react-router-dom';
 
 const CreateGroupPage = () => {
-  const [initDataUnsafe, initData] = useInitData() 
-  useEffect(() => {
-    const GetToken = async () => {
-      const res = AuthToken.getToken(initDataUnsafe)
-      console.log(res)
-    }
-    GetToken()
-  }, [])
-  
-  useEffect(() => {
-  
-  }, [initData, initDataUnsafe]);
-  
   return (
     <div className='wrapper'>
         <header className='create-header'>

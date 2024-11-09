@@ -1,15 +1,18 @@
-import {Link, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
-import React, {useState} from "react";
+import {useState} from "react";
 import {Scanner} from "@yudiel/react-qr-scanner";
 import {eventsApi} from "../shared/api";
 import {CreateTransactionModal} from "../Components/CreateTransactionModal";
-import '../styles/CreateGroup.css'
+import {BackButton} from "@vkruglikov/react-telegram-web-app";
+import {LucideArrowLeft} from "lucide-react";
 
 export const EventPage = () => {
   const { id } = useParams();
   const [isScanOpen, setIsScanOpen] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const navigate = useNavigate()
+
   const { data } = useQuery({
     queryKey: ["event", id],
     queryFn: () => eventsApi.eventByIdApiEventsEventIdGet({
@@ -42,6 +45,9 @@ export const EventPage = () => {
       
       <div className="absolute bottom-2 left-5 right-5">
         <div className="flex justify-center gap-2 items-center">
+          <button className='bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl' onClick={() => navigate('/')}>
+            <LucideArrowLeft />
+          </button>
           <button className="bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl" onClick={() => setIsOpenModal(true)}>
             Добавить
           </button>
@@ -67,9 +73,7 @@ export const EventPage = () => {
       
       <CreateTransactionModal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} />
       
-      <Link className='back' to='/'>
-        <span>&larr;</span>
-      </Link>
+      <BackButton onClick={() => navigate('/')}></BackButton>
     </div>
   );
 };

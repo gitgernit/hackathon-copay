@@ -1,6 +1,11 @@
-from uuid import UUID, uuid4
+from uuid import UUID
+from uuid import uuid4
+
+from sqlmodel import Field
+from sqlmodel import Relationship
+from sqlmodel import SQLModel
+
 from app.models.user import User
-from sqlmodel import SQLModel, Field, Relationship
 
 
 class Item(SQLModel, table=True):
@@ -8,7 +13,7 @@ class Item(SQLModel, table=True):
     title: str = Field(nullable=False)
     price: float = Field(nullable=False)
 
-    assigned_to: list['User'] = Relationship(back_populates="items")
+    assigned_to: list['User'] = Relationship(back_populates='items')
 
     def assign_user(self, user: User):
         self.assigned_to.append(user)
