@@ -10,7 +10,7 @@ import app.models.item
 
 
 @transactions_router.post(
-    '/{event_id}/transactions',
+    '/{event_id}',
     response_model=app.models.transactions.Transaction,
     dependencies=[fastapi.Depends(app.api.auth.deps.get_current_user)],
 )
@@ -36,7 +36,7 @@ async def create_transaction(
 
 
 @transactions_router.post(
-    '/{event_id}/transactions/{transaction_id}/items',
+    '/{event_id}/{transaction_id}/items',
     response_model=app.models.item.Item,
     dependencies=[fastapi.Depends(app.api.auth.deps.get_current_user)],
 )
