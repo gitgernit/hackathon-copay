@@ -37,7 +37,8 @@ async def get_items(
 @items_router.post('/{transaction_id}',
                    description="Create item in transaction",
                    responses={
-                       400: {"model": BasicResponse, "description": "Invalid data format (ex. negative price or illegal id"},
+                       400: {"model": BasicResponse, "description": "Invalid data format (ex. negative price)"},
+                       404: {"model": BasicResponse, "description": "Transaction with this ID is not found"},
                        403: {"model": BasicResponse, "description": "Unauthorized"},
                    })
 async def create_item(
@@ -49,9 +50,9 @@ async def create_item(
 
     with sqlmodel.Session(bind=app.core.db.engine) as session:
         transaction = session.get(Transaction, transaction_id)
+        if not transaction:
+            raise fastapi.HTTPException(detail="Transaction not found", status_code=404)
         event = session.get(Event, transaction.event_id)
-        if not transaction or not event:
-            raise fastapi.HTTPException(detail="Event or transaction is not found", status_code=400)
 
         new_item = Item(
             title=item.title,
