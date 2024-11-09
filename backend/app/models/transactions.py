@@ -1,4 +1,5 @@
 from uuid import UUID, uuid4
+from app.models.item import Item
 from app.models.user import User
 from sqlmodel import Field, SQLModel, Relationship
 
@@ -15,3 +16,7 @@ class Transaction(SQLModel, table=True):
 
     async def add_partipicant(self, partipicant: User):
         self.partipicants.append(partipicant)
+
+    async def add_item(self, item: Item):
+        self.items.append(item)
+        
