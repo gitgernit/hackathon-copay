@@ -29,8 +29,12 @@ export const CreateItemModal: FC<ModalProps> = ({ isOpen, onClose, users, transa
       transactionsApi.addItemToTransactionApiTransactionEventIdTransactionIdItemsPost({
         eventId,
         transactionId,
-        title,
-        price,
+        bodyAddItemToTransactionApiTransactionEventIdTransactionIdItemsPost:
+        {
+          title,
+          price,
+          addAllUsers: true,
+        }
       })
     } catch (error) {
       console.error(error)
