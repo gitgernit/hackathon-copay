@@ -39,3 +39,4 @@ class OutputEvent(BaseEvent):
     id: UUID
     owner: UUID
     users: list[User]
+    invite: str
