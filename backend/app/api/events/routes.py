@@ -5,9 +5,11 @@ import fastapi
 import sqlmodel
 
 import app.api.auth.deps
+from app.api.auth.deps import BearerAuth
 from app.api.events.routers import events_router
 import app.core.db
 import app.models.event
+from app.models import Event
 from app.models.user import User
 
 
@@ -15,18 +17,13 @@ from app.models.user import User
     '/',
     response_model=list[app.models.event.OutputEvent],
     description='Return events containing given user (by token)',
+    dependencies=[fastapi.Depends(BearerAuth())]
 )
 def list_events(
     user: typing.Annotated[
         User, fastapi.Depends(app.api.auth.deps.get_current_user)
     ],
 ):
-    output = []
-
-    for event in user.events:
-        new_output = app.models.event.OutputEvent(id=event.id, owner=event.owner_id)
-        output.append(a)
-
     return user.events
 
 
