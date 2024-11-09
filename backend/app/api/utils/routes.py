@@ -23,7 +23,6 @@ def health_check() -> dict[str, str]:
     responses={401: {'description': 'Unauthorized', 'model': BasicResponse}},
 )
 async def ofd(
-    user: User = Depends(get_current_user),
     ofd_string: str = Query(description='Bare string from QR code'),
 ) -> list[Item]:
     try:
