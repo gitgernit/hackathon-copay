@@ -16,36 +16,34 @@
 import * as runtime from '../runtime';
 import type {
   BaseEvent,
-  BasicResponse,
   Event,
   HTTPValidationError,
-  InputInvite,
-  Invite,
+  OutputEvent,
 } from '../models/index';
 import {
     BaseEventFromJSON,
     BaseEventToJSON,
-    BasicResponseFromJSON,
-    BasicResponseToJSON,
     EventFromJSON,
     EventToJSON,
     HTTPValidationErrorFromJSON,
     HTTPValidationErrorToJSON,
-    InputInviteFromJSON,
-    InputInviteToJSON,
-    InviteFromJSON,
-    InviteToJSON,
+    OutputEventFromJSON,
+    OutputEventToJSON,
 } from '../models/index';
 
 export interface CreateEventApiEventsPostRequest {
     baseEvent: BaseEvent;
 }
 
-export interface CreateInviteApiEventsCreatePostRequest {
-    inputInvite: InputInvite;
+export interface CreateEventApiTransactionPostRequest {
+    baseEvent: BaseEvent;
 }
 
 export interface DeleteEventApiEventsEventIdDeleteRequest {
+    eventId: string;
+}
+
+export interface DeleteEventApiTransactionEventIdDeleteRequest {
     eventId: string;
 }
 
@@ -53,8 +51,8 @@ export interface EventByIdApiEventsEventIdGetRequest {
     eventId: string;
 }
 
-export interface JoinByInviteApiEventsInviteIdGetRequest {
-    inviteId: string;
+export interface EventByIdApiTransactionEventIdGetRequest {
+    eventId: string;
 }
 
 /**
@@ -106,14 +104,14 @@ export class EventsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create invite
-     * Create Invite
+     * Create event
+     * Create Event
      */
-    async createInviteApiEventsCreatePostRaw(requestParameters: CreateInviteApiEventsCreatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Invite>> {
-        if (requestParameters['inputInvite'] == null) {
+    async createEventApiTransactionPostRaw(requestParameters: CreateEventApiTransactionPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Event>> {
+        if (requestParameters['baseEvent'] == null) {
             throw new runtime.RequiredError(
-                'inputInvite',
-                'Required parameter "inputInvite" was null or undefined when calling createInviteApiEventsCreatePost().'
+                'baseEvent',
+                'Required parameter "baseEvent" was null or undefined when calling createEventApiTransactionPost().'
             );
         }
 
@@ -129,27 +127,27 @@ export class EventsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/api/events/create`,
+            path: `/api/transaction/`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: InputInviteToJSON(requestParameters['inputInvite']),
+            body: BaseEventToJSON(requestParameters['baseEvent']),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => InviteFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => EventFromJSON(jsonValue));
     }
 
     /**
-     * Create invite
-     * Create Invite
+     * Create event
+     * Create Event
      */
-    async createInviteApiEventsCreatePost(requestParameters: CreateInviteApiEventsCreatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Invite> {
-        const response = await this.createInviteApiEventsCreatePostRaw(requestParameters, initOverrides);
+    async createEventApiTransactionPost(requestParameters: CreateEventApiTransactionPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Event> {
+        const response = await this.createEventApiTransactionPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Delete event
+     * Delete an event
      * Delete Event
      */
     async deleteEventApiEventsEventIdDeleteRaw(requestParameters: DeleteEventApiEventsEventIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
@@ -184,7 +182,7 @@ export class EventsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Delete event
+     * Delete an event
      * Delete Event
      */
     async deleteEventApiEventsEventIdDelete(requestParameters: DeleteEventApiEventsEventIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
@@ -193,9 +191,53 @@ export class EventsApi extends runtime.BaseAPI {
     }
 
     /**
+     * Delete an event
+     * Delete Event
+     */
+    async deleteEventApiTransactionEventIdDeleteRaw(requestParameters: DeleteEventApiTransactionEventIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters['eventId'] == null) {
+            throw new runtime.RequiredError(
+                'eventId',
+                'Required parameter "eventId" was null or undefined when calling deleteEventApiTransactionEventIdDelete().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("OAuth2PasswordBearer", []);
+        }
+
+        const response = await this.request({
+            path: `/api/transaction/{event_id}`.replace(`{${"event_id"}}`, encodeURIComponent(String(requestParameters['eventId']))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Delete an event
+     * Delete Event
+     */
+    async deleteEventApiTransactionEventIdDelete(requestParameters: DeleteEventApiTransactionEventIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.deleteEventApiTransactionEventIdDeleteRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Event By Id
      */
-    async eventByIdApiEventsEventIdGetRaw(requestParameters: EventByIdApiEventsEventIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Event>> {
+    async eventByIdApiEventsEventIdGetRaw(requestParameters: EventByIdApiEventsEventIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OutputEvent>> {
         if (requestParameters['eventId'] == null) {
             throw new runtime.RequiredError(
                 'eventId',
@@ -214,25 +256,25 @@ export class EventsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EventFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => OutputEventFromJSON(jsonValue));
     }
 
     /**
      * Event By Id
      */
-    async eventByIdApiEventsEventIdGet(requestParameters: EventByIdApiEventsEventIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Event> {
+    async eventByIdApiEventsEventIdGet(requestParameters: EventByIdApiEventsEventIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<OutputEvent> {
         const response = await this.eventByIdApiEventsEventIdGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Join By Invite
+     * Event By Id
      */
-    async joinByInviteApiEventsInviteIdGetRaw(requestParameters: JoinByInviteApiEventsInviteIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Event>> {
-        if (requestParameters['inviteId'] == null) {
+    async eventByIdApiTransactionEventIdGetRaw(requestParameters: EventByIdApiTransactionEventIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OutputEvent>> {
+        if (requestParameters['eventId'] == null) {
             throw new runtime.RequiredError(
-                'inviteId',
-                'Required parameter "inviteId" was null or undefined when calling joinByInviteApiEventsInviteIdGet().'
+                'eventId',
+                'Required parameter "eventId" was null or undefined when calling eventByIdApiTransactionEventIdGet().'
             );
         }
 
@@ -240,34 +282,29 @@ export class EventsApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        if (this.configuration && this.configuration.accessToken) {
-            // oauth required
-            headerParameters["Authorization"] = await this.configuration.accessToken("OAuth2PasswordBearer", []);
-        }
-
         const response = await this.request({
-            path: `/api/events/{invite_id}`.replace(`{${"invite_id"}}`, encodeURIComponent(String(requestParameters['inviteId']))),
+            path: `/api/transaction/{event_id}`.replace(`{${"event_id"}}`, encodeURIComponent(String(requestParameters['eventId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EventFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => OutputEventFromJSON(jsonValue));
     }
 
     /**
-     * Join By Invite
+     * Event By Id
      */
-    async joinByInviteApiEventsInviteIdGet(requestParameters: JoinByInviteApiEventsInviteIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Event> {
-        const response = await this.joinByInviteApiEventsInviteIdGetRaw(requestParameters, initOverrides);
+    async eventByIdApiTransactionEventIdGet(requestParameters: EventByIdApiTransactionEventIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<OutputEvent> {
+        const response = await this.eventByIdApiTransactionEventIdGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Return events containing given user (by token)
-     * List Event
+     * List Events
      */
-    async listEventApiEventsGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Event>>> {
+    async listEventsApiEventsGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Event>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -289,10 +326,43 @@ export class EventsApi extends runtime.BaseAPI {
 
     /**
      * Return events containing given user (by token)
-     * List Event
+     * List Events
      */
-    async listEventApiEventsGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Event>> {
-        const response = await this.listEventApiEventsGetRaw(initOverrides);
+    async listEventsApiEventsGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Event>> {
+        const response = await this.listEventsApiEventsGetRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Return events containing given user (by token)
+     * List Events
+     */
+    async listEventsApiTransactionGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Event>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("OAuth2PasswordBearer", []);
+        }
+
+        const response = await this.request({
+            path: `/api/transaction/`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EventFromJSON));
+    }
+
+    /**
+     * Return events containing given user (by token)
+     * List Events
+     */
+    async listEventsApiTransactionGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Event>> {
+        const response = await this.listEventsApiTransactionGetRaw(initOverrides);
         return await response.value();
     }
 

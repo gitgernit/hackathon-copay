@@ -36,19 +36,19 @@ export interface TelegramWebUser {
      * @type {string}
      * @memberof TelegramWebUser
      */
-    lastName: string | null;
+    lastName?: string | null;
     /**
      * 
      * @type {string}
      * @memberof TelegramWebUser
      */
-    username: string | null;
+    username?: string | null;
     /**
      * 
      * @type {string}
      * @memberof TelegramWebUser
      */
-    languageCode: string | null;
+    languageCode?: string | null;
     /**
      * 
      * @type {boolean}
@@ -72,7 +72,7 @@ export interface TelegramWebUser {
      * @type {string}
      * @memberof TelegramWebUser
      */
-    photoUrl: string | null;
+    photoUrl?: string | null;
 }
 
 /**
@@ -81,10 +81,6 @@ export interface TelegramWebUser {
 export function instanceOfTelegramWebUser(value: object): value is TelegramWebUser {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('firstName' in value) || value['firstName'] === undefined) return false;
-    if (!('lastName' in value) || value['lastName'] === undefined) return false;
-    if (!('username' in value) || value['username'] === undefined) return false;
-    if (!('languageCode' in value) || value['languageCode'] === undefined) return false;
-    if (!('photoUrl' in value) || value['photoUrl'] === undefined) return false;
     return true;
 }
 
@@ -100,13 +96,13 @@ export function TelegramWebUserFromJSONTyped(json: any, ignoreDiscriminator: boo
         
         'id': json['id'],
         'firstName': json['first_name'],
-        'lastName': json['last_name'],
-        'username': json['username'],
-        'languageCode': json['language_code'],
+        'lastName': json['last_name'] == null ? undefined : json['last_name'],
+        'username': json['username'] == null ? undefined : json['username'],
+        'languageCode': json['language_code'] == null ? undefined : json['language_code'],
         'isPremium': json['is_premium'] == null ? undefined : json['is_premium'],
         'addedToAttachmentMenu': json['added_to_attachment_menu'] == null ? undefined : json['added_to_attachment_menu'],
         'allowsWriteToPm': json['allows_write_to_pm'] == null ? undefined : json['allows_write_to_pm'],
-        'photoUrl': json['photo_url'],
+        'photoUrl': json['photo_url'] == null ? undefined : json['photo_url'],
     };
 }
 

@@ -1,4 +1,3 @@
-from logging import config
 from typing import Annotated
 
 from fastapi import Depends
@@ -9,6 +8,7 @@ from fastapi.security import HTTPBearer
 from fastapi.security import OAuth2PasswordBearer
 import jwt
 
+from app.core.config import config
 from app.models.user import User
 
 from .utils import decode_jwt
@@ -49,7 +49,9 @@ class BearerAuth(HTTPBearer):
 
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     try:
-        payload = jwt.decode(token, config.SECRET_KEY, algorithms=['HS256'])
+        payload = jwt.decode(
+            token, config.JWT_SECRET_KEY, algorithms=['HS256']
+        )
         user = await User.get_or_create_user(
             payload['user_id'], payload['username']
         )

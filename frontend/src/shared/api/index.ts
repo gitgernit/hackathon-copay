@@ -7,3 +7,11 @@ export const c = new Configuration({
 export const authApi = new AuthApi(c)
 export const eventsApi = new EventsApi(c)
 export const utilsApi = new UtilsApi(c)
+
+
+export const defaultReq = {
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${localStorage.getItem('token')}`,
+  }
+}

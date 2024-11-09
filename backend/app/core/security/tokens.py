@@ -16,12 +16,10 @@ def generate_token(
     to_encode = payload.copy()
 
     if expires_delta:
-        expire = datetime.datetime.now(datetime.UTC) + expires_delta
+        expire = datetime.datetime.now() + expires_delta
 
     else:
-        expire = datetime.datetime.now(datetime.UTC) + datetime.timedelta(
-            minutes=15
-        )
+        expire = datetime.datetime.now() + datetime.timedelta(minutes=15)
 
     to_encode.update({'exp': expire})
     encoded_jwt = jwt.encode(

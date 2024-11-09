@@ -15,13 +15,10 @@
 
 import * as runtime from '../runtime';
 import type {
-  BasicResponse,
   HTTPValidationError,
   Item,
 } from '../models/index';
 import {
-    BasicResponseFromJSON,
-    BasicResponseToJSON,
     HTTPValidationErrorFromJSON,
     HTTPValidationErrorToJSON,
     ItemFromJSON,
@@ -83,19 +80,6 @@ export class UtilsApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        if (this.configuration && this.configuration.accessToken) {
-            // oauth required
-            headerParameters["Authorization"] = await this.configuration.accessToken("OAuth2PasswordBearer", []);
-        }
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
         const response = await this.request({
             path: `/api/utils/ofd`,
             method: 'POST',

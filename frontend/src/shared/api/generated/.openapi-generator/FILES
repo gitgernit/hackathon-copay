@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 apis/AuthApi.ts
 apis/EventsApi.ts
 apis/UtilsApi.ts
@@ -8,9 +7,8 @@ models/BaseEvent.ts
 models/BasicResponse.ts
 models/Event.ts
 models/HTTPValidationError.ts
-models/InputInvite.ts
-models/Invite.ts
 models/Item.ts
+models/OutputEvent.ts
 models/TelegramInputData.ts
 models/TelegramWebUser.ts
 models/Token.ts

@@ -7,14 +7,13 @@ from fastapi import HTTPException
 import sqlmodel
 
 import app.api.auth.deps
-from app.api.events.invites.routers import events_router
+from app.api.events.invites.routers import invites_router
 import app.core.db
 import app.models.base
-import app.models.invite
 from app.models.user import User
 
 
-@events_router.post(
+@invites_router.post(
     '/create',
     dependencies=[fastapi.Depends(app.api.auth.deps.get_current_user)],
     description='Create invite',
@@ -37,7 +36,7 @@ def create_invite(
     return invite
 
 
-@events_router.get(
+@invites_router.get(
     '/{invite_id}',
     responses={
         fastapi.status.HTTP_400_BAD_REQUEST: {
