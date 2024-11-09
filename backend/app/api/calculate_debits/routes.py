@@ -35,6 +35,9 @@ def calculate_event_debts(
         if not event:
             raise HTTPException(status_code=404, detail="Event not found")
 
+        if user.id != event.owner_id:
+            raise HTTPException(status_code=403, detail="Permission denied")
+
         transactions = []
         for transaction in event.transactions:
             if not transaction.closed:
