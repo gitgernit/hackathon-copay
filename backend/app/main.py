@@ -2,7 +2,6 @@ import fastapi
 from fastapi.middleware.cors import CORSMiddleware
 
 import app.api.routers
-import app.core.db
 
 app_router = fastapi.FastAPI()
 app_router.add_middleware(
@@ -18,5 +17,3 @@ app_router.include_router(
     app.api.routers.api_router,
     prefix='/api',
 )
-
-app.core.db.test_conn()
