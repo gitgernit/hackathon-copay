@@ -17,8 +17,6 @@ def health_check() -> dict[str, str]:
 @utils_router.post(
     '/ofd',
     description='Get items info from OFD bare string',
-    dependencies=[Depends(BearerAuth())],
-    responses={401: {'description': 'Unauthorized', 'model': BasicResponse}},
 )
 async def ofd(
     ofd_string: str = Query(description='Bare string from QR code'),

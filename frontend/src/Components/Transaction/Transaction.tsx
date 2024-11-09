@@ -9,6 +9,7 @@ type transaction = {
         id: string
         title: string
         price: number
+        assigned_to: string
     }[]
 }
 
@@ -22,7 +23,8 @@ const Transaction = ({transaction, deleteItem}: Props) => {
     <div className='transaction'>
         <h3 className='ibm-plex-sans-semibold'>Транзакция {transaction.title}</h3>
         <div className="transaction-items">
-            {transaction.items.map((item) => (
+            {transaction.items.length > 0 ?
+            transaction.items.map((item) => (
                 <div className='transaction-item' key={item.id}>
                     <h5>{item.title}</h5>
                     <p>{item.price}</p>
@@ -30,7 +32,8 @@ const Transaction = ({transaction, deleteItem}: Props) => {
                         <Trash2 />
                     </button>
                 </div>
-            ))}
+            ))
+            : <div className='transaction-item'>Здесь пока нету товаров</div>}
         </div>
     </div>
   )
