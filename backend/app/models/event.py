@@ -4,7 +4,6 @@ from uuid import uuid4
 from sqlmodel import Field
 from sqlmodel import Relationship
 from sqlmodel import SQLModel
-from pydantic import BaseModel
 
 from app.models.transactions import Transaction
 
@@ -16,7 +15,7 @@ class BaseEvent(SQLModel):
     name: str = Field(nullable=False, default='Change name pls')
 
 
-class Event(SQLModel, table=True):
+class Event(BaseEvent, table=True):
     id: UUID = Field(primary_key=True, default_factory=uuid4)
     owner_id: int = Field(foreign_key='user.id')
     invite: str | None = Field(default=None)
@@ -36,6 +35,10 @@ class Event(SQLModel, table=True):
 
 class OutputEvent(BaseEvent):
     id: UUID
-    owner: UUID
+    owner: int
     users: list[User]
-    invite: str
+    invite: str | None
+
+
+class AddUserRequest(SQLModel):
+    user_id: int

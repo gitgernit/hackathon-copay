@@ -14,19 +14,11 @@
 
 
 import * as runtime from '../runtime';
-import type {
-  HTTPValidationError,
-  Item,
-} from '../models/index';
-import {
-    HTTPValidationErrorFromJSON,
-    HTTPValidationErrorToJSON,
-    ItemFromJSON,
-    ItemToJSON,
-} from '../models/index';
+import type {AppModelsOfdItem, OfdRequest,} from '../models/index';
+import {AppModelsOfdItemFromJSON, OfdRequestToJSON,} from '../models/index';
 
 export interface OfdApiUtilsOfdPostRequest {
-    ofdString: string;
+    ofdRequest: OfdRequest;
 }
 
 /**
@@ -64,37 +56,36 @@ export class UtilsApi extends runtime.BaseAPI {
      * Get items info from OFD bare string
      * Ofd
      */
-    async ofdApiUtilsOfdPostRaw(requestParameters: OfdApiUtilsOfdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Item>>> {
-        if (requestParameters['ofdString'] == null) {
+    async ofdApiUtilsOfdPostRaw(requestParameters: OfdApiUtilsOfdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AppModelsOfdItem>>> {
+        if (requestParameters['ofdRequest'] == null) {
             throw new runtime.RequiredError(
-                'ofdString',
-                'Required parameter "ofdString" was null or undefined when calling ofdApiUtilsOfdPost().'
+                'ofdRequest',
+                'Required parameter "ofdRequest" was null or undefined when calling ofdApiUtilsOfdPost().'
             );
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters['ofdString'] != null) {
-            queryParameters['ofd_string'] = requestParameters['ofdString'];
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
             path: `/api/utils/ofd`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: OfdRequestToJSON(requestParameters['ofdRequest']),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ItemFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(AppModelsOfdItemFromJSON));
     }
 
     /**
      * Get items info from OFD bare string
      * Ofd
      */
-    async ofdApiUtilsOfdPost(requestParameters: OfdApiUtilsOfdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Item>> {
+    async ofdApiUtilsOfdPost(requestParameters: OfdApiUtilsOfdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<AppModelsOfdItem>> {
         const response = await this.ofdApiUtilsOfdPostRaw(requestParameters, initOverrides);
         return await response.value();
     }

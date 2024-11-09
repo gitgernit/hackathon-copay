@@ -9,7 +9,7 @@ from app.api.auth.deps import BearerAuth
 from app.api.events.routers import events_router
 import app.core.db
 import app.models.event
-from app.models import Event
+from app.models import Event, OutputEvent
 from app.models.user import User
 
 
@@ -17,19 +17,64 @@ from app.models.user import User
     '/',
     response_model=list[app.models.event.OutputEvent],
     description='Return events containing given user (by token)',
-    dependencies=[fastapi.Depends(BearerAuth())]
+    dependencies=[fastapi.Depends(BearerAuth())],
 )
 def list_events(
     user: typing.Annotated[
         User, fastapi.Depends(app.api.auth.deps.get_current_user)
     ],
 ):
-    return user.events
+    output = []
+
+    with sqlmodel.Session(app.core.db.engine) as session:
+        user = session.get(User, user.id)
+
+        for event in user.events:
+            new_output = app.models.event.OutputEvent(
+                id=event.id,
+                owner=event.owner_id,
+                users=event.users,
+                invite=event.invite,
+            )
+            output.append(new_output)
+
+    return output
+
+
+@events_router.post(
+    "/{event_id}/add",
+    response_model=OutputEvent,
+    description="Add user to event",
+    dependencies=[fastapi.Depends(BearerAuth())]
+)
+async def add_to_event(
+        user: typing.Annotated[
+            User, fastapi.Depends(app.api.auth.deps.get_current_user)
+        ],
+        event_id: uuid.UUID,
+        data: app.models.event.AddUserRequest
+):
+    with sqlmodel.Session(app.core.db.engine) as session:
+        event = session.get(Event, event_id)
+        if not event:
+            raise fastapi.HTTPException(
+                detail="Event not found", status_code=404
+            )
+        user = session.get(User, data.user_id)
+        if not user:
+            raise fastapi.HTTPException(
+                detail="User not found", status_code=404
+            )
+
+        event.users.append(user)
+        session.commit()
+        return event
 
 
 @events_router.post(
     '/',
     description='Create event',
+    dependencies=[fastapi.Depends(BearerAuth())]
 )
 def create_event(
     event: app.models.event.BaseEvent,
@@ -74,6 +119,6 @@ def event_by_id(event_id: uuid.UUID):
             id=event.id,
             owner=event.owner,
             users=[user.username for user in event.users],
-            invite=event.invite
+            invite=event.invite,
         )
         return new_event

@@ -12,7 +12,9 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import type {User} from './User';
+import {UserFromJSON, UserToJSON,} from './User';
+
 /**
  * 
  * @export
@@ -39,10 +41,16 @@ export interface OutputEvent {
     owner: string;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<User>}
      * @memberof OutputEvent
      */
-    users: Array<string>;
+    users: Array<User>;
+    /**
+     * 
+     * @type {string}
+     * @memberof OutputEvent
+     */
+    invite: string;
 }
 
 /**
@@ -52,6 +60,7 @@ export function instanceOfOutputEvent(value: object): value is OutputEvent {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('owner' in value) || value['owner'] === undefined) return false;
     if (!('users' in value) || value['users'] === undefined) return false;
+    if (!('invite' in value) || value['invite'] === undefined) return false;
     return true;
 }
 
@@ -68,7 +77,8 @@ export function OutputEventFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'name': json['name'] == null ? undefined : json['name'],
         'id': json['id'],
         'owner': json['owner'],
-        'users': json['users'],
+        'users': ((json['users'] as Array<any>).map(UserFromJSON)),
+        'invite': json['invite'],
     };
 }
 
@@ -86,7 +96,8 @@ export function OutputEventFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'name': value['name'],
         'id': value['id'],
         'owner': value['owner'],
-        'users': value['users'],
+        'users': ((value['users'] as Array<any>).map(UserToJSON)),
+        'invite': value['invite'],
     };
 }
 

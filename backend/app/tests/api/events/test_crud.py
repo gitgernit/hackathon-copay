@@ -31,3 +31,8 @@ def test_events() -> None:
     with sqlmodel.Session(app.core.db.engine) as session:
         event = session.get(Event, response_event['id'])
         assert event.name == event_data['name'], 'Wrong name for event'
+
+    response = client.get('/', headers=headers)
+    response_events = response.json()
+
+    assert response.status_code == 200, 'Event info getting failed'

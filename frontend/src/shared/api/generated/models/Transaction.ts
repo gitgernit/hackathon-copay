@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -25,6 +24,18 @@ export interface Transaction {
      * @memberof Transaction
      */
     id?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Transaction
+     */
+    payerId: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Transaction
+     */
+    eventId: string;
     /**
      * 
      * @type {string}
@@ -43,6 +54,8 @@ export interface Transaction {
  * Check if a given object implements the Transaction interface.
  */
 export function instanceOfTransaction(value: object): value is Transaction {
+    if (!('payerId' in value) || value['payerId'] === undefined) return false;
+    if (!('eventId' in value) || value['eventId'] === undefined) return false;
     if (!('title' in value) || value['title'] === undefined) return false;
     return true;
 }
@@ -58,6 +71,8 @@ export function TransactionFromJSONTyped(json: any, ignoreDiscriminator: boolean
     return {
         
         'id': json['id'] == null ? undefined : json['id'],
+        'payerId': json['payer_id'],
+        'eventId': json['event_id'],
         'title': json['title'],
         'closed': json['closed'] == null ? undefined : json['closed'],
     };
@@ -75,6 +90,8 @@ export function TransactionFromJSONTyped(json: any, ignoreDiscriminator: boolean
     return {
         
         'id': value['id'],
+        'payer_id': value['payerId'],
+        'event_id': value['eventId'],
         'title': value['title'],
         'closed': value['closed'],
     };

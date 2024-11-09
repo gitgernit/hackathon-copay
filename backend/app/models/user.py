@@ -33,6 +33,6 @@ class User(SQLModel, table=True):
                 session.add(user)
                 session.commit()
 
-            session.expunge(user)
+            session.refresh(user)
 
             return user

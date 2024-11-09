@@ -1,17 +1,22 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {Scanner} from "@yudiel/react-qr-scanner";
 import {eventsApi} from "../shared/api";
 import {CreateTransactionModal} from "../Components/CreateTransactionModal";
 import {BackButton} from "@vkruglikov/react-telegram-web-app";
-import {LucideArrowLeft} from "lucide-react";
+import {LucideArrowLeft, Share} from "lucide-react";
 import TransactionsList from "../Components/TransactionsList/TransactionsList";
+import {Dialog, DialogContent} from "../shared/ui/dialog";
+import QRCode from 'qrcode'
+import {Input} from "../shared/ui/input";
+import {Button} from "../shared/ui/button";
 
 export const EventPage = () => {
   const { id } = useParams();
   const [isScanOpen, setIsScanOpen] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [share, setShare] = useState(false);
   const navigate = useNavigate()
 
   const { data } = useQuery({
@@ -19,16 +24,15 @@ export const EventPage = () => {
     queryFn: () => eventsApi.eventByIdApiEventsEventIdGet({
       eventId: id!,
     }),
-    enabled: id !== undefined && id !== null,
-    initialData: 
-      {name: 'Название ивента123',
+    initialData: () => ({
+      name: 'Название',
       id: '1',
       owner: '123',
-      users: [
-        "username 1",
-        "username 2",
-        "username 3",
-      ]}
+      users: [],
+      invite: "goida",
+      
+    }),
+    enabled: id !== undefined && id !== null,
   });
 
   useEffect(() => {
@@ -42,15 +46,17 @@ export const EventPage = () => {
       }
     })()
   }, [])
-
+  
+  
   return (
     <div>
       <div className="px-2 py-4 mb-2">
         <h1 className="text-4xl font-bold">{data?.name}</h1>
+        <h1 className="text-4xl font-bold">{data.name}</h1>
       </div>
       <div className="w-[360px] border ml-auto mr-auto border-#e3e3e3"></div>
       <div className="p-2 overflow-y-auto max-h-[80dvh] grid gap-2">
-        <TransactionsList eventId={id!}/>
+        <TransactionsList eventId={id!} />
         {/* {data?.map((product) => (
          <div className="p-3 bg-[#F7F2FA] rounded-lg flex justify-between items-start shadow">
            <div className="flex flex-col">
@@ -76,6 +82,15 @@ export const EventPage = () => {
           >
             Сканировать чек
           </button>
+          
+          <button className="bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl" onClick={async () => {
+            setShare(!share)
+            setTimeout(() => {
+              QRCode.toCanvas(document.querySelector('#goida'), data?.invite)
+            }, 300)
+          }}>
+            <Share />
+          </button>
         </div>
       </div>
       
@@ -93,6 +108,18 @@ export const EventPage = () => {
       <CreateTransactionModal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} />
       
       <BackButton onClick={() => navigate('/')}></BackButton>
+      
+      <Dialog open={share} onOpenChange={() => setShare(!share)}>
+        <DialogContent>
+          <canvas id="goida" className='min-w-64 min-h-64 mx-auto' />
+          <div className='flex items-center gap-1'>
+            <Input disabled value={data.invite} />
+            <Button onClick={() => {
+              navigator.clipboard.writeText(data.invite)
+            }}>Копировать</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
