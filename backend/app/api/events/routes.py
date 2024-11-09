@@ -8,8 +8,9 @@ import app.api.auth.deps
 from app.api.auth.deps import BearerAuth
 from app.api.events.routers import events_router
 import app.core.db
+from app.models import Event
+from app.models import OutputEvent
 import app.models.event
-from app.models import Event, OutputEvent
 from app.models.user import User
 
 
@@ -35,7 +36,7 @@ def list_events(
                 owner=event.owner_id,
                 users=event.users,
                 invite=event.invite,
-                name=event.name
+                name=event.name,
             )
             output.append(new_output)
 
@@ -43,33 +44,45 @@ def list_events(
 
 
 @events_router.post(
-    '/{event_id}/add',
+    '/add',
     response_model=OutputEvent,
     description='Add user to event',
     dependencies=[fastapi.Depends(BearerAuth())],
+    responses={
+        fastapi.status.HTTP_404_NOT_FOUND: {
+            'model': app.models.base.BasicResponse,
+            'detail': r'Event \ user not found',
+        },
+    },
 )
 async def add_to_event(
     user: typing.Annotated[
         User, fastapi.Depends(app.api.auth.deps.get_current_user)
     ],
-    event_id: uuid.UUID,
-    data: app.models.event.AddUserRequest,
+    event_id: typing.Annotated[uuid.UUID, fastapi.Body()],
 ):
     with sqlmodel.Session(app.core.db.engine) as session:
         event = session.get(Event, event_id)
+
         if not event:
             raise fastapi.HTTPException(
                 detail='Event not found', status_code=404
             )
-        user = session.get(User, data.user_id)
+
+        user = session.get(User, user.id)
+
         if not user:
             raise fastapi.HTTPException(
                 detail='User not found', status_code=404
             )
 
         event.users.append(user)
+
+        session.add(event)
         session.commit()
-        return event
+        session.refresh(event)
+
+    return event
 
 
 @events_router.post(
@@ -118,7 +131,7 @@ def event_by_id(event_id: uuid.UUID):
         event = session.get(app.models.event.Event, event_id)
         new_event = app.models.event.OutputEvent(
             id=event.id,
-            owner=event.owner,
+            owner=event.owner_id,
             users=[user.username for user in event.users],
             invite=event.invite,
         )

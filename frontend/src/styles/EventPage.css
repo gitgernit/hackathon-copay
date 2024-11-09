@@ -1,0 +1,36 @@
+.add-transaction {
+    border: none;
+    outline: none;
+    background-color: #ece6f0;
+    color: #65558f;
+    font-size: 17px;
+    padding: 16px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    margin-right: auto;
+    margin-left: auto;
+    box-shadow: 1px 3px 7px 1px rgba(34, 60, 80, 0.2);
+
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+}
+
+.select-user {
+    border: #65558f solid 1px;
+    outline: none;
+    padding: 7px 15px;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+}
+
+.select-user option {
+    border: none;
+    background-color: #ece6f0;
+}
