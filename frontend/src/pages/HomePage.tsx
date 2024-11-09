@@ -20,6 +20,8 @@ export const HomePage = () => {
 
   return (
     <div className="wrapper">
+      {JSON.stringify(initDataUnsafe, null, 2)}
+      {initData}
       <div className='text-lg mb-2'>События</div>
       <GroupList />
       <AddButton text="Создать" navigateTo="/create-group" />
