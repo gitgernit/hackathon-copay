@@ -38,7 +38,7 @@ async def authenticate(init_data: TelegramInputData) -> Token:
             ).hexdigest()
             != init_data.hash
         ):
-            raise HTTPException(status_code=401, detail='Unauthorized')
+            raise HTTPException(status_code=403, detail='Unauthorized')
 
     user = await User.get_or_create_user(
         User(id=init_data.user.id, username=init_data.user.username)
