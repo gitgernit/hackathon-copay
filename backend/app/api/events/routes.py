@@ -73,7 +73,7 @@ def event_by_id(event_id: uuid.UUID) -> app.models.event.OutputEvent:
 async def create_transaction(
     event_id: uuid.UUID,
     title: str = fastapi.Query(description='Title of transaction'),
-    user: app.models.user.User = fastapi.Depends(app.api.auth.deps.BearerAuth),
+    user: app.models.user.User = fastapi.Depends(app.api.auth.deps.get_current_user),
 ):
     with sqlmodel.Session(app.core.db.engine) as session:
         event = session.get(app.models.event.Event, event_id)
