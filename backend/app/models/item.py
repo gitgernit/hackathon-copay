@@ -18,8 +18,8 @@ class Item(SQLModel, table=True):
     assigned_to: list['User'] = Relationship(
         back_populates='items', link_model=ItemUserLink
     )
-    # transaction_id: UUID = Field(foreign_key='transaction.id')
-    name: str = Field(nullable=True)
+    transaction_id: UUID = Field(foreign_key='transaction.id')
+    transaction: 'Transaction' = Relationship(back_populates='items')
 
     def assign_user(self, user: User):
         self.assigned_to.append(user)
