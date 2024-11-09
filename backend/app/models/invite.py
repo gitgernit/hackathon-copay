@@ -6,7 +6,7 @@ from sqlmodel import Field
 from sqlmodel import Relationship
 from sqlmodel import SQLModel
 
-from app.models.group import Group
+from app.models.event import Event
 
 
 class BaseInvite(SQLModel):
@@ -20,4 +20,4 @@ class InputInvite(BaseInvite):
 
 class Invite(BaseInvite, table=True):
     id: UUID = Field(primary_key=True, default_factory=uuid4)
-    group: 'Group' = Relationship(back_populates='invites')
+    group: 'Event' = Relationship(back_populates='invites')

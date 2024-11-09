@@ -24,7 +24,7 @@ class Event(BaseEvent, table=True):
         self.users.append(user)
 
 
-class OutputGroup(BaseGroup):
+class OutputEvent(BaseEvent):
     id: UUID
     owner: UUID
     users: list[UUID]
