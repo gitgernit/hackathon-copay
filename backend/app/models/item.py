@@ -15,10 +15,10 @@ class Item(SQLModel, table=True):
     title: str = Field(nullable=False)
     price: float = Field(nullable=False)
 
-    assigned_to: list['User'] = Relationship(
-        back_populates='items', link_model=ItemUserLink
-    )
-    transaction_id: UUID = Field(foreign_key='transaction.id')
+    # assigned_to: list['User'] = Relationship(
+    #     back_populates='items', link_model=ItemUserLink
+    # )
+    # transaction_id: UUID = Field(foreign_key='transaction.id')
     name: str = Field(nullable=True)
 
     def assign_user(self, user: User):
