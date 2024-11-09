@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from pydantic import BaseModel
 
 
@@ -7,3 +9,4 @@ class BasicResponse(BaseModel):
 
 class OfdRequest(BaseModel):
     ofd_string: str
+    event_id: UUID
