@@ -1,3 +1,1 @@
-import * as Test from './test.ts'
-
-export default Test
+export * as AuthToken from './getToken.ts'
