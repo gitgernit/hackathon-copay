@@ -1,3 +1,5 @@
+import logging
+
 from aiohttp import ClientSession
 
 
@@ -9,9 +11,11 @@ async def get_nalog_data(ofd_string: str) -> dict:
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
         })
     if response.status != 200:
-        return {}
+        logging.error(f"Received non-200 status on ofd check")
+        return
     data = await response.json()
     if data['code'] == 1:
         return data
-    return 
+    logging.error(f"Received non-success status on ofd request with data: {data}")
+    return
     
