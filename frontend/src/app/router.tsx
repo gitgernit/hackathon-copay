@@ -2,8 +2,8 @@ import {createBrowserRouter} from "react-router-dom";
 import {HomePage} from "../pages/HomePage";
 import Layout from "../layouts/layout";
 import EditGroupPage from "../pages/EditGroupPage";
-import { GroupPage } from "../pages/GroupPage";
-import React from "react";
+import { EventPage } from "../pages/EventPage";
+import CreateGroupPage from "../pages/CreateGroupPage";
 
 export const router = createBrowserRouter([
   {
@@ -18,14 +18,14 @@ export const router = createBrowserRouter([
   },
   {
     path: "/events/:id",
-    element: <GroupPage />,
+    element: <EventPage />,
   },
   {
     path: '/edit-group',
     element: <EditGroupPage />
   },
-  // {
-  //   path: '/create-group',
-  //   element: <CreateGroupPage />
-  // }
+  {
+    path: '/create-group',
+    element: <CreateGroupPage />
+  }
 ])
