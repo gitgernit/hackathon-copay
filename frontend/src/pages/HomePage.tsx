@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import {useEffect} from "react"
 import Test from './../api/server';
 import '../styles/Home.css'
 import GroupList from "../Components/GroupList/GroupList";

@@ -26,6 +26,19 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 /**
  * 
  * @export
+ * @interface BaseGroup
+ */
+export interface BaseGroup {
+    /**
+     * 
+     * @type {string}
+     * @memberof BaseGroup
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
  * @interface BasicResponse
  */
 export interface BasicResponse {
@@ -39,6 +52,25 @@ export interface BasicResponse {
 /**
  * 
  * @export
+ * @interface Group
+ */
+export interface Group {
+    /**
+     * 
+     * @type {string}
+     * @memberof Group
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Group
+     */
+    'id'?: string;
+}
+/**
+ * 
+ * @export
  * @interface HTTPValidationError
  */
 export interface HTTPValidationError {
@@ -48,6 +80,37 @@ export interface HTTPValidationError {
      * @memberof HTTPValidationError
      */
     'detail'?: Array<ValidationError>;
+}
+/**
+ * 
+ * @export
+ * @interface Item
+ */
+export interface Item {
+    /**
+     * 
+     * @type {string}
+     * @memberof Item
+     */
+    'name': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Item
+     */
+    'price': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Item
+     */
+    'quantity': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Item
+     */
+    'sum': number;
 }
 /**
  * 
@@ -230,10 +293,10 @@ export interface ValidationErrorLocInner {
 }
 
 /**
- * DefaultApi - axios parameter creator
+ * AuthApi - axios parameter creator
  * @export
  */
-export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
+export const AuthApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
@@ -265,36 +328,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(telegramInputData, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Health Check
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        healthCheckApiUtilsHealthCheckGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/utils/health-check`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -335,11 +368,11 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 };
 
 /**
- * DefaultApi - functional programming interface
+ * AuthApi - functional programming interface
  * @export
  */
-export const DefaultApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration)
+export const AuthApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = AuthApiAxiosParamCreator(configuration)
     return {
         /**
          * 
@@ -351,19 +384,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         async authenticateApiAuthTokenPost(telegramInputData: TelegramInputData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Token>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.authenticateApiAuthTokenPost(telegramInputData, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.authenticateApiAuthTokenPost']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Health Check
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async healthCheckApiUtilsHealthCheckGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: string; }>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.healthCheckApiUtilsHealthCheckGet(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.healthCheckApiUtilsHealthCheckGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['AuthApi.authenticateApiAuthTokenPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -375,18 +396,18 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         async pingApiAuthPingGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.pingApiAuthPingGet(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.pingApiAuthPingGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['AuthApi.pingApiAuthPingGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
 
 /**
- * DefaultApi - factory interface
+ * AuthApi - factory interface
  * @export
  */
-export const DefaultApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = DefaultApiFp(configuration)
+export const AuthApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = AuthApiFp(configuration)
     return {
         /**
          * 
@@ -397,15 +418,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         authenticateApiAuthTokenPost(telegramInputData: TelegramInputData, options?: RawAxiosRequestConfig): AxiosPromise<Token> {
             return localVarFp.authenticateApiAuthTokenPost(telegramInputData, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Health Check
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        healthCheckApiUtilsHealthCheckGet(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: string; }> {
-            return localVarFp.healthCheckApiUtilsHealthCheckGet(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -420,33 +432,22 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
 };
 
 /**
- * DefaultApi - object-oriented interface
+ * AuthApi - object-oriented interface
  * @export
- * @class DefaultApi
+ * @class AuthApi
  * @extends {BaseAPI}
  */
-export class DefaultApi extends BaseAPI {
+export class AuthApi extends BaseAPI {
     /**
      * 
      * @summary Authenticate
      * @param {TelegramInputData} telegramInputData 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof DefaultApi
+     * @memberof AuthApi
      */
     public authenticateApiAuthTokenPost(telegramInputData: TelegramInputData, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).authenticateApiAuthTokenPost(telegramInputData, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Health Check
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public healthCheckApiUtilsHealthCheckGet(options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).healthCheckApiUtilsHealthCheckGet(options).then((request) => request(this.axios, this.basePath));
+        return AuthApiFp(this.configuration).authenticateApiAuthTokenPost(telegramInputData, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -454,10 +455,513 @@ export class DefaultApi extends BaseAPI {
      * @summary Ping
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof DefaultApi
+     * @memberof AuthApi
      */
     public pingApiAuthPingGet(options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).pingApiAuthPingGet(options).then((request) => request(this.axios, this.basePath));
+        return AuthApiFp(this.configuration).pingApiAuthPingGet(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * GroupsApi - axios parameter creator
+ * @export
+ */
+export const GroupsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Create group
+         * @summary Create Group
+         * @param {BaseGroup} baseGroup 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createGroupApiGroupsPost: async (baseGroup: BaseGroup, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'baseGroup' is not null or undefined
+            assertParamExists('createGroupApiGroupsPost', 'baseGroup', baseGroup)
+            const localVarPath = `/api/groups/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(baseGroup, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Delete group
+         * @summary Delete Group
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteGroupApiGroupsGroupIdDelete: async (groupId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('deleteGroupApiGroupsGroupIdDelete', 'groupId', groupId)
+            const localVarPath = `/api/groups/{group_id}`
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Group By Id
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        groupByIdApiGroupsGroupIdGet: async (groupId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('groupByIdApiGroupsGroupIdGet', 'groupId', groupId)
+            const localVarPath = `/api/groups/{group_id}`
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Return groups containing given user (by token)
+         * @summary List Groups
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listGroupsApiGroupsGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/groups/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * GroupsApi - functional programming interface
+ * @export
+ */
+export const GroupsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = GroupsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Create group
+         * @summary Create Group
+         * @param {BaseGroup} baseGroup 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createGroupApiGroupsPost(baseGroup: BaseGroup, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Group>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createGroupApiGroupsPost(baseGroup, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['GroupsApi.createGroupApiGroupsPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Delete group
+         * @summary Delete Group
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteGroupApiGroupsGroupIdDelete(groupId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteGroupApiGroupsGroupIdDelete(groupId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['GroupsApi.deleteGroupApiGroupsGroupIdDelete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Group By Id
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async groupByIdApiGroupsGroupIdGet(groupId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Group>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.groupByIdApiGroupsGroupIdGet(groupId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['GroupsApi.groupByIdApiGroupsGroupIdGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Return groups containing given user (by token)
+         * @summary List Groups
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listGroupsApiGroupsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Group>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listGroupsApiGroupsGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['GroupsApi.listGroupsApiGroupsGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * GroupsApi - factory interface
+ * @export
+ */
+export const GroupsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = GroupsApiFp(configuration)
+    return {
+        /**
+         * Create group
+         * @summary Create Group
+         * @param {BaseGroup} baseGroup 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createGroupApiGroupsPost(baseGroup: BaseGroup, options?: RawAxiosRequestConfig): AxiosPromise<Group> {
+            return localVarFp.createGroupApiGroupsPost(baseGroup, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Delete group
+         * @summary Delete Group
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteGroupApiGroupsGroupIdDelete(groupId: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+            return localVarFp.deleteGroupApiGroupsGroupIdDelete(groupId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Group By Id
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        groupByIdApiGroupsGroupIdGet(groupId: string, options?: RawAxiosRequestConfig): AxiosPromise<Group> {
+            return localVarFp.groupByIdApiGroupsGroupIdGet(groupId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Return groups containing given user (by token)
+         * @summary List Groups
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listGroupsApiGroupsGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<Group>> {
+            return localVarFp.listGroupsApiGroupsGet(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * GroupsApi - object-oriented interface
+ * @export
+ * @class GroupsApi
+ * @extends {BaseAPI}
+ */
+export class GroupsApi extends BaseAPI {
+    /**
+     * Create group
+     * @summary Create Group
+     * @param {BaseGroup} baseGroup 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GroupsApi
+     */
+    public createGroupApiGroupsPost(baseGroup: BaseGroup, options?: RawAxiosRequestConfig) {
+        return GroupsApiFp(this.configuration).createGroupApiGroupsPost(baseGroup, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Delete group
+     * @summary Delete Group
+     * @param {string} groupId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GroupsApi
+     */
+    public deleteGroupApiGroupsGroupIdDelete(groupId: string, options?: RawAxiosRequestConfig) {
+        return GroupsApiFp(this.configuration).deleteGroupApiGroupsGroupIdDelete(groupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Group By Id
+     * @param {string} groupId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GroupsApi
+     */
+    public groupByIdApiGroupsGroupIdGet(groupId: string, options?: RawAxiosRequestConfig) {
+        return GroupsApiFp(this.configuration).groupByIdApiGroupsGroupIdGet(groupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Return groups containing given user (by token)
+     * @summary List Groups
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GroupsApi
+     */
+    public listGroupsApiGroupsGet(options?: RawAxiosRequestConfig) {
+        return GroupsApiFp(this.configuration).listGroupsApiGroupsGet(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * UtilsApi - axios parameter creator
+ * @export
+ */
+export const UtilsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Health Check
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        healthCheckApiUtilsHealthCheckGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/utils/health-check`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get items info from OFD bare string
+         * @summary Ofd
+         * @param {string} ofdString Bare string from QR code
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        ofdApiUtilsOfdPost: async (ofdString: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'ofdString' is not null or undefined
+            assertParamExists('ofdApiUtilsOfdPost', 'ofdString', ofdString)
+            const localVarPath = `/api/utils/ofd`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+            // authentication BearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (ofdString !== undefined) {
+                localVarQueryParameter['ofd_string'] = ofdString;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * UtilsApi - functional programming interface
+ * @export
+ */
+export const UtilsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = UtilsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Health Check
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async healthCheckApiUtilsHealthCheckGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: string; }>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.healthCheckApiUtilsHealthCheckGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UtilsApi.healthCheckApiUtilsHealthCheckGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Get items info from OFD bare string
+         * @summary Ofd
+         * @param {string} ofdString Bare string from QR code
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async ofdApiUtilsOfdPost(ofdString: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Item>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.ofdApiUtilsOfdPost(ofdString, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UtilsApi.ofdApiUtilsOfdPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * UtilsApi - factory interface
+ * @export
+ */
+export const UtilsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = UtilsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Health Check
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        healthCheckApiUtilsHealthCheckGet(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: string; }> {
+            return localVarFp.healthCheckApiUtilsHealthCheckGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get items info from OFD bare string
+         * @summary Ofd
+         * @param {string} ofdString Bare string from QR code
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        ofdApiUtilsOfdPost(ofdString: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<Item>> {
+            return localVarFp.ofdApiUtilsOfdPost(ofdString, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * UtilsApi - object-oriented interface
+ * @export
+ * @class UtilsApi
+ * @extends {BaseAPI}
+ */
+export class UtilsApi extends BaseAPI {
+    /**
+     * 
+     * @summary Health Check
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UtilsApi
+     */
+    public healthCheckApiUtilsHealthCheckGet(options?: RawAxiosRequestConfig) {
+        return UtilsApiFp(this.configuration).healthCheckApiUtilsHealthCheckGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get items info from OFD bare string
+     * @summary Ofd
+     * @param {string} ofdString Bare string from QR code
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UtilsApi
+     */
+    public ofdApiUtilsOfdPost(ofdString: string, options?: RawAxiosRequestConfig) {
+        return UtilsApiFp(this.configuration).ofdApiUtilsOfdPost(ofdString, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

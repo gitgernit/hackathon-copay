@@ -15,7 +15,7 @@ const GroupItem = ({group}: Props) => {
   const navigate = useNavigate()
 
   return (
-    <div className='group-item' onClick={() => navigate(`/group/${group.id}`)}>
+    <div className='group-item' onClick={() => navigate(`/groups/${group.id}`)}>
         <GroupLogo name={group.name} />
         <div className="body">
           <h4 className='ibm-plex-sans-medium'>{group.name}</h4>
