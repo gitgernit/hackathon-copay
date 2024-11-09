@@ -4,7 +4,7 @@ import GoodsList from '../Components/GoodsList/GoodsList'
 import AddCheckButton from '../Components/AddCheckButton/AddCheckButton'
 import AddGoodsButton from '../Components/AddGoodsButton/AddGoodsButton'
 
-const CreateGroup = () => {
+const EditGroupPage = () => {
   const [goods, setGoods] = React.useState<string[]>([])
 
   useEffect(() => {
@@ -40,4 +40,4 @@ const CreateGroup = () => {
   )
 }
 
-export default CreateGroup
+export default EditGroupPage

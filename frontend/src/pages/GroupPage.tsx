@@ -2,6 +2,7 @@ import {useParams} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
 import {useState} from "react";
 import {Scanner} from "@yudiel/react-qr-scanner";
+import React from "react";
 
 export const GroupPage = () => {
   const { id } = useParams();
