@@ -18,8 +18,11 @@
     -o-border-radius: 4px;
 }
 
-.create-group-form input:has(:invalid) {
-    color: red;
+.create-group-form input:invalid::placeholder {
+    color: #cb1b1b;
+}
+.create-group-form input:invalid {
+    border: #cb1b1b solid 1px;
 }
 
 .create-group-form .submit-button {
@@ -35,7 +38,7 @@
     gap: 15px;
     align-items: center;
     box-shadow: 1px 3px 7px 1px rgba(34, 60, 80, 0.2);
-    
+
     border-radius: 16px;
     -webkit-border-radius: 16px;
     -moz-border-radius: 16px;
@@ -62,4 +65,9 @@
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
+}
+
+.submit-button:disabled {
+    background-color: #a09ca8;
+    color: #e8def8;
 }
