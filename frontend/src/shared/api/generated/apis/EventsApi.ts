@@ -15,17 +15,17 @@
 
 import * as runtime from '../runtime';
 import type {
-  AddUserRequest,
   BaseEvent,
+  BasicResponse,
   Event,
   HTTPValidationError,
   OutputEvent,
 } from '../models/index';
 import {
-    AddUserRequestFromJSON,
-    AddUserRequestToJSON,
     BaseEventFromJSON,
     BaseEventToJSON,
+    BasicResponseFromJSON,
+    BasicResponseToJSON,
     EventFromJSON,
     EventToJSON,
     HTTPValidationErrorFromJSON,
@@ -34,9 +34,8 @@ import {
     OutputEventToJSON,
 } from '../models/index';
 
-export interface AddToEventApiEventsEventIdAddPostRequest {
-    eventId: string;
-    addUserRequest: AddUserRequest;
+export interface AddToEventApiEventsAddPostRequest {
+    body: string;
 }
 
 export interface CreateEventApiEventsPostRequest {
@@ -56,18 +55,11 @@ export class EventsApi extends runtime.BaseAPI {
      * Add user to event
      * Add To Event
      */
-    async addToEventApiEventsEventIdAddPostRaw(requestParameters: AddToEventApiEventsEventIdAddPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OutputEvent>> {
-        if (requestParameters['eventId'] == null) {
+    async addToEventApiEventsAddPostRaw(requestParameters: AddToEventApiEventsAddPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OutputEvent>> {
+        if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
-                'eventId',
-                'Required parameter "eventId" was null or undefined when calling addToEventApiEventsEventIdAddPost().'
-            );
-        }
-
-        if (requestParameters['addUserRequest'] == null) {
-            throw new runtime.RequiredError(
-                'addUserRequest',
-                'Required parameter "addUserRequest" was null or undefined when calling addToEventApiEventsEventIdAddPost().'
+                'body',
+                'Required parameter "body" was null or undefined when calling addToEventApiEventsAddPost().'
             );
         }
 
@@ -91,11 +83,11 @@ export class EventsApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/api/events/{event_id}/add`.replace(`{${"event_id"}}`, encodeURIComponent(String(requestParameters['eventId']))),
+            path: `/api/events/add`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: AddUserRequestToJSON(requestParameters['addUserRequest']),
+            body: requestParameters['body'] as any,
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => OutputEventFromJSON(jsonValue));
@@ -105,8 +97,8 @@ export class EventsApi extends runtime.BaseAPI {
      * Add user to event
      * Add To Event
      */
-    async addToEventApiEventsEventIdAddPost(requestParameters: AddToEventApiEventsEventIdAddPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<OutputEvent> {
-        const response = await this.addToEventApiEventsEventIdAddPostRaw(requestParameters, initOverrides);
+    async addToEventApiEventsAddPost(requestParameters: AddToEventApiEventsAddPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<OutputEvent> {
+        const response = await this.addToEventApiEventsAddPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

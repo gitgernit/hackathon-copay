@@ -61,7 +61,7 @@ export const EventPage = () => {
             <LucideArrowLeft />
           </button>
           <button className="bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl" onClick={() => setIsOpenModal(true)}>
-            Добавить
+            Добавить транзакцию
           </button>
           <button
             className="bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl"
@@ -94,22 +94,7 @@ export const EventPage = () => {
       
       <CreateTransactionModal 
         isOpen={isOpenModal} 
-        onClose={() => setIsOpenModal(false)} 
-        // users={data?.users || []}/>
-        users={[
-          {
-            id: 1,
-            username: 'user1'
-          },
-          {
-            id: 2,
-            username: 'useraaa'
-          },
-          {
-            id: 4,
-            username: 'usergol'
-          },
-        ]}/>
+        onClose={() => setIsOpenModal(false)}/>
         
       <BackButton onClick={() => navigate('/')}></BackButton>
       
