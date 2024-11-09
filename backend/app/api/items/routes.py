@@ -10,6 +10,7 @@ from app.models.transactions import Transaction
 from app.models.event import Event
 
 from .routers import items_router
+from ..auth.deps import BearerAuth
 from ...models import BasicResponse
 
 
@@ -64,3 +65,24 @@ async def create_item(
         session.commit()
 
         return new_item
+
+
+@items_router.get(
+    path="/{transaction_id}/{item_id}",
+    description="Get item by itself ID",
+    dependencies=[fastapi.Depends(BearerAuth())],
+    responses={
+        404: {"model": BasicResponse, "description": "Item with this ID is not found"},
+        403: {"model": BasicResponse, "description": "Unauthorized"},
+    }
+)
+async def get_item(
+        transaction_id: UUID,
+        item_id: UUID
+) -> Item:
+    with sqlmodel.Session(bind=app.core.db.engine) as session:
+        item = session.get(Item, item_id)
+        if not item:
+            raise fastapi.HTTPException(detail="Item not found", status_code=404)
+
+        return item
