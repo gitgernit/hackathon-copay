@@ -5,6 +5,9 @@ from fastapi import HTTPException, Query
 from app.api.utils.routers import utils_router
 from app.models.base import BasicResponse, OfdRequest
 from app.models.ofd import OfdResponse, Item
+from app.models.base import BasicResponse
+from app.models.base import OfdRequest
+from app.models.ofd import OfdResponse
 from app.utils.nalog import get_nalog_data
 
 
@@ -22,7 +25,7 @@ async def ofd(
 ) -> typing.List[Item]:
     data = await get_nalog_data(ofd.ofd_string)
     if not data:
-        raise HTTPException(status_code=400, detail="Bad OFD data")
+        raise HTTPException(status_code=400, detail='Bad OFD data')
     try:
         return data['data']['json']['items']
 

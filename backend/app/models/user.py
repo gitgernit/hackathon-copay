@@ -14,7 +14,7 @@ from .links import ItemUserLink
 class User(SQLModel, table=True):
     id: int = Field(sa_column=Column(BigInteger(), primary_key=True))
     username: str = Field(nullable=False)
-    events: list['Event'] = Relationship(back_populates='owner')
+    events: list['Event'] = Relationship(back_populates='users')
     items: list['Item'] = Relationship(
         back_populates='assigned_to', link_model=ItemUserLink
     )
