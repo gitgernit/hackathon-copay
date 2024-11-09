@@ -132,7 +132,7 @@ def event_by_id(event_id: uuid.UUID):
         new_event = app.models.event.OutputEvent(
             id=event.id,
             owner=event.owner_id,
-            users=[user.username for user in event.users],
+            users=event.users,
             invite=event.invite,
             name=event.name,
         )
