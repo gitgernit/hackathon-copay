@@ -7,6 +7,7 @@ from sqlmodel import SQLModel
 
 from app.models.transactions import Transaction
 
+from .links import EventUserLink
 from .user import User
 
 
@@ -17,8 +18,10 @@ class BaseEvent(SQLModel):
 class Event(BaseEvent, table=True):
     id: UUID = Field(primary_key=True, default_factory=uuid4)
     owner: User = Relationship(back_populates='events')
-    users: list['User'] = Relationship(back_populates='events')
-    invites: 'Invite' = Relationship(
+    users: list['User'] = Relationship(
+        back_populates='events', link_model=EventUserLink
+    )
+    invite: 'Invite' = Relationship(
         back_populates='event', cascade_delete=True
     )
 
