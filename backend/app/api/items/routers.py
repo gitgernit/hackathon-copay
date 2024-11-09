@@ -1,3 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
-items_router = APIRouter()
+from app.api.auth.deps import BearerAuth
+
+items_router = APIRouter(
+    dependencies=[Depends(BearerAuth())],
+)
