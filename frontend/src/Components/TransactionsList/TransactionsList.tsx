@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Transaction from '../Transaction/Transaction'
-import { eventsApi } from '../../shared/api'
+import { eventsApi, transactionsApi } from '../../shared/api'
 import './TransactionsList.css'
 import { useQuery } from '@tanstack/react-query'
 
@@ -20,7 +20,7 @@ const TransactionsList = ({eventId}: Props) => {
 
   useEffect(() => {
     (async () => {
-        //   const res = await eventsApi.eventByIdApiTransactionEventIdGet({eventId})
+        //   const res = await transactionsApi.addItemToTransactionApiTransactionEventIdTransactionIdItemsPost()
         const res = [
             {
                 id: 123,
@@ -107,6 +107,7 @@ const TransactionsList = ({eventId}: Props) => {
                 key={transaction.id} 
                 deleteItem={deleteItem} 
                 transaction={transaction}
+                eventId={eventId}
                 // users={data?.users} />
                 users={[
                     {id: 130, username: 'user1'},
