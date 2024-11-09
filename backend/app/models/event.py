@@ -38,3 +38,7 @@ class OutputEvent(BaseEvent):
     owner: int
     users: list[User]
     invite: str | None
+
+
+class AddUserRequest(BaseModel):
+    user_id: int
