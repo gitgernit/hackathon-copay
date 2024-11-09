@@ -10,7 +10,7 @@ export const GroupPage = () => {
 
   const { data } = useQuery({
     queryKey: ["group", id],
-    queryFn: () => eventsApi.groupByIdApiEventsEventIdGet({
+    queryFn: () => eventsApi.eventByIdApiEventsEventIdGet({
       eventId: id!,
     }),
     enabled: id !== undefined && id !== null,
