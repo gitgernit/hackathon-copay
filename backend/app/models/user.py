@@ -34,4 +34,4 @@ class User(SQLModel, table=True):
 
             session.expunge(user)
 
-        return user
+            return user
