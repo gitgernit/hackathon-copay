@@ -10,30 +10,8 @@ import app.api.auth.deps
 from app.api.events.invites.routers import invites_router
 import app.core.db
 import app.models.base
+from app.models import Event, BasicResponse
 from app.models.user import User
-
-
-@invites_router.post(
-    '/create',
-    dependencies=[fastapi.Depends(app.api.auth.deps.get_current_user)],
-    description='Create invite',
-)
-def create_invite(
-    data: app.models.invite.InputInvite,
-) -> app.models.invite.Invite:
-    with sqlmodel.Session(app.core.db.engine) as session:
-        event = session.get(app.models.event.Event, data.event_id)
-
-        if not event:
-            raise HTTPException(fastapi.status.HTTP_400_BAD_REQUEST)
-
-        invite = app.models.invite.Invite(
-            event=event,
-            usages=data.usages,
-            expiration_date=data.expiration_time,
-        )
-
-    return invite
 
 
 @invites_router.get(
@@ -52,20 +30,12 @@ def join_by_invite(
     ],
 ) -> app.models.event.Event:
     with sqlmodel.Session(app.core.db.engine) as session:
-        invite = session.get(app.models.invite.Invite, invite_id)
+        user = session.get(User, user.id)
+        event = session.query(Event).filter_by(invite=invite_id).first()
+        if not event:
+            raise HTTPException(fastapi.status.HTTP_404_NOT_FOUND, detail="Invite not found")
 
-        if not invite:
-            raise HTTPException(fastapi.status.HTTP_400_BAD_REQUEST)
-
-        if invite.usages <= 0 or datetime.datetime.now(
-            datetime.UTC
-        ) > invite.expiration_date.astimezone(datetime.UTC):
-            session.delete(invite)
-            raise HTTPException(fastapi.status.HTTP_400_BAD_REQUEST)
-
-        invite.event.add_user(user)
-        invite.usages -= 1
-
+        event.users.append(user)
         session.commit()
 
-        return invite.event
+        return event
