@@ -15,19 +15,19 @@
 
 import * as runtime from '../runtime';
 import type {
-  AppModelsItemItem,
   BasicResponse,
   HTTPValidationError,
+  Item,
   ItemRequest,
   OutputItem,
 } from '../models/index';
 import {
-    AppModelsItemItemFromJSON,
-    AppModelsItemItemToJSON,
     BasicResponseFromJSON,
     BasicResponseToJSON,
     HTTPValidationErrorFromJSON,
     HTTPValidationErrorToJSON,
+    ItemFromJSON,
+    ItemToJSON,
     ItemRequestFromJSON,
     ItemRequestToJSON,
     OutputItemFromJSON,
@@ -57,7 +57,7 @@ export class TagsApi extends runtime.BaseAPI {
      * Create item in transaction
      * Create Item
      */
-    async createItemApiItemsTransactionIdPostRaw(requestParameters: CreateItemApiItemsTransactionIdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AppModelsItemItem>> {
+    async createItemApiItemsTransactionIdPostRaw(requestParameters: CreateItemApiItemsTransactionIdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Item>> {
         if (requestParameters['transactionId'] == null) {
             throw new runtime.RequiredError(
                 'transactionId',
@@ -94,14 +94,14 @@ export class TagsApi extends runtime.BaseAPI {
             body: ItemRequestToJSON(requestParameters['itemRequest']),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => AppModelsItemItemFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ItemFromJSON(jsonValue));
     }
 
     /**
      * Create item in transaction
      * Create Item
      */
-    async createItemApiItemsTransactionIdPost(requestParameters: CreateItemApiItemsTransactionIdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AppModelsItemItem> {
+    async createItemApiItemsTransactionIdPost(requestParameters: CreateItemApiItemsTransactionIdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Item> {
         const response = await this.createItemApiItemsTransactionIdPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -160,7 +160,7 @@ export class TagsApi extends runtime.BaseAPI {
      * Get items from transaction
      * Get Items
      */
-    async getItemsApiItemsTransactionIdGetRaw(requestParameters: GetItemsApiItemsTransactionIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AppModelsItemItem>>> {
+    async getItemsApiItemsTransactionIdGetRaw(requestParameters: GetItemsApiItemsTransactionIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Item>>> {
         if (requestParameters['transactionId'] == null) {
             throw new runtime.RequiredError(
                 'transactionId',
@@ -187,14 +187,14 @@ export class TagsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(AppModelsItemItemFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ItemFromJSON));
     }
 
     /**
      * Get items from transaction
      * Get Items
      */
-    async getItemsApiItemsTransactionIdGet(requestParameters: GetItemsApiItemsTransactionIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<AppModelsItemItem>> {
+    async getItemsApiItemsTransactionIdGet(requestParameters: GetItemsApiItemsTransactionIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Item>> {
         const response = await this.getItemsApiItemsTransactionIdGetRaw(requestParameters, initOverrides);
         return await response.value();
     }

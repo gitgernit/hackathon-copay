@@ -15,15 +15,15 @@
 
 import * as runtime from '../runtime';
 import type {
-  AppModelsItemItem,
   HTTPValidationError,
+  Item,
   Transaction,
 } from '../models/index';
 import {
-    AppModelsItemItemFromJSON,
-    AppModelsItemItemToJSON,
     HTTPValidationErrorFromJSON,
     HTTPValidationErrorToJSON,
+    ItemFromJSON,
+    ItemToJSON,
     TransactionFromJSON,
     TransactionToJSON,
 } from '../models/index';
@@ -49,7 +49,7 @@ export class TransactionsApi extends runtime.BaseAPI {
     /**
      * Add Item To Transaction
      */
-    async addItemToTransactionApiTransactionEventIdTransactionIdItemsPostRaw(requestParameters: AddItemToTransactionApiTransactionEventIdTransactionIdItemsPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AppModelsItemItem>> {
+    async addItemToTransactionApiTransactionEventIdTransactionIdItemsPostRaw(requestParameters: AddItemToTransactionApiTransactionEventIdTransactionIdItemsPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Item>> {
         if (requestParameters['eventId'] == null) {
             throw new runtime.RequiredError(
                 'eventId',
@@ -106,13 +106,13 @@ export class TransactionsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => AppModelsItemItemFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ItemFromJSON(jsonValue));
     }
 
     /**
      * Add Item To Transaction
      */
-    async addItemToTransactionApiTransactionEventIdTransactionIdItemsPost(requestParameters: AddItemToTransactionApiTransactionEventIdTransactionIdItemsPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AppModelsItemItem> {
+    async addItemToTransactionApiTransactionEventIdTransactionIdItemsPost(requestParameters: AddItemToTransactionApiTransactionEventIdTransactionIdItemsPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Item> {
         const response = await this.addItemToTransactionApiTransactionEventIdTransactionIdItemsPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
