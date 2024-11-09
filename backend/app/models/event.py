@@ -18,7 +18,7 @@ class BaseEvent(SQLModel):
 class Event(BaseEvent, table=True):
     id: UUID = Field(primary_key=True, default_factory=uuid4)
     owner_id: int = Field(foreign_key='user.id')
-    invite: str | None = Field(default=None)
+    invite: str | None = Field(default_factory=uuid4)
     users: list['User'] = Relationship(
         back_populates='events', link_model=EventUserLink
     )
