@@ -3,15 +3,15 @@ from typing import Annotated
 from fastapi import Depends
 from fastapi import HTTPException
 from fastapi import Request
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from fastapi.security import HTTPAuthorizationCredentials
 from fastapi.security import HTTPBearer
-from fastapi.security import OAuth2PasswordBearer
 import jwt
 
 from app.core.config import config
 from app.models.user import User
 
 from .utils import decode_jwt
+
 
 class BearerAuth(HTTPBearer):
     def __init__(self, auto_error: bool = True):
@@ -43,7 +43,9 @@ class BearerAuth(HTTPBearer):
 
         return is_valid
 
+
 oauth2_scheme = BearerAuth()
+
 
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     try:
@@ -64,4 +66,3 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         return {'error': 'Token is expired'}
     except jwt.InvalidTokenError:
         return {'error': 'Invalid token'}
-
