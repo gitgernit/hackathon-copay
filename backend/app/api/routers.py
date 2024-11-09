@@ -27,3 +27,8 @@ api_router.include_router(
     prefix='/calculate_debits',
     tags=['calculate_debits'],
 )
+api_router.include_router(
+    app.api.events.invites.invites_router,
+    prefix="/invites",
+    tags=["invites"]
+)
