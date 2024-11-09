@@ -25,10 +25,6 @@ import app.models.item
 async def get_transaction(
     event_id: uuid.UUID,
     transaction_id: uuid.UUID,
-    user: typing.Annotated[
-        app.models.user.User,
-        fastapi.Depends(app.api.auth.deps.get_current_user),
-    ],
 ):
     with sqlmodel.Session(app.core.db.engine) as session:
         event = session.get(app.models.event.Event, event_id)
@@ -50,6 +46,44 @@ async def get_transaction(
         )
 
     return output_transaction
+
+
+@transactions_router.get(
+    '/{event_id}',
+    description='Get all transactions of an event',
+    dependencies=[fastapi.Depends(app.api.auth.deps.get_current_user)],
+    responses={
+        fastapi.status.HTTP_404_NOT_FOUND: {
+            'model': app.models.base.BasicResponse,
+            'detail': r'Event not found',
+        },
+    },
+)
+async def list_transactions(
+    event_id: uuid.UUID,
+) -> list[app.models.transactions.OutputTransaction]:
+    with sqlmodel.Session(app.core.db.engine) as session:
+        event = session.get(app.models.event.Event, event_id)
+
+        if not event:
+            raise fastapi.HTTPException(
+                status_code=404, detail='Event not found'
+            )
+
+        output = []
+
+        for transaction in event.transactions:
+            output.append(
+                app.models.transactions.OutputTransaction(
+                    title=transaction.title,
+                    payer=transaction.payer,
+                    event_id=transaction.event_id,
+                    closed=transaction.closed,
+                    items=transaction.items,
+                )
+            )
+
+    return output
 
 
 @transactions_router.post(
