@@ -2,8 +2,10 @@ import React, {useState} from 'react'
 import './CreateGroup.css'
 import {defaultReq, eventsApi} from '../../shared/api'
 import {ChevronLeft} from "lucide-react";
+import { useNavigate } from 'react-router-dom';
 
 const CreateGroup = () => {
+    const navigate = useNavigate()
     const [name, setName] = useState('')
     const [state, setState] = useState<'idle' | 'pending' | 'success' | 'error'>('idle')
 
@@ -15,10 +17,13 @@ const CreateGroup = () => {
         e.preventDefault()
         
         try {
+            setState('pending')
             await eventsApi.createEventApiEventsPost({baseEvent:{name}}, defaultReq)
+            setState('idle')
+            navigate('/')
         } catch (error) {
             localStorage.removeItem('token')
-            setState('error')
+            setState('idle')
         } 
     }
     return (

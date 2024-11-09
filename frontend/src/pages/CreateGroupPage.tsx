@@ -2,6 +2,7 @@ import '../styles/CreateGroup.css'
 import CreateGroup from '../Components/CreateGroup/CreateGroup';
 import { useNavigate } from 'react-router-dom';
 import { LucideArrowLeft } from 'lucide-react';
+import React from 'react';
 
 const CreateGroupPage = () => {
   const navigate = useNavigate()

@@ -11,6 +11,8 @@ interface Props {
 const GroupItem = ({event}: Props) => {
   const navigate = useNavigate()
 
+  console.log(event)
+
   return (
     <div className='group-item w-full' onClick={() => navigate(`/events/${event.id}`)}>
         <GroupLogo name={event.name || ''} />

@@ -1,7 +1,6 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
 import {useEffect, useState} from "react";
-import {useEffect, useState} from "react";
 import {Scanner} from "@yudiel/react-qr-scanner";
 import {eventsApi} from "../shared/api";
 import {CreateTransactionModal} from "../Components/CreateTransactionModal";
@@ -12,6 +11,7 @@ import {Dialog, DialogContent} from "../shared/ui/dialog";
 import QRCode from 'qrcode'
 import {Input} from "../shared/ui/input";
 import {Button} from "../shared/ui/button";
+import React from "react";
 
 export const EventPage = () => {
   const { id } = useParams();
