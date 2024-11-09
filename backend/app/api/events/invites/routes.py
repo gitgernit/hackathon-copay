@@ -7,6 +7,7 @@ from fastapi import HTTPException
 import sqlmodel
 
 import app.api.auth.deps
+from app.api.auth.deps import BearerAuth
 from app.api.events.invites.routers import invites_router
 import app.core.db
 import app.models.base
@@ -22,6 +23,7 @@ from app.models.user import User
             'detail': 'Invalid invite',
         }
     },
+    dependencies=[fastapi.Depends(BearerAuth())]
 )
 def join_by_invite(
     invite_id: uuid.UUID,

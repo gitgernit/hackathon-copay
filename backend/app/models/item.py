@@ -23,3 +23,18 @@ class Item(SQLModel, table=True):
 
     def assign_user(self, user: User):
         self.assigned_to.append(user)
+
+
+class OutputItem(SQLModel):
+    id: UUID
+    title: str
+    price: float
+    assigned_to: list['User']
+    transaction_id: UUID
+
+
+class ItemRequest(SQLModel):
+    title: str
+    price: float
+
+    all_users_selected: bool = False
