@@ -5,16 +5,19 @@ import fastapi
 import sqlmodel
 
 import app.api.auth.deps
+from app.api.auth.deps import BearerAuth
 from app.api.events.routers import events_router
 import app.core.db
 import app.models.event
+from app.models import Event
 from app.models.user import User
 
 
 @events_router.get(
     '/',
-    response_model=list[app.models.event.Event],
+    response_model=list[app.models.event.OutputEvent],
     description='Return events containing given user (by token)',
+    dependencies=[fastapi.Depends(BearerAuth())]
 )
 def list_events(
     user: typing.Annotated[
@@ -36,10 +39,11 @@ def create_event(
 ) -> app.models.event.Event:
     with sqlmodel.Session(app.core.db.engine) as session:
         new_event = app.models.event.Event(
-            name=event.name, owner=user, users=[user]
+            name=event.name, owner_id=user.id, users=[user]
         )
         session.add(new_event)
         session.commit()
+        session.refresh(new_event)
 
     return new_event
 

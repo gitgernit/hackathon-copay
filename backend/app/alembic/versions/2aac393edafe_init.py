@@ -1,18 +1,19 @@
-"""empty message
+"""init
 
-Revision ID: 45b340919b0c
+Revision ID: 2aac393edafe
 Revises: 
-Create Date: 2024-11-09 17:08:53.089632
+Create Date: 2024-11-09 20:45:26.289233
 
 """
 from typing import Sequence, Union
 
+import sqlmodel
 from alembic import op
 import sqlalchemy as sa
-import sqlmodel
+
 
 # revision identifiers, used by Alembic.
-revision: str = '45b340919b0c'
+revision: str = '2aac393edafe'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -26,7 +27,6 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('event',
-    sa.Column('name', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.Column('id', sa.Uuid(), nullable=False),
     sa.Column('owner_id', sa.Integer(), nullable=False),
     sa.Column('invite', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
@@ -42,10 +42,12 @@ def upgrade() -> None:
     )
     op.create_table('transaction',
     sa.Column('id', sa.Uuid(), nullable=False),
+    sa.Column('payer_id', sa.Integer(), nullable=False),
     sa.Column('event_id', sa.Uuid(), nullable=False),
     sa.Column('title', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.Column('closed', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['event_id'], ['event.id'], ),
+    sa.ForeignKeyConstraint(['payer_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('item',
