@@ -9,6 +9,7 @@ from sqlmodel import SQLModel
 from app.core.config import config
 
 from .links import EventUserLink
+from .links import ItemUserLink
 
 
 class User(SQLModel, table=True):
@@ -16,6 +17,9 @@ class User(SQLModel, table=True):
     username: str = Field(nullable=False)
     events: list['Event'] = Relationship(
         back_populates='users', link_model=EventUserLink
+    )
+    items: list['Item'] = Relationship(
+        back_populates='assigned_to', link_model=ItemUserLink
     )
 
     async def get_or_create_user(self):
