@@ -26,7 +26,8 @@ async def ofd(
     try:
         return OfdResponse(**await get_nalog_data(ofd_string)).data.items
 
-    except Exception:
+    except Exception as e:
+        print(e)
         return BasicResponse(
             detail='Error while getting information about check'
         )
