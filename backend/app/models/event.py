@@ -15,10 +15,10 @@ class BaseEvent(SQLModel):
 
 class Event(BaseEvent, table=True):
     id: UUID = Field(primary_key=True, default_factory=uuid4)
-    owner: User = Relationship(back_populates='groups')
-    users: list['User'] = Relationship(back_populates='groups')
+    owner: User = Relationship(back_populates='events')
+    users: list['User'] = Relationship(back_populates='events')
     invites: 'Invite' = Relationship(
-        back_populates='group', cascade_delete=True
+        back_populates='event', cascade_delete=True
     )
 
     transactions: list['Transaction'] = Relationship(
