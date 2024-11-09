@@ -17,12 +17,12 @@ from app.models.user import User
     response_model=list[app.models.event.Event],
     description='Return events containing given user (by token)',
 )
-def list_groups(
+def list_event(
     user: typing.Annotated[
         User, fastapi.Depends(app.api.auth.deps.get_current_user)
     ],
 ):
-    return user.groups
+    return user.events
 
 
 @events_router.post(
@@ -30,11 +30,11 @@ def list_groups(
     dependencies=[fastapi.Depends(app.api.auth.deps.get_current_user)],
     description='Create event',
 )
-def create_group(
-    group: app.models.event.BaseEvent,
+def create_event(
+    event: app.models.event.BaseEvent,
 ) -> app.models.event.Event:
     with sqlmodel.Session(app.core.db.engine) as session:
-        new_event = app.models.event.Event(name=group.name)
+        new_event = app.models.event.Event(name=event.name)
         session.add(new_event)
         session.commit()
 
@@ -53,8 +53,9 @@ def delete_event(
         session.delete(session.get(app.models.event.Event, event_id))
         session.commit()
 
+
 @events_router.get('/{event_id}', response_model=app.models.event.Event)
-def group_by_id(event_id: uuid.UUID):
+def event_by_id(event_id: uuid.UUID):
     with sqlmodel.Session(app.core.db.engine) as session:
         event = session.get(app.models.event.Event, event_id)
         return event

@@ -15,9 +15,9 @@ class BaseInvite(SQLModel):
 
 
 class InputInvite(BaseInvite):
-    group_id: int = Field(nullable=False)
+    event_id: int = Field(nullable=False)
 
 
 class Invite(BaseInvite, table=True):
     id: UUID = Field(primary_key=True, default_factory=uuid4)
-    group: 'Event' = Relationship(back_populates='invites')
+    event: 'Event' = Relationship(back_populates='invites')

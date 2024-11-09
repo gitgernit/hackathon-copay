@@ -7,14 +7,14 @@ from fastapi import HTTPException
 import sqlmodel
 
 import app.api.auth.deps
-from app.api.groups.invites.routers import invites_router
+from app.api.events.invites.routers import events_router
 import app.core.db
 import app.models.base
 import app.models.invite
 from app.models.user import User
 
 
-@invites_router.post(
+@events_router.post(
     '/create',
     dependencies=[fastapi.Depends(app.api.auth.deps.get_current_user)],
     description='Create invite',
@@ -23,13 +23,13 @@ def create_invite(
     data: app.models.invite.InputInvite,
 ) -> app.models.invite.Invite:
     with sqlmodel.Session(app.core.db.engine) as session:
-        group = session.get(app.models.group.Group, data.group_id)
+        event = session.get(app.models.event.Event, data.event_id)
 
-        if not group:
+        if not event:
             raise HTTPException(fastapi.status.HTTP_400_BAD_REQUEST)
 
         invite = app.models.invite.Invite(
-            group=group,
+            event=event,
             usages=data.usages,
             expiration_date=data.expiration_time,
         )
@@ -37,7 +37,7 @@ def create_invite(
     return invite
 
 
-@invites_router.get(
+@events_router.get(
     '/{invite_id}',
     responses={
         fastapi.status.HTTP_400_BAD_REQUEST: {
@@ -51,7 +51,7 @@ def join_by_invite(
     user: typing.Annotated[
         User, fastapi.Depends(app.api.auth.deps.get_current_user)
     ],
-) -> app.models.group.Group:
+) -> app.models.event.Event:
     with sqlmodel.Session(app.core.db.engine) as session:
         invite = session.get(app.models.invite.Invite, invite_id)
 
@@ -64,9 +64,9 @@ def join_by_invite(
             session.delete(invite)
             raise HTTPException(fastapi.status.HTTP_400_BAD_REQUEST)
 
-        invite.group.add_user(user)
+        invite.event.add_user(user)
         invite.usages -= 1
 
         session.commit()
 
-        return invite.group
+        return invite.event

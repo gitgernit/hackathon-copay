@@ -16,7 +16,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/groups/:id",
+    path: "/events/:id",
     element: <GroupPage />,
   },
   

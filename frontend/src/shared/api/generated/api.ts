@@ -583,7 +583,7 @@ export const GroupsApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
-         * Return groups containing given user (by token)
+         * Return events containing given user (by token)
          * @summary List Groups
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -666,7 +666,7 @@ export const GroupsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Return groups containing given user (by token)
+         * Return events containing given user (by token)
          * @summary List Groups
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -718,7 +718,7 @@ export const GroupsApiFactory = function (configuration?: Configuration, basePat
             return localVarFp.groupByIdApiGroupsGroupIdGet(groupId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Return groups containing given user (by token)
+         * Return events containing given user (by token)
          * @summary List Groups
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -773,7 +773,7 @@ export class GroupsApi extends BaseAPI {
     }
 
     /**
-     * Return groups containing given user (by token)
+     * Return events containing given user (by token)
      * @summary List Groups
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
