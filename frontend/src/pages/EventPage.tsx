@@ -12,16 +12,6 @@ export const EventPage = () => {
   const { id } = useParams();
   const [isScanOpen, setIsScanOpen] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [currentEvent, setCurrentEvent] = useState({
-    name: 'Название',
-    id: '1',
-    owner: '123',
-    users: [
-      "username 1",
-      "username 2",
-      "username 3",
-    ]
-  });
   const navigate = useNavigate()
 
   const { data } = useQuery({
@@ -30,6 +20,15 @@ export const EventPage = () => {
       eventId: id!,
     }),
     enabled: id !== undefined && id !== null,
+    initialData: 
+      {name: 'Название ивента123',
+      id: '1',
+      owner: '123',
+      users: [
+        "username 1",
+        "username 2",
+        "username 3",
+      ]}
   });
 
   useEffect(() => {
@@ -47,7 +46,7 @@ export const EventPage = () => {
   return (
     <div>
       <div className="px-2 py-4 mb-2">
-        <h1 className="text-4xl font-bold">{currentEvent?.name}</h1>
+        <h1 className="text-4xl font-bold">{data?.name}</h1>
       </div>
       <div className="w-[360px] border ml-auto mr-auto border-#e3e3e3"></div>
       <div className="p-2 overflow-y-auto max-h-[80dvh] grid gap-2">
