@@ -7,7 +7,7 @@ import {defaultReq, eventsApi} from "../../shared/api";
 const GroupList = () => {
   const {data} = useQuery({
     queryKey: ['events'],
-    queryFn: () => eventsApi.listEventApiEventsGet(defaultReq)
+    queryFn: () => eventsApi.listEventsApiEventsGet(defaultReq)
   })
   
   return (

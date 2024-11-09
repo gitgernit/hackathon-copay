@@ -13,7 +13,7 @@ const TransactionsList = ({eventId}: Props) => {
 
   useEffect(() => {
     (async () => {
-        //   const res = await GET_TRANSACTIONS(eventId)
+        //   const res = await eventsApi.eventByIdApiTransactionEventIdGet({eventId})
         const res = [
             {
                 id: 123,
@@ -100,8 +100,8 @@ const TransactionsList = ({eventId}: Props) => {
             )}
         </div>
         <div className='transactions-list-filters'>
-            <button onClick={() => filerTransactions('my')}>Мои товары</button>
-            <button onClick={() => filerTransactions('all')}>Товары группы</button>
+            <button className={transactions !== current ? 'active' : ''} onClick={() => filerTransactions('my')}>Мои товары</button>
+            <button className={transactions === current ? 'active' : ''} onClick={() => filerTransactions('all')}>Товары группы</button>
         </div>
     </>
   )
