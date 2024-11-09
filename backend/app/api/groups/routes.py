@@ -26,14 +26,14 @@ def list_groups(
 
 @groups_router.post(
     '/',
-    dependencies=[fastapi.Depends(app.api.auth.deps.get_current_user)],
     description='Create group',
 )
 def create_group(
     group: app.models.group.BaseGroup,
+    user: typing.Annotated[User, fastapi.Depends(app.api.auth.deps.get_current_user)],
 ) -> app.models.group.Group:
     with sqlmodel.Session(app.core.db.engine) as session:
-        new_group = app.models.group.Group(name=group.name)
+        new_group = app.models.group.Group(name=group.name, owner=user, users=[user])
         session.add(new_group)
         session.commit()
 
