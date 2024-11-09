@@ -116,8 +116,12 @@ async def create_transaction(
                 status_code=404, detail='Event not found'
             )
 
-        transaction = app.models.transactions.Transaction(
-            event_id=event.id, payer_id=user.id, title=title, items=[],
+        transaction = app.models.transactions.OutputTransaction(
+            title=title,
+            payer=user.id,
+            event_id=event.id,
+            closed=False,
+            items=[]
         )
         session.add(transaction)
         session.commit()
