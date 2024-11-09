@@ -30,7 +30,7 @@ async def authenticate(init_data: TelegramInputData) -> Token:
         formatted = [f'{key}={value}' for key, value in sorted_fields]
         data_check_string = '\n'.join(formatted)
         secret_key = hmac.new(
-            b'WebAppData', config.BOT_TOKEN.encode(), sha256
+            b'WebAppData', config.TOKEN_TELEGRAM_API.encode(), sha256
         ).hexdigest()
         if (
             hmac.new(
