@@ -5,6 +5,7 @@ import {Scanner} from "@yudiel/react-qr-scanner";
 import {eventsApi} from "@/shared/api";
 import {CreateTransactionModal} from "../Components/CreateTransactionModal";
 import {BackButton} from "@vkruglikov/react-telegram-web-app";
+import {LucideArrowLeft} from "lucide-react";
 
 export const EventPage = () => {
   const { id } = useParams();
@@ -44,6 +45,9 @@ export const EventPage = () => {
       
       <div className="absolute bottom-2 left-5 right-5">
         <div className="flex justify-center gap-2 items-center">
+          <button className='bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl' onClick={() => navigate('/')}>
+            <LucideArrowLeft />
+          </button>
           <button className="bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl" onClick={() => setIsOpenModal(true)}>
             Добавить
           </button>
