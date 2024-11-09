@@ -18,5 +18,5 @@ api_router.include_router(
     app.api.events.routers.events_router, prefix='/events', tags=['events']
 )
 api_router.include_router(
-    app.api.transactions.routers.transactions_router, prefix="/transactions", tags=["transactions"], include_in_schema=True
+    app.api.events.routers.events_router, prefix='/transaction', tags=['events']
 )
