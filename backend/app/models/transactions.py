@@ -8,7 +8,7 @@ class Transaction(SQLModel, table=True):
     event: 'Event' = Relationship(back_populates="transactions")
     owner: 'User' = Relationship(back_populates="transactions")
     title: str = Field(nullable=False)
-    closed: bool = Field(nullable=False, default=True)
+    closed: bool = Field(nullable=False, default=False)
     
     partipicants: list['User'] = Relationship(back_populates="transactions")
     items: list['Item'] = Relationship(back_populates="transactions")
