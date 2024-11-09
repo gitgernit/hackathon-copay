@@ -1,3 +1,3 @@
 import fastapi
 
-events_router = fastapi.APIRouter()
+invites_router = fastapi.APIRouter()
