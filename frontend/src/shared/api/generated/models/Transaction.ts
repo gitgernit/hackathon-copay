@@ -24,6 +24,12 @@ export interface Transaction {
      * @type {string}
      * @memberof Transaction
      */
+    title: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Transaction
+     */
     id?: string;
     /**
      * 
@@ -39,12 +45,6 @@ export interface Transaction {
     eventId: string;
     /**
      * 
-     * @type {string}
-     * @memberof Transaction
-     */
-    title: string;
-    /**
-     * 
      * @type {boolean}
      * @memberof Transaction
      */
@@ -55,9 +55,9 @@ export interface Transaction {
  * Check if a given object implements the Transaction interface.
  */
 export function instanceOfTransaction(value: object): value is Transaction {
+    if (!('title' in value) || value['title'] === undefined) return false;
     if (!('payerId' in value) || value['payerId'] === undefined) return false;
     if (!('eventId' in value) || value['eventId'] === undefined) return false;
-    if (!('title' in value) || value['title'] === undefined) return false;
     return true;
 }
 
@@ -71,10 +71,10 @@ export function TransactionFromJSONTyped(json: any, ignoreDiscriminator: boolean
     }
     return {
         
+        'title': json['title'],
         'id': json['id'] == null ? undefined : json['id'],
         'payerId': json['payer_id'],
         'eventId': json['event_id'],
-        'title': json['title'],
         'closed': json['closed'] == null ? undefined : json['closed'],
     };
 }
@@ -90,10 +90,10 @@ export function TransactionFromJSONTyped(json: any, ignoreDiscriminator: boolean
 
     return {
         
+        'title': value['title'],
         'id': value['id'],
         'payer_id': value['payerId'],
         'event_id': value['eventId'],
-        'title': value['title'],
         'closed': value['closed'],
     };
 }
