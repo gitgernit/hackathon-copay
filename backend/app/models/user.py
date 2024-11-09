@@ -30,4 +30,4 @@ class User(SQLModel, table=True):
                 )
                 session.add(user)
                 session.commit()
-        return user
+            return user
