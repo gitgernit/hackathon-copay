@@ -7,22 +7,15 @@ import { eventsApi } from "../shared/api";
 
 export interface ModalProps {
   isOpen: boolean;
-  users: User[];
   onClose: () => void;
 }
 
-export const CreateTransactionModal: FC<ModalProps> = ({ isOpen, onClose, users }) => {
+export const CreateTransactionModal: FC<ModalProps> = ({ isOpen, onClose }) => {
   const [title, setTitle] = useState('')
-  const [price, setPrice] = useState(0)
-  const [user, setUser] = useState('')
-
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setUser(event.target.value)
-  }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log(title, price, user)
+    console.log(title)
 
     try {
       // eventsApi.ADD_NEW_TRANSACTION
@@ -42,38 +35,6 @@ export const CreateTransactionModal: FC<ModalProps> = ({ isOpen, onClose, users 
             <label htmlFor="title">Название</label>
             <Input id='title' value={title} onChange={e => setTitle(e.target.value)} />
           </div>
-          
-          <div>
-            <label htmlFor="price">Стоимость</label>
-            <Input
-              id='price'
-              value={price}
-              onChange={(e) => {
-                const num = Number(e.target.value);
-                if (!isNaN(num)) {
-                  setPrice(num)
-                }
-              }}
-            />
-          </div>
-          
-          <div>
-            <label htmlFor="user">Пользователь: </label>
-            <select 
-              className="select-user" 
-              id="user" 
-              name="user" 
-              value={user}
-              onChange={handleChange}
-              >
-              {users.map((user) => (
-                <option key={user.id} value={user.id}>
-                  {user.username}
-                </option>
-              ))}
-            </select>
-          </div>
-
           <button className="add-transaction ibm-plex-sans-semibold" type="submit">Создать</button>
         </form>
       </DialogContent>

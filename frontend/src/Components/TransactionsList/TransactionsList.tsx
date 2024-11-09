@@ -14,23 +14,7 @@ const TransactionsList = ({eventId}: Props) => {
 
   const {data} = useQuery({
     queryKey: ['events'],
-    queryFn: () => eventsApi.listEventsApiEventsGet(defaultReq),
-    initialData: [{
-      name: 'название 1',
-      id: '1',
-      owner: 1,
-      invite: 'invite',
-      users: [
-        {
-          id: 1,
-          username: "имя первого пользователя"
-        },
-        {
-          id: 2,
-          username: "имя второго пользователя"
-        }
-      ]
-    }]
+    queryFn: () => eventsApi.eventByIdApiEventsEventIdGet({eventId}),
   })
 
 
@@ -102,8 +86,6 @@ const TransactionsList = ({eventId}: Props) => {
   }
 
   const filerTransactions = (filter = 'all') => {
-    console.log(localStorage.getItem('userId'))
-    console.log(transactions)
     if (filter === 'all') {setCurrent(transactions)}
     else {
         setCurrent(transactions.map(
@@ -124,7 +106,13 @@ const TransactionsList = ({eventId}: Props) => {
                 <Transaction 
                 key={transaction.id} 
                 deleteItem={deleteItem} 
-                transaction={transaction} />
+                transaction={transaction}
+                // users={data?.users} />
+                users={[
+                    {id: 130, username: 'user1'},
+                    {id: 131, username: 'user2'},
+                    {id: 132, username: 'user3'}
+                ]} />
             )}
         </div>
         <div className='transactions-list-filters'>
