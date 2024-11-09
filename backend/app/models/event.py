@@ -40,5 +40,5 @@ class OutputEvent(BaseEvent):
     invite: str | None
 
 
-class AddUserRequest(BaseModel):
+class AddUserRequest(SQLModel):
     user_id: int
