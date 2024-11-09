@@ -35,6 +35,7 @@ def list_events(
                 owner=event.owner_id,
                 users=event.users,
                 invite=event.invite,
+                name=event.name
             )
             output.append(new_output)
 
