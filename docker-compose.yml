@@ -97,6 +97,15 @@ services:
     build:
       context: ./backend
 
+  optimizetka:
+    restart: always
+    networks:
+      - default
+    ports:
+      - 3000:8000
+    build:
+      context: ./optimizetka
+
   frontend:
     restart: always
     networks:
