@@ -117,7 +117,7 @@ async def create_transaction(
             )
 
         transaction = app.models.transactions.Transaction(
-            event_id=event.id, owner_id=user.id, title=title
+            event_id=event.id, payer_id=user.id, title=title, items=[],
         )
         session.add(transaction)
         session.commit()
