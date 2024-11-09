@@ -5,7 +5,7 @@ import sqlmodel
 import fastapi
 
 import app.core.db
-from app.models.item import Item, ItemRequest
+from app.models.item import Item, ItemRequest, OutputItem
 from app.models.transactions import Transaction
 from app.models.event import Event
 
@@ -79,10 +79,16 @@ async def create_item(
 async def get_item(
         transaction_id: UUID,
         item_id: UUID
-) -> Item:
+) -> OutputItem:
     with sqlmodel.Session(bind=app.core.db.engine) as session:
         item = session.get(Item, item_id)
         if not item:
             raise fastapi.HTTPException(detail="Item not found", status_code=404)
 
-        return item
+        return OutputItem(
+            id=item.id,
+            title=item.title,
+            price=item.price,
+            assigned_to=item.assigned_to,
+            transaction_id=transaction_id
+        )
