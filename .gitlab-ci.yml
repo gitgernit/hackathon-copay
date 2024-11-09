@@ -17,6 +17,6 @@ deploy:
     - vps
   script:
     - echo "Deploying application..."
-    - docker compose -f docker-compose.yml up -d --build --remove-orphans
+    - docker compose --env-file .env.template -f docker-compose.yml up -d --build --remove-orphans
   only:
     - master
