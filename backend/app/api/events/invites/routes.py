@@ -1,4 +1,3 @@
-import datetime
 import typing
 import uuid
 
@@ -10,8 +9,8 @@ import app.api.auth.deps
 from app.api.auth.deps import BearerAuth
 from app.api.events.invites.routers import invites_router
 import app.core.db
+from app.models import Event
 import app.models.base
-from app.models import Event, BasicResponse
 from app.models.user import User
 
 
@@ -23,7 +22,7 @@ from app.models.user import User
             'detail': 'Invalid invite',
         }
     },
-    dependencies=[fastapi.Depends(BearerAuth())]
+    dependencies=[fastapi.Depends(BearerAuth())],
 )
 def join_by_invite(
     invite_id: uuid.UUID,
@@ -35,7 +34,9 @@ def join_by_invite(
         user = session.get(User, user.id)
         event = session.query(Event).filter_by(invite=invite_id).first()
         if not event:
-            raise HTTPException(fastapi.status.HTTP_404_NOT_FOUND, detail="Invite not found")
+            raise HTTPException(
+                fastapi.status.HTTP_404_NOT_FOUND, detail='Invite not found'
+            )
 
         event.users.append(user)
         session.commit()

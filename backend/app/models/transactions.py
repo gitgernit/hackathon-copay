@@ -9,13 +9,16 @@ from app.models.item import Item
 from app.models.user import User
 
 
-class Transaction(SQLModel, table=True):
+class BaseTransaction(SQLModel):
+    title: str = Field(nullable=False)
+
+
+class Transaction(BaseTransaction, table=True):
     id: UUID = Field(default_factory=uuid4, primary_key=True)
     payer_id: int = Field(foreign_key='user.id')
     payer: User = Relationship(back_populates='transactions')
     event_id: UUID = Field(foreign_key='event.id')
     event: 'Event' = Relationship(back_populates='transactions')
-    title: str = Field(nullable=False)
     closed: bool = Field(nullable=False, default=False)
     items: list['Item'] = Relationship(back_populates='transaction')
 
@@ -24,3 +27,11 @@ class Transaction(SQLModel, table=True):
 
     async def add_item(self, item: Item):
         self.items.append(item)
+
+
+class OutputTransaction(BaseTransaction):
+    id: UUID
+    payer: User
+    event_id: UUID
+    closed: bool
+    items: list['Item']

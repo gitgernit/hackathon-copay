@@ -32,7 +32,13 @@ def test_events() -> None:
         event = session.get(Event, response_event['id'])
         assert event.name == event_data['name'], 'Wrong name for event'
 
+    response = client.get(f'/{response_event["id"]}', headers=headers)
+    response_event = response.json()
+
+    assert response.status_code == 200, 'Event info gathering failed'
+
     response = client.get('/', headers=headers)
     response_events = response.json()
 
     assert response.status_code == 200, 'Event info getting failed'
+    assert response_events
