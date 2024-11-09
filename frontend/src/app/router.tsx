@@ -2,6 +2,7 @@ import {createBrowserRouter} from "react-router-dom";
 import {HomePage} from "../pages/HomePage";
 import React from "react";
 import Layout from "../layouts/layout";
+import CreateGroup from "../pages/CreateGroup";
 
 export const router = createBrowserRouter([
   {
@@ -11,6 +12,15 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />
+      }
+    ],
+  },
+  {
+    path: '/create-group',
+    children: [
+      {
+        index: true,
+        element: <CreateGroup />
       }
     ],
   }

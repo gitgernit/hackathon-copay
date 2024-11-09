@@ -1,0 +1,26 @@
+.add-button {
+    border: none;
+    outline: none;
+    background-color: #ece6f0;
+    color: #65558f;
+    width: 128px;
+    height: 56px;
+    font-size: 14px;
+    padding: 16px 20px 16px 16px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    margin-right: auto;
+    margin-left: auto;
+
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+}
+
+.plus-icon {
+    width: 20px;
+    height: 20px;
+}

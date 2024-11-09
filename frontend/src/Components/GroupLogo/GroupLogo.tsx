@@ -7,7 +7,7 @@ interface Props {
 
 const GroupLogo = ({name}: Props) => {
   return (
-    <div className="avatar">{name.slice(0, 1).toUpperCase()}</div>
+    <div className="avatar"><span>{name.slice(0, 1).toUpperCase()}</span></div>
   )
 }
 
