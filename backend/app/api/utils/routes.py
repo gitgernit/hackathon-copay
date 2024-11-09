@@ -5,7 +5,7 @@ from fastapi import HTTPException
 import app.core.db
 from app.api.auth.deps import BearerAuth, get_current_user
 from app.api.utils.routers import utils_router
-from app.models import User
+from app.models import User, BasicResponse
 from app.models.event import Event
 from app.models.transactions import Transaction
 from app.models.base import OfdRequest
@@ -21,7 +21,13 @@ def health_check() -> dict[str, str]:
 @utils_router.post(
     '/ofd',
     description='Get items info from OFD bare string',
-    dependencies=[fastapi.Depends(BearerAuth())]
+    dependencies=[fastapi.Depends(BearerAuth())],
+    responses={
+        400: {"model": BasicResponse, "description": "Bad OFD data"},
+        403: {"model": BasicResponse, "description": "Unauthorized"},
+        404: {"model": BasicResponse, "description": "Event not found"},
+        500: {"model": BasicResponse, "description": "Error while processing OFD data"},
+    }
 )
 async def ofd(
         ofd: OfdRequest,
