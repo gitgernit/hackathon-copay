@@ -8,7 +8,6 @@ import app.api.auth.deps
 from app.api.events.routers import events_router
 import app.core.db
 import app.models.event
-import app.models.invite
 from app.models.user import User
 
 

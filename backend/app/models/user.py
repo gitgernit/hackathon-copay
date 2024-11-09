@@ -23,6 +23,7 @@ class User(SQLModel, table=True):
         engine = create_engine(url=config.DATABASE_URL)
         with Session(engine) as session:
             user = session.get(User, self.id)
+
             if not user:
                 user = User(
                     id=self.id,
@@ -30,4 +31,7 @@ class User(SQLModel, table=True):
                 )
                 session.add(user)
                 session.commit()
+
+            session.expunge(user)
+
         return user
