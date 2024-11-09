@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import typing
 
+=======
+import logging
+from typing import List
+from fastapi import Depends, HTTPException
+>>>>>>> 08f27ae (chore: some swagger stuff)
 from fastapi import Query
 
 from app.api.utils.routers import utils_router
@@ -19,10 +25,18 @@ def health_check() -> dict[str, str]:
     description='Get items info from OFD bare string',
 )
 async def ofd(
+<<<<<<< HEAD
     ofd_string: typing.Annotated[
         str, Query(description='Bare string from QR code')
     ],
 ) -> list[Item] | BasicResponse:
+=======
+    ofd: OfdRequest
+) -> List:
+    data = await get_nalog_data(ofd.ofd_string)
+    if not data:
+        raise HTTPException(status_code=400, detail="Bad OFD data")
+>>>>>>> 08f27ae (chore: some swagger stuff)
     try:
         return OfdResponse(**await get_nalog_data(ofd_string)).data.items
 
