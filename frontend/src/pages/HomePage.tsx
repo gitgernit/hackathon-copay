@@ -7,12 +7,14 @@ import {AuthToken} from '../api/server'
 
 export const HomePage = () => {
   const [initDataUnsafe, initData] = useInitData() 
-  console.log(initDataUnsafe, initData)
+  console.log(initDataUnsafe, initData, 'tg data at home')
   useEffect(() => {
-    (async () => {
-      const res = AuthToken.getToken(initDataUnsafe as any)
+    const GetToken = async () => {
+      const res = await AuthToken.getToken(initDataUnsafe)
       console.log(res)
-    })()
+
+    }
+    GetToken()
   }, [])
 
   return (
