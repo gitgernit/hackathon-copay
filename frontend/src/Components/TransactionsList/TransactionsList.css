@@ -1,0 +1,7 @@
+.transactions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    overflow-y: scroll;
+    margin: 0px 23px;
+}
