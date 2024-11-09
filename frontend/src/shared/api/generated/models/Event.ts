@@ -31,12 +31,25 @@ export interface Event {
      * @memberof Event
      */
     id?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Event
+     */
+    ownerId: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Event
+     */
+    invite?: string | null;
 }
 
 /**
  * Check if a given object implements the Event interface.
  */
 export function instanceOfEvent(value: object): value is Event {
+    if (!('ownerId' in value) || value['ownerId'] === undefined) return false;
     return true;
 }
 
@@ -52,6 +65,8 @@ export function EventFromJSONTyped(json: any, ignoreDiscriminator: boolean): Eve
         
         'name': json['name'] == null ? undefined : json['name'],
         'id': json['id'] == null ? undefined : json['id'],
+        'ownerId': json['owner_id'],
+        'invite': json['invite'] == null ? undefined : json['invite'],
     };
 }
 
@@ -68,6 +83,8 @@ export function EventFromJSONTyped(json: any, ignoreDiscriminator: boolean): Eve
         
         'name': value['name'],
         'id': value['id'],
+        'owner_id': value['ownerId'],
+        'invite': value['invite'],
     };
 }
 
