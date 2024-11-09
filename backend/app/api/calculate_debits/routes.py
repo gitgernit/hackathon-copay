@@ -8,9 +8,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
 from .routers import calculate_debits_router
+from app.api.auth.deps import BearerAuth
 
 
-@calculate_debits_router.post('/events/{event_id}/calculate-debts')
+@calculate_debits_router.post(
+    '/events/{event_id}/calculate-debts',
+    description='Get debts smeta',
+    dependencies=[Depends(BearerAuth())],
+)
 async def calculate_event_debts(
     event_id: UUID,
     user: typing.Annotated[
@@ -43,7 +48,7 @@ async def calculate_event_debts(
     print(input_data)
     async with httpx.AsyncClient() as client:
         response = await client.post(
-            'http://localhost:3000/optimizetka/api/calculate-debts',
+            'http://optimizetka:3000/optimizetka/api/calculate-debts',
             json=input_data,
         )
         if response.status_code != 200:
