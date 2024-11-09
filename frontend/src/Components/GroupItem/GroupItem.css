@@ -1,0 +1,34 @@
+.group-item {
+    background-color: #f7f2fa;
+
+    width: 360px;
+    height: 80px;
+    padding: 16px 0px 16px 16px;
+
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    border-radius: 12px;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    -ms-border-radius: 12px;
+    -o-border-radius: 12px;
+
+    box-shadow: 1px 3px 10px 0px rgba(34, 60, 80, 0.15);
+}
+
+.group-item .body {
+    width: 192px;
+    height: 48px;
+}
+
+.group-item .arrow {
+    width: 80px;
+    height: 80px;
+    padding: 16px;
+
+    background: transparent;
+    border: none;
+    outline: none;
+}

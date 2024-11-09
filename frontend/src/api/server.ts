@@ -1,5 +1,3 @@
-import axios from "axios"
+import * as Test from './test.ts'
 
-export const test_api = () => {
-  return axios.get(process.env.VITE_API_URL!)
-}
+export default Test
