@@ -3,15 +3,17 @@ import {Dialog, DialogContent, DialogHeader} from "../../shared/ui/dialog";
 import {Input} from "../../shared/ui/input";
 import React from "react";
 import { User } from "../../shared/api/generated";
-import { eventsApi } from "../../shared/api";
+import { eventsApi, tagsApi, transactionsApi } from "../../shared/api";
 
 export interface ModalProps {
   isOpen: boolean;
   users: User[];
+  eventId: string;
+  transactionId: string;
   onClose: () => void;
 }
 
-export const CreateItemModal: FC<ModalProps> = ({ isOpen, onClose, users }) => {
+export const CreateItemModal: FC<ModalProps> = ({ isOpen, onClose, users, transactionId, eventId }) => {
   const [title, setTitle] = useState('')
   const [price, setPrice] = useState(0)
   const [user, setUser] = useState('')
@@ -22,10 +24,14 @@ export const CreateItemModal: FC<ModalProps> = ({ isOpen, onClose, users }) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log(title, price, user)
 
     try {
-      // eventsApi.ADD_NEW_ITEM
+      transactionsApi.addItemToTransactionApiTransactionEventIdTransactionIdItemsPost({
+        eventId,
+        transactionId,
+        title,
+        price,
+      })
     } catch (error) {
       console.error(error)
     } finally {

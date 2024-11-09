@@ -13,6 +13,7 @@ import {Input} from "../shared/ui/input";
 import {Button} from "../shared/ui/button";
 import '../styles/EventPage.css'
 import React from "react";
+import {ScannerModal} from "../Components/ScannerModal";
 
 export const EventPage = () => {
   const { id } = useParams();
@@ -21,7 +22,7 @@ export const EventPage = () => {
   const [share, setShare] = useState(false);
   const navigate = useNavigate()
 
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["event", id],
     queryFn: () => eventsApi.eventByIdApiEventsEventIdGet({
       eventId: id!,
@@ -81,20 +82,14 @@ export const EventPage = () => {
         </div>
       </div>
       
-      {isScanOpen&& (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="fixed inset-0 bg-black opacity-50" onClick={() => setIsScanOpen(false)}></div>
-          <div className="bg-white rounded-lg overflow-hidden shadow-lg z-10 w-full h-80">
-            <div className="p-4 min-h-[500px]">
-              <Scanner onScan={d => alert(d[0].rawValue)} />
-            </div>
-          </div>
-        </div>
-      )}
+      <ScannerModal isOpen={isScanOpen} onClose={() => setIsScanOpen(false)} onHandle={() => {
+        refetch()
+      }} eventId={id!} />
       
       <CreateTransactionModal 
         isOpen={isOpenModal} 
-        onClose={() => setIsOpenModal(false)}/>
+        onClose={() => setIsOpenModal(false)}
+        eventId={id!}/>
         
       <BackButton onClick={() => navigate('/')}></BackButton>
       

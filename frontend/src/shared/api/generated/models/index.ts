@@ -2,6 +2,7 @@
 /* eslint-disable */
 export * from './BaseEvent';
 export * from './BasicResponse';
+export * from './BodyAddItemToTransactionApiTransactionEventIdTransactionIdItemsPost';
 export * from './Debt';
 export * from './Event';
 export * from './HTTPValidationError';
@@ -10,6 +11,7 @@ export * from './ItemRequest';
 export * from './OfdRequest';
 export * from './OutputEvent';
 export * from './OutputItem';
+export * from './OutputTransaction';
 export * from './TelegramInputData';
 export * from './TelegramWebUser';
 export * from './Token';
