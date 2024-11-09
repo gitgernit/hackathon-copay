@@ -27,7 +27,6 @@ async def ofd(
         return data['data']['json']['items']
 
     except Exception as e:
-        print(e)
-        return BasicResponse(
-            detail='Error while getting information about check'
+        raise HTTPException(
+            detail='Error while getting information about check', status_code=500
         )
