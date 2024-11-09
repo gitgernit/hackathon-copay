@@ -1,6 +1,6 @@
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
-import {useState} from "react";
+import React, {useState} from "react";
 import {Scanner} from "@yudiel/react-qr-scanner";
 import {eventsApi} from "@/shared/api";
 import {CreateTransactionModal} from "../Components/CreateTransactionModal";
@@ -66,6 +66,10 @@ export const EventPage = () => {
       )}
       
       <CreateTransactionModal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} />
+      
+      <Link className='back' to='/'>
+        <span>&larr;</span>
+      </Link>
     </div>
   );
 };

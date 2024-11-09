@@ -5,17 +5,18 @@ import AddButton from "../Components/AddButton/AddButton";
 import {useInitData} from '@vkruglikov/react-telegram-web-app';
 import {AuthToken} from '../api/server'
 
+
 export const HomePage = () => {
   const [initDataUnsafe, initData] = useInitData() 
-  console.log(initDataUnsafe, initData, 'tg data at home')
   useEffect(() => {
-    const GetToken = async () => {
-      const res = await AuthToken.getToken(initDataUnsafe)
-      console.log(res)
-
+    if (initDataUnsafe && initData) {
+      (async () => {
+        console.log(initDataUnsafe)
+        const res = await AuthToken.getToken(initDataUnsafe as any)
+        console.log(res)
+      })()
     }
-    GetToken()
-  }, [])
+  }, [initDataUnsafe, initData])
 
   return (
     <div className="wrapper">

@@ -5,9 +5,10 @@ import '../styles/CreateGroup.css'
 import CreateGroup from '../Components/CreateGroup/CreateGroup';
 import { Link } from 'react-router-dom';
 
+import '../styles/CreateGroup.css'
+
 const CreateGroupPage = () => {
   const [initDataUnsafe, initData] = useInitData() 
-  console.log(initDataUnsafe, initData)
   useEffect(() => {
     const GetToken = async () => {
       const res = AuthToken.getToken(initDataUnsafe)
@@ -15,7 +16,11 @@ const CreateGroupPage = () => {
     }
     GetToken()
   }, [])
-
+  
+  useEffect(() => {
+  
+  }, [initData, initDataUnsafe]);
+  
   return (
     <div className='wrapper'>
         <header className='create-header'>
