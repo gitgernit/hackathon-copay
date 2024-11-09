@@ -1,9 +1,9 @@
 import fastapi
 
-import app.api.groups.invites.routers
+from .invites.routers import invites_router
 
 groups_router = fastapi.APIRouter()
 
 groups_router.include_router(
-    app.api.groups.invites.routers.invites_router, prefix='/invites'
+    invites_router, prefix='/invites', tags=['invites']
 )

@@ -22,3 +22,9 @@ class Group(BaseGroup, table=True):
 
     async def add_user(self, user: User):
         self.users.append(user)
+
+
+class OutputGroup(BaseGroup):
+    id: UUID
+    owner: UUID
+    users: list[UUID]

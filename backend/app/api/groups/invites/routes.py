@@ -67,4 +67,6 @@ def join_by_invite(
         invite.group.add_user(user)
         invite.usages -= 1
 
+        session.commit()
+
         return invite.group

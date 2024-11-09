@@ -58,8 +58,13 @@ def delete_group(
         session.commit()
 
 
-@groups_router.get('/{group_id}', response_model=app.models.group.Group)
-def group_by_id(group_id: uuid.UUID):
+@groups_router.get('/{group_id}')
+def group_by_id(group_id: uuid.UUID) -> app.models.group.OutputGroup:
     with sqlmodel.Session(app.core.db.engine) as session:
         group = session.get(app.models.group.Group, group_id)
-        return group
+        resulting_group = app.models.group.OutputGroup(
+            id=group.id,
+            owner=group.owner,
+            users=[user.id for user in group.users],
+        )
+        return resulting_group
