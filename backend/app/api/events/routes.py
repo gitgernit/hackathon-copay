@@ -59,3 +59,24 @@ def event_by_id(event_id: uuid.UUID):
     with sqlmodel.Session(app.core.db.engine) as session:
         event = session.get(app.models.event.Event, event_id)
         return event
+
+
+@events_router.post("/{event_id}/transactions", response_model=app.models.transactions.Transaction, 
+                    dependencies=[fastapi.Depends(app.api.auth.deps.get_current_user)])
+async def create_transaction(
+    event_id: uuid.UUID,
+    title: str = fastapi.Query(description="Title of transaction"),
+    user: app.models.user.User = fastapi.Depends(app.api.auth.deps.BearerAuth)
+):
+    with sqlmodel.Session(app.core.db.engine) as session:
+        event = session.get(app.models.event.Event, event_id)
+        if not event:
+            raise fastapi.HTTPException(status_code=404, detail="Event not found")
+        transaction = app.models.transactions.Transaction(
+            event=event,
+            owner=user,
+            title=title
+        )
+        session.add(transaction)
+        session.commit()
+    return transaction
