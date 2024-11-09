@@ -16,12 +16,12 @@ from .links import TransactionUserLink
 class User(SQLModel, table=True):
     id: int = Field(sa_column=Column(BigInteger(), primary_key=True))
     username: str = Field(nullable=False)
-    # events: list['Event'] = Relationship(
-    #     back_populates='users', link_model=EventUserLink
-    # )
-    # items: list['Item'] = Relationship(
-    #     back_populates='assigned_to', link_model=ItemUserLink
-    # )
+    events: list['Event'] = Relationship(
+        back_populates='owner'
+    )
+    items: list['Item'] = Relationship(
+        back_populates='assigned_to', link_model=ItemUserLink
+    )
     # transactions: list['Transaction'] = Relationship(
     #     back_populates='participants', link_model=TransactionUserLink
     # )

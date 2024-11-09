@@ -18,10 +18,11 @@ class BaseEvent(SQLModel):
 
 class Event(BaseEvent, table=True):
     id: UUID = Field(primary_key=True, default_factory=uuid4)
-    # owner_id: int = Field(foreign_key='user.id')
-    # users: list['User'] = Relationship(
-    #     back_populates='events', link_model=EventUserLink
-    # )
+    owner_id: int = Field(foreign_key='user.id')
+    owner: 'User' = Relationship(back_populates='events')
+    users: list['User'] = Relationship(
+        back_populates='events', link_model=EventUserLink
+    )
     # invite: typing.Optional['Invite'] = Relationship(
     #     back_populates='event',
     #     sa_relationship_kwargs={'uselist': False},
