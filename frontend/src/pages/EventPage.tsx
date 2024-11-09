@@ -1,12 +1,11 @@
-import {replace, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Scanner} from "@yudiel/react-qr-scanner";
 import {eventsApi} from "../shared/api";
 import {CreateTransactionModal} from "../Components/CreateTransactionModal";
 import {BackButton} from "@vkruglikov/react-telegram-web-app";
 import {LucideArrowLeft} from "lucide-react";
-import React from "react";
 import TransactionsList from "../Components/TransactionsList/TransactionsList";
 
 export const EventPage = () => {

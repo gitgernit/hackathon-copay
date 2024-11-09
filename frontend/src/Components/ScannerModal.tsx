@@ -2,7 +2,7 @@ import {IDetectedBarcode, Scanner} from "@yudiel/react-qr-scanner";
 import {FC} from "react";
 import {ModalProps} from "./CreateTransactionModal";
 import {defaultReq, utilsApi} from "../shared/api";
-import {AppModelsOfdItem} from "../shared/api/generated";
+import {AppModelsOfdItem} from "../shared/api/generated/models/AppModelsOfdItem";
 
 export const ScannerModal: FC<ModalProps & {
   onHandle: (items: AppModelsOfdItem[]) => void
