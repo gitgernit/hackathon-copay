@@ -16,6 +16,7 @@ export const HomePage = () => {
 
   return (
     <div className="wrapper">
+      <div className='text-lg'>События</div>
       <GroupList />
       <AddButton text="Создать" navigateTo="/create-group" />
     </div>
