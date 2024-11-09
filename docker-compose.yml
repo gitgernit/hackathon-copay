@@ -50,7 +50,6 @@ services:
       - path: .env
         required: false
     environment:
-      - DOMAIN=${DOMAIN}
       - ENVIRONMENT=production
       - DATABASE_URL=postgresql+psycopg://postgres:postgres@db:5432/postgres
 
@@ -88,7 +87,6 @@ services:
       - path: .env
         required: false
     environment:
-      - DOMAIN=${DOMAIN}
       - ENVIRONMENT=production
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/utils/health-check"]
@@ -108,12 +106,13 @@ services:
     build:
       context: ./frontend
       args:
-        - VITE_API_URL=https://${DOMAIN?Variable not set}/api
         - NODE_ENV=production
     env_file:
       - path: .env.template
         required: true
       - path: .env
+        required: false
+      - path: ./frontend/.env
         required: false
 
 volumes:
