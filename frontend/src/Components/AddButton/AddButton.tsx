@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import './AddButton.css';
-import React from 'react'
 
 interface  Props {
   navigateTo: string;
