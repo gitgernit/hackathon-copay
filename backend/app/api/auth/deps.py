@@ -53,7 +53,13 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
             token, config.JWT_SECRET_KEY, algorithms=['HS256']
         )
         user = await User.get_or_create_user(
-            payload['user_id'], payload['username']
+            User(
+                id=payload['user_id'],
+                username=payload['username'],
+                events=[],
+                items=[],
+                transactions=[],
+            )
         )
         return user
     except jwt.ExpiredSignatureError:

@@ -13,7 +13,7 @@ from app.models.user import User
 
 @events_router.get(
     '/',
-    response_model=list[app.models.event.Event],
+    response_model=list[app.models.event.OutputEvent],
     description='Return events containing given user (by token)',
 )
 def list_events(
@@ -21,6 +21,12 @@ def list_events(
         User, fastapi.Depends(app.api.auth.deps.get_current_user)
     ],
 ):
+    output = []
+
+    for event in user.events:
+        new_output = app.models.event.OutputEvent(id=event.id, owner=event.owner_id)
+        output.append(a)
+
     return user.events
 
 
@@ -36,10 +42,11 @@ def create_event(
 ) -> app.models.event.Event:
     with sqlmodel.Session(app.core.db.engine) as session:
         new_event = app.models.event.Event(
-            name=event.name, owner=user, users=[user]
+            name=event.name, owner_id=user.id, users=[user]
         )
         session.add(new_event)
         session.commit()
+        session.refresh(new_event)
 
     return new_event
 
