@@ -8,6 +8,7 @@ import app.api.auth.deps
 from app.api.groups.routers import groups_router
 import app.core.db
 import app.models.group
+import app.models.invite
 from app.models.user import User
 
 
@@ -26,14 +27,18 @@ def list_groups(
 
 @groups_router.post(
     '/',
-    dependencies=[fastapi.Depends(app.api.auth.deps.get_current_user)],
     description='Create group',
 )
 def create_group(
     group: app.models.group.BaseGroup,
+    user: typing.Annotated[
+        User, fastapi.Depends(app.api.auth.deps.get_current_user)
+    ],
 ) -> app.models.group.Group:
     with sqlmodel.Session(app.core.db.engine) as session:
-        new_group = app.models.group.Group(name=group.name)
+        new_group = app.models.group.Group(
+            name=group.name, owner=user, users=[user]
+        )
         session.add(new_group)
         session.commit()
 
@@ -53,8 +58,13 @@ def delete_group(
         session.commit()
 
 
-@groups_router.get('/{group_id}', response_model=app.models.group.Group)
-def group_by_id(group_id: uuid.UUID):
+@groups_router.get('/{group_id}')
+def group_by_id(group_id: uuid.UUID) -> app.models.group.OutputGroup:
     with sqlmodel.Session(app.core.db.engine) as session:
         group = session.get(app.models.group.Group, group_id)
-        return group
+        resulting_group = app.models.group.OutputGroup(
+            id=group.id,
+            owner=group.owner,
+            users=[user.id for user in group.users],
+        )
+        return resulting_group
