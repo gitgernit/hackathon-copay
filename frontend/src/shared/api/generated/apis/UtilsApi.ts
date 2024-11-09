@@ -15,17 +15,17 @@
 
 import * as runtime from '../runtime';
 import type {
+  AppModelsOfdItem,
   BasicResponse,
   HTTPValidationError,
-  Item,
 } from '../models/index';
 import {
+    AppModelsOfdItemFromJSON,
+    AppModelsOfdItemToJSON,
     BasicResponseFromJSON,
     BasicResponseToJSON,
     HTTPValidationErrorFromJSON,
     HTTPValidationErrorToJSON,
-    ItemFromJSON,
-    ItemToJSON,
 } from '../models/index';
 
 export interface OfdApiUtilsOfdPostRequest {
@@ -67,7 +67,7 @@ export class UtilsApi extends runtime.BaseAPI {
      * Get items info from OFD bare string
      * Ofd
      */
-    async ofdApiUtilsOfdPostRaw(requestParameters: OfdApiUtilsOfdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Item>>> {
+    async ofdApiUtilsOfdPostRaw(requestParameters: OfdApiUtilsOfdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AppModelsOfdItem>>> {
         if (requestParameters['ofdString'] == null) {
             throw new runtime.RequiredError(
                 'ofdString',
@@ -103,14 +103,14 @@ export class UtilsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ItemFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(AppModelsOfdItemFromJSON));
     }
 
     /**
      * Get items info from OFD bare string
      * Ofd
      */
-    async ofdApiUtilsOfdPost(requestParameters: OfdApiUtilsOfdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Item>> {
+    async ofdApiUtilsOfdPost(requestParameters: OfdApiUtilsOfdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<AppModelsOfdItem>> {
         const response = await this.ofdApiUtilsOfdPostRaw(requestParameters, initOverrides);
         return await response.value();
     }

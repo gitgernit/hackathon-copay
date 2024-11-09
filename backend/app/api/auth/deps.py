@@ -1,4 +1,3 @@
-from logging import config
 from typing import Annotated
 
 from fastapi import Depends
@@ -10,6 +9,7 @@ from fastapi.security import OAuth2PasswordBearer
 import jwt
 
 from app.models.user import User
+from app.core.config import config
 
 from .utils import decode_jwt
 
