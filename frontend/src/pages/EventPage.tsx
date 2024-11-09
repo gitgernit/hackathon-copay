@@ -3,10 +3,12 @@ import {useQuery} from "@tanstack/react-query";
 import {useState} from "react";
 import {Scanner} from "@yudiel/react-qr-scanner";
 import {eventsApi} from "@/shared/api";
+import {CreateTransactionModal} from "../Components/CreateTransactionModal";
 
 export const EventPage = () => {
   const { id } = useParams();
   const [isScanOpen, setIsScanOpen] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   const { data } = useQuery({
     queryKey: ["event", id],
@@ -40,11 +42,11 @@ export const EventPage = () => {
       
       <div className="absolute bottom-2 left-5 right-5">
         <div className="flex justify-center gap-2 items-center">
-          <button className="bg-[#ece6f0] active:bg-pink-400 p-4 rounded-2xl">
+          <button className="bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl" onClick={() => setIsOpenModal(true)}>
             Добавить
           </button>
           <button
-            className="bg-[#ece6f0] active:bg-pink-400 p-4 rounded-2xl "
+            className="bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl"
             onClick={() => setIsScanOpen(!isScanOpen)}
           >
             Сканировать чек
@@ -62,6 +64,8 @@ export const EventPage = () => {
           </div>
         </div>
       )}
+      
+      <CreateTransactionModal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} />
     </div>
   );
 };

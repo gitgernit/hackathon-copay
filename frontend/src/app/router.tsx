@@ -2,9 +2,9 @@ import {createBrowserRouter} from "react-router-dom";
 import {HomePage} from "../pages/HomePage";
 import Layout from "../layouts/layout";
 import EditGroupPage from "../pages/EditGroupPage";
-import { GroupPage } from "../pages/GroupPage";
 import React from "react";
 import CreateGroupPage from "../pages/CreateGroupPage";
+import {EventPage} from "../pages/EventPage";
 
 export const router = createBrowserRouter([
   {
