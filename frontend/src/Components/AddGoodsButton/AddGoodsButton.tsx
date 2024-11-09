@@ -1,9 +1,16 @@
 import React from 'react'
 import './AddGoodsButton.css'
 
-const AddGoodsButton = () => {
+interface Props {
+  OnClick: () => void
+}
+
+const AddGoodsButton = ({OnClick}: Props) => {
   return (
-    <div>AddGoodsButton</div>
+    <button onClick={OnClick}>
+      <div className="plus"></div>
+      <span>Товар</span>
+    </button>
   )
 }
 

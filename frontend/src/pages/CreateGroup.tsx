@@ -16,15 +16,26 @@ const CreateGroup = () => {
     ])
   }, [])
 
+  const adder = () => {
+    setGoods([...goods, 'Новый товар'])
+  }
+
+  const changer = (idx: number, newValue: string) => {
+    let newGoods = goods
+    newGoods[idx] = newValue
+    setGoods(newGoods)
+    console.log(goods, 'c')
+  }
+
   return (
     <main className='create-group-wrapper'>
         <form>
-            <input type='text' placeholder='Название группы' />
-            <div className="line"></div>
-            <GoodsList goods={goods}/>
-            <AddCheckButton />
-            <AddGoodsButton />
+          <input type='text' placeholder='Название группы' />
         </form>
+        <div className="line"></div>
+        <GoodsList goods={goods} change={changer}/>
+        <AddCheckButton />
+        <AddGoodsButton OnClick={adder} />
     </main>
   )
 }
