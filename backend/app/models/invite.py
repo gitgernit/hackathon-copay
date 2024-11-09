@@ -11,7 +11,7 @@ from app.models.group import Group
 
 class BaseInvite(SQLModel):
     usages: int = Field(nullable=False)
-    expiration_time: datetime.datetime = Field(nullable=False)
+    expiration_date: datetime.datetime = Field(nullable=False)
 
 
 class InputInvite(BaseInvite):

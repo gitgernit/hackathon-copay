@@ -63,7 +63,7 @@ def create_invite(
         invite = app.models.invite.Invite(
             group=group,
             usages=data.usages,
-            expiration_time=data.expiration_time,
+            expiration_date=data.expiration_time,
         )
 
     return invite
