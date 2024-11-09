@@ -2,7 +2,7 @@ import {useParams} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
 import {useState} from "react";
 import {Scanner} from "@yudiel/react-qr-scanner";
-import React from "react";
+import {eventsApi} from "@/shared/api";
 
 export const GroupPage = () => {
   const { id } = useParams();
@@ -10,29 +10,9 @@ export const GroupPage = () => {
 
   const { data } = useQuery({
     queryKey: ["group", id],
-    queryFn: async () => {
-      return {
-        id: id,
-        name: "группа: " + id,
-        members: ["member1", "member2", "member3"],
-        // товары
-
-        products: [
-          {
-            id: 1,
-            name: "товар 1",
-            price: 100,
-            description: "товар 1 описание",
-          },
-          {
-            id: 1,
-            name: "товар 1",
-            price: 100,
-            description: "товар 1 описание",
-          },
-        ],
-      };
-    },
+    queryFn: () => eventsApi.groupByIdApiEventsEventIdGet({
+      eventId: id!,
+    }),
     enabled: id !== undefined && id !== null,
   });
 
@@ -43,19 +23,19 @@ export const GroupPage = () => {
       </div>
       
       <div className='mt-10'>
-      
+        {data?.name}
       </div>
       
       <div className="p-2 overflow-y-auto max-h-[80dvh] grid gap-2">
-        {data?.products.map((product) => (
-          <div className="p-3 bg-[#F7F2FA] rounded-lg flex justify-between items-start shadow">
-            <div className="flex flex-col">
-              <span className="text-lg font-medium">{product.name}</span>
-              <span>{product.description}</span>
-            </div>
-            <div className='text-md'>{product.price} ₽</div>
-          </div>
-        ))}
+        {/*{data.map((product) => (*/}
+        {/*  <div className="p-3 bg-[#F7F2FA] rounded-lg flex justify-between items-start shadow">*/}
+        {/*    <div className="flex flex-col">*/}
+        {/*      <span className="text-lg font-medium">{product.name}</span>*/}
+        {/*      <span>{product.description}</span>*/}
+        {/*    </div>*/}
+        {/*    <div className='text-md'>{product.price} ₽</div>*/}
+        {/*  </div>*/}
+        {/*))}*/}
       </div>
       
       <div className="absolute bottom-2 left-5 right-5">
