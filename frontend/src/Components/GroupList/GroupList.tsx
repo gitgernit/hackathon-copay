@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import GroupItem from '../GroupItem/GroupItem'
 import './GroupList.css'
+import React from 'react'
 
 const GroupList = () => {
     const [groups, setGroups] = useState<any[]>([])

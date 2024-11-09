@@ -5,6 +5,10 @@ export const getToken = async (telegramData: TelegramInputData) => {
   if (telegramData === null || telegramData === undefined) return 'No data'
 
   const res = await authApi.authenticateApiAuthTokenPost(telegramData as any)
+  const data = res.accessToken
+
+  if (data === undefined) return 'No data'
   
-  return res
+  localStorage.setItem('token', data)
+  return data
 }

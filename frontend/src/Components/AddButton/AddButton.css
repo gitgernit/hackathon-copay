@@ -12,6 +12,7 @@
     align-items: center;
     margin-right: auto;
     margin-left: auto;
+    box-shadow: 1px 3px 7px 1px rgba(34, 60, 80, 0.2);
 
     border-radius: 16px;
     -webkit-border-radius: 16px;
