@@ -3,8 +3,8 @@ import typing
 from fastapi import Query
 
 from app.api.utils.routers import utils_router
-from app.models.base import BasicResponse
-from app.models.ofd import Item
+from app.models.base import BasicResponse, OfdRequest
+from app.models.ofd import Data, Item
 from app.models.ofd import OfdResponse
 from app.utils.nalog import get_nalog_data
 
