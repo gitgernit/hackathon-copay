@@ -1,3 +1,4 @@
+from http.client import HTTPException
 from uuid import UUID
 
 import sqlmodel
@@ -11,6 +12,27 @@ from app.models.event import Event
 from .routers import items_router
 from ...models import BasicResponse
 
+
+@items_router.get(
+    '/{transaction_id}',
+    description="Get items from transaction",
+    responses={
+        404: {"model": BasicResponse, "description": "Transaction by this ID is not found"},
+        403: {"model": BasicResponse, "description": "Unauthorized"},
+    }
+)
+async def get_items(
+        transaction_id: UUID
+) -> list[Item]:
+    with sqlmodel.Session(bind=app.core.db.engine) as session:
+        transaction = session.get(Transaction, transaction_id)
+        if not transaction:
+            raise fastapi.HTTPException(
+                detail="Transaction not found",
+                status_code=404
+            )
+
+        return transaction.items
 
 @items_router.post('/{transaction_id}',
                    description="Create item in transaction",
