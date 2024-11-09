@@ -9,10 +9,15 @@ from app.models.transactions import Transaction
 from app.models.event import Event
 
 from .routers import items_router
+from ...models import BasicResponse
 
 
 @items_router.post('/{transaction_id}',
-                   description="Create item in transaction")
+                   description="Create item in transaction",
+                   responses={
+                       400: {"model": BasicResponse, "description": "Invalid data format (ex. negative price or illegal id"},
+                       403: {"model": BasicResponse, "description": "Unauthorized"},
+                   })
 async def create_item(
         item: ItemRequest,
         transaction_id: UUID
