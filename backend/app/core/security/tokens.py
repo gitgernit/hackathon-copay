@@ -16,10 +16,10 @@ def generate_token(
     to_encode = payload.copy()
 
     if expires_delta:
-        expire = datetime.datetime.now(datetime.UTC) + expires_delta
+        expire = datetime.datetime.now() + expires_delta
 
     else:
-        expire = datetime.datetime.now(datetime.UTC) + datetime.timedelta(
+        expire = datetime.datetime.now() + datetime.timedelta(
             minutes=15
         )
 
