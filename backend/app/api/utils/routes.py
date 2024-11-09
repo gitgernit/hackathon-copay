@@ -1,7 +1,5 @@
-from fastapi import Depends
 from fastapi import Query
 
-from app.api.auth.deps import BearerAuth
 from app.api.utils.routers import utils_router
 from app.models.base import BasicResponse
 from app.models.ofd import Item
