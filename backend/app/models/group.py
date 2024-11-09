@@ -16,7 +16,7 @@ class Group(BaseGroup, table=True):
     id: UUID = Field(primary_key=True, default_factory=uuid4)
     owner: User = Relationship(back_populates='groups')
     users: list['User'] = Relationship(back_populates='groups')
-    invites: list['Invite'] = Relationship(
+    invites: 'Invite' = Relationship(
         back_populates='group', cascade_delete=True
     )
 
