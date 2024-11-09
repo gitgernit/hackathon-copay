@@ -23,3 +23,10 @@ class Item(SQLModel, table=True):
 
     def assign_user(self, user: User):
         self.assigned_to.append(user)
+
+
+class ItemRequest(SQLModel):
+    title: str
+    price: float
+
+    all_users_selected: bool = False
