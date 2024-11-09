@@ -20,6 +20,7 @@ def health_check() -> dict[str, str]:
 async def ofd(
     ofd: OfdRequest
 ) -> typing.List:
+    print(ofd)
     data = await get_nalog_data(ofd.ofd_string)
     if not data:
         raise HTTPException(status_code=400, detail="Bad OFD data")
