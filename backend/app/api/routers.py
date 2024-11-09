@@ -5,6 +5,7 @@ import app.api.events.routers
 import app.api.transactions.routers
 import app.api.utils.routers
 import app.api.transactions.routers
+import app.api.calculate_debits.routers
 
 api_router = fastapi.APIRouter()
 
@@ -23,7 +24,7 @@ api_router.include_router(
     tags=['transactions'],
 )
 api_router.include_router(
-    app.api.calculate_debits.routers.calculate_debits,
+    app.api.calculate_debits.routers.calculate_debits_router,
     prefix='/calculate_debits',
     tags=['transactions'],
 )

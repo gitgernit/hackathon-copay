@@ -5,11 +5,10 @@ from uuid import UUID
 from typing import List
 import httpx
 
-import Event from models.event
+from models.event import Event
+from .routers import calculate_debits_router
 
-router = APIRouter()
-
-@router.post("/events/{event_id}/calculate-debts")
+@calculate_debits_router.post("/events/{event_id}/calculate-debts")
 async def calculate_event_debts(event_id: UUID, session: AsyncSession = Depends(get_session)):
     result = await session.execute(select(Event).where(Event.id == event_id))
     event = result.scalars().first()
