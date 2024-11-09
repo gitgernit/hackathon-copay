@@ -9,7 +9,7 @@ from app.api.auth.deps import BearerAuth
 from app.api.events.routers import events_router
 import app.core.db
 import app.models.event
-from app.models import Event
+from app.models import Event, OutputEvent
 from app.models.user import User
 
 
@@ -25,6 +25,36 @@ def list_events(
     ],
 ):
     return user.events
+
+
+@events_router.post(
+    "/{event_id}/add",
+    response_model=OutputEvent,
+    description="Add user to event",
+    dependencies=[fastapi.Depends(BearerAuth())]
+)
+async def add_to_event(
+        user: typing.Annotated[
+            User, fastapi.Depends(app.api.auth.deps.get_current_user)
+        ],
+        event_id: uuid.UUID,
+        data: app.models.event.AddUserRequest
+):
+    with sqlmodel.Session(app.core.db.engine) as session:
+        event = session.get(Event, event_id)
+        if not event:
+            raise fastapi.HTTPException(
+                detail="Event not found", status_code=404
+            )
+        user = session.get(User, data.user_id)
+        if not user:
+            raise fastapi.HTTPException(
+                detail="User not found", status_code=404
+            )
+
+        event.users.append(user)
+        session.commit()
+        return event
 
 
 @events_router.post(

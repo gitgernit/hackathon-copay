@@ -39,3 +39,7 @@ class OutputEvent(BaseEvent):
     owner: UUID
     users: list[User]
     invite: str
+
+
+class AddUserRequest(BaseModel):
+    user_id: int
