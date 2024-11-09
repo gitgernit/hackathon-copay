@@ -20,4 +20,4 @@ class InputInvite(BaseInvite):
 
 class Invite(BaseInvite, table=True):
     id: UUID = Field(primary_key=True, default_factory=uuid4)
-    event: 'Event' = Relationship()
+    event: 'Event' = Relationship(back_populates='invite')

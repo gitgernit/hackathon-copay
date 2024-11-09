@@ -8,8 +8,8 @@ from fastapi.security import HTTPBearer
 from fastapi.security import OAuth2PasswordBearer
 import jwt
 
-from app.models.user import User
 from app.core.config import config
+from app.models.user import User
 
 from .utils import decode_jwt
 

@@ -11,13 +11,13 @@ from app.models.user import User
 
 class Transaction(SQLModel, table=True):
     id: UUID = Field(default_factory=uuid4, primary_key=True)
-    event: 'Event' = Relationship(back_populates='transactions')
-    owner: 'User' = Relationship(back_populates='transactions')
+    event_id: UUID = Field(foreign_key='event.id')
+    owner_id: int = Field(foreign_key='user.id')
     title: str = Field(nullable=False)
     closed: bool = Field(nullable=False, default=False)
 
     participants: list['User'] = Relationship(back_populates='transactions')
-    items: list['Item'] = Relationship(cascade_delete=True)
+    items: list['Item'] = Relationship()
 
     async def add_participant(self, participant: User):
         self.participants.append(participant)

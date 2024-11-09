@@ -1,12 +1,8 @@
 from datetime import timedelta
-from hashlib import sha256
-import hmac
 
 import fastapi
-from fastapi import HTTPException
 
 from app.api.auth.routers import auth_router
-from app.core.config import config
 import app.core.security.tokens
 from app.models.base import BasicResponse
 from app.models.telegram import TelegramInputData
@@ -29,11 +25,11 @@ async def authenticate(init_data: TelegramInputData) -> Token:
     #     sorted_fields = sorted(fields.items())
     #     formatted = [f'{key}={value}' for key, value in sorted_fields]
     #     data_check_string = '\n'.join(formatted)
-        
+
     #     secret_key = hmac.new(
     #         config.TOKEN_TELEGRAM_API.encode(), b'WebAppData', sha256
     #     ).digest()
-        
+
     #     if (
     #         hmac.new(
     #             data_check_string.encode(), secret_key, sha256

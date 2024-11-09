@@ -10,6 +10,7 @@ from app.core.config import config
 
 from .links import EventUserLink
 from .links import ItemUserLink
+from .links import TransactionUserLink
 
 
 class User(SQLModel, table=True):
@@ -20,6 +21,9 @@ class User(SQLModel, table=True):
     )
     items: list['Item'] = Relationship(
         back_populates='assigned_to', link_model=ItemUserLink
+    )
+    transactions: list['Transaction'] = Relationship(
+        back_populates='participants', link_model=TransactionUserLink
     )
 
     async def get_or_create_user(self):

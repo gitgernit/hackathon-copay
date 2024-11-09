@@ -1,3 +1,4 @@
+import typing
 from uuid import UUID
 from uuid import uuid4
 
@@ -17,14 +18,15 @@ class BaseEvent(SQLModel):
 
 class Event(BaseEvent, table=True):
     id: UUID = Field(primary_key=True, default_factory=uuid4)
-    owner: User = Relationship(back_populates='events')
+    owner_id: int = Field(foreign_key='user.id')
     users: list['User'] = Relationship(
         back_populates='events', link_model=EventUserLink
     )
-    invite: 'Invite' = Relationship(
-        back_populates='event', cascade_delete=True
+    invite: typing.Optional['Invite'] = Relationship(
+        back_populates='event',
+        sa_relationship_kwargs={'uselist': False},
+        cascade_delete=True,
     )
-
     transactions: list['Transaction'] = Relationship(
         back_populates='event', cascade_delete=True
     )
