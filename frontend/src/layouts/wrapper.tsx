@@ -8,9 +8,11 @@ export const Wrapper = () => {
   
   useEffect(() => {
     (async () => {
-      await AuthToken.getToken(initUnsafe as any)
+      if(initUnsafe) {
+        await AuthToken.getToken(initUnsafe as any)
+      }
     })()
-  }, []);
+  }, [initUnsafe]);
   
   return <Outlet />
 }

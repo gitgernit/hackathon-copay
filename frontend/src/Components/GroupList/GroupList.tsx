@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import GroupItem from '../GroupItem/GroupItem'
 import './GroupList.css'
 import {useQuery} from "@tanstack/react-query";
