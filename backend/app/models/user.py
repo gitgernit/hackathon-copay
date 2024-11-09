@@ -18,6 +18,9 @@ class User(SQLModel, table=True):
     items: list['Item'] = Relationship(
         back_populates='assigned_to', link_model=ItemUserLink
     )
+    transactions: list['Transaction'] = Relationship(
+        back_populates='payer'
+    )
 
     async def get_or_create_user(self):
         engine = create_engine(url=config.DATABASE_URL)

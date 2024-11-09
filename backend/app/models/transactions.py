@@ -11,6 +11,8 @@ from app.models.user import User
 
 class Transaction(SQLModel, table=True):
     id: UUID = Field(default_factory=uuid4, primary_key=True)
+    payer_id: int = Field(foreign_key='user.id')
+    payer: User = Relationship(back_populates='transactions')
     event_id: UUID = Field(foreign_key='event.id')
     event: 'Event' = Relationship(back_populates='transactions')
     title: str = Field(nullable=False)
