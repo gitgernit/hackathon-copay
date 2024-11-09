@@ -1,0 +1,26 @@
+.transaction h3 {
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+.transaction-items {
+    background-color: #fef7ff;
+}
+
+.transaction-item {
+    position: relative;
+    width: 360px;
+    height: 40px;
+    padding: 8px 16px;
+    display: flex;
+    overflow-y: scroll;
+}
+
+.transaction-item p {
+    margin: 0px 64px 0px auto;
+}
+
+.transaction-item button {
+    position: absolute;
+    right: 16px;
+}

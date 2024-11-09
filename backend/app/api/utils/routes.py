@@ -2,12 +2,10 @@ from fastapi import Depends
 from fastapi import Query
 
 from app.api.auth.deps import BearerAuth
-from app.api.auth.deps import get_current_user
 from app.api.utils.routers import utils_router
 from app.models.base import BasicResponse
 from app.models.ofd import Item
 from app.models.ofd import OfdResponse
-from app.models.user import User
 from app.utils.nalog import get_nalog_data
 
 
@@ -23,7 +21,6 @@ def health_check() -> dict[str, str]:
     responses={401: {'description': 'Unauthorized', 'model': BasicResponse}},
 )
 async def ofd(
-    user: User = Depends(get_current_user),
     ofd_string: str = Query(description='Bare string from QR code'),
 ) -> list[Item]:
     try:
