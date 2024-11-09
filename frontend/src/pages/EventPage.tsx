@@ -1,6 +1,7 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
 import {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {Scanner} from "@yudiel/react-qr-scanner";
 import {eventsApi} from "../shared/api";
 import {CreateTransactionModal} from "../Components/CreateTransactionModal";
@@ -37,13 +38,7 @@ export const EventPage = () => {
 
   useEffect(() => {
     (async () => {
-      try {
         if (isNaN(Number(id))) navigate('/', {replace: true})
-        const data = await eventsApi.eventByIdApiEventsEventIdGet({eventId: id!})
-        setCurrentEvent(data)
-      } catch (error) {
-        // navigate('/', {replace: true})
-      }
     })()
   }, [])
   
@@ -51,7 +46,6 @@ export const EventPage = () => {
   return (
     <div>
       <div className="px-2 py-4 mb-2">
-        <h1 className="text-4xl font-bold">{data?.name}</h1>
         <h1 className="text-4xl font-bold">{data.name}</h1>
       </div>
       <div className="w-[360px] border ml-auto mr-auto border-#e3e3e3"></div>
