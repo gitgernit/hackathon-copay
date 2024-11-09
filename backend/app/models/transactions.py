@@ -1,7 +1,4 @@
-from uuid import UUID
-from sqlmodel import Field, SQLModel
+from sqlmodel import SQLModel
 
 
-class Transaction(SQLModel, table=True):
-    ...
-    
+class Transaction(SQLModel, table=True): ...
