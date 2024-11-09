@@ -21,7 +21,7 @@ export const CreateTransactionModal: FC<ModalProps> = ({ isOpen, onClose, eventI
     try {
       transactionsApi.createTransactionApiTransactionEventIdPost({
         eventId,
-        title
+        body: title
       })
     } catch (error) {
       console.error(error)
