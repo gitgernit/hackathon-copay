@@ -74,6 +74,7 @@ async def add_to_event(
 @events_router.post(
     '/',
     description='Create event',
+    dependencies=[fastapi.Depends(BearerAuth())]
 )
 def create_event(
     event: app.models.event.BaseEvent,
