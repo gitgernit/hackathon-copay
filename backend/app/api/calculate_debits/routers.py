@@ -1,3 +1,3 @@
 import fastapi
 
-calculate_debits = fastapi.APIRouter()
+calculate_debits_router = fastapi.APIRouter()

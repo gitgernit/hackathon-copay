@@ -5,3 +5,50 @@
     overflow-y: scroll;
     margin: 0px 23px;
 }
+
+.transactions-list-filters {
+    position: absolute;
+    bottom: 95px;
+    left: 95px;
+    width: 253px;
+    height: 48px;
+    display: flex;
+    border: #79747e 1px solid;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+.transactions-list-filters button {
+    color: #1d1b20;
+    transition: 0.6s;
+    -webkit-transition: 0.6s;
+    -moz-transition: 0.6s;
+    -ms-transition: 0.6s;
+    -o-transition: 0.6s;
+}
+
+.transactions-list-filters button:first-child {
+    border-radius: 20px 0px 0px 20px;
+    -webkit-border-radius: 20px 0px 0px 20px;
+    -moz-border-radius: 20px 0px 0px 20px;
+    -ms-border-radius: 20px 0px 0px 20px;
+    -o-border-radius: 20px 0px 0px 20px;
+    padding: 10px 17.25px;
+}
+
+.transactions-list-filters button:last-child {
+    border-radius: 0px 20px 20px 0px;
+    -webkit-border-radius: 0px 20px 20px 0px;
+    -moz-border-radius: 0px 20px 20px 0px;
+    -ms-border-radius: 0px 20px 20px 0px;
+    -o-border-radius: 0px 20px 20px 0px;
+    padding: 10px 6.75px;
+}
+
+.transactions-list-filters button.active {
+    background-color: #e8def8;
+    color: #4a4459;
+}
