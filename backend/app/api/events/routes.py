@@ -134,5 +134,6 @@ def event_by_id(event_id: uuid.UUID):
             owner=event.owner_id,
             users=[user.username for user in event.users],
             invite=event.invite,
+            name=event.name,
         )
         return new_event
