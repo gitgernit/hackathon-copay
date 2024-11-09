@@ -1,16 +1,10 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 import './CreateGroup.css'
-import { eventsApi } from '../../shared/api'
-import { AuthToken } from '../../api/server'
-import { useInitData } from '@vkruglikov/react-telegram-web-app'
-import { useNavigate } from 'react-router-dom';
+import {defaultReq, eventsApi} from '../../shared/api'
 
 const CreateGroup = () => {
-    const navigate = useNavigate()
     const [name, setName] = useState('')
     const [state, setState] = useState<'idle' | 'pending' | 'success' | 'error'>('idle')
-    const [initDataUnsafe, initData] = useInitData() 
-    console.log(initDataUnsafe, initData, 'tg data')
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value)
@@ -18,16 +12,9 @@ const CreateGroup = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-
-        if (!localStorage.getItem('token')) {
-            const token = await AuthToken.getToken(initDataUnsafe)
-            console.log(token)
-        }
         
         try {
-            await eventsApi.createEventApiEventsPost({baseEvent:{name}}, {headers: {
-                authorization: `Bearer ${localStorage.getItem('token')}`
-            }})
+            await eventsApi.createEventApiEventsPost({baseEvent:{name}}, defaultReq)
         } catch (error) {
             localStorage.removeItem('token')
             setState('error')

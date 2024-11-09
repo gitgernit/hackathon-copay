@@ -1,11 +1,11 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
 import {useState} from "react";
-import {Scanner} from "@yudiel/react-qr-scanner";
 import {eventsApi} from "../shared/api";
 import {CreateTransactionModal} from "../Components/CreateTransactionModal";
 import {BackButton} from "@vkruglikov/react-telegram-web-app";
 import {LucideArrowLeft} from "lucide-react";
+import {ScannerModal} from "../Components/ScannerModal";
 
 export const EventPage = () => {
   const { id } = useParams();
@@ -60,16 +60,9 @@ export const EventPage = () => {
         </div>
       </div>
       
-      {isScanOpen&& (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="fixed inset-0 bg-black opacity-50" onClick={() => setIsScanOpen(false)}></div>
-          <div className="bg-white rounded-lg overflow-hidden shadow-lg z-10 w-full h-80">
-            <div className="p-4 min-h-[500px]">
-              <Scanner onScan={d => alert(d[0].rawValue)} />
-            </div>
-          </div>
-        </div>
-      )}
+      <ScannerModal isOpen={isOpenModal} onClose={() => setIsScanOpen(false)} onHandle={(d) => {
+      
+      }} />
       
       <CreateTransactionModal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} />
       
