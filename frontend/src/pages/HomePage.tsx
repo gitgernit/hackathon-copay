@@ -12,7 +12,7 @@ export const HomePage = () => {
   return (
     <div className="wrapper">
       <GroupList />
-      <AddButton />
+      <AddButton text="Создать" navigateTo="/create-group" />
     </div>
   )
 }

@@ -16,7 +16,7 @@
     justify-content: space-between;
 }
 
-.goods-list-item input {
+.goods-list-item input:type(checkbox) {
     appearance: none;
     width: 24px;
     height: 24px;
@@ -41,15 +41,15 @@
     -o-transition: 0.2s;
 }
 
-.goods-list-item input:checked {
+.goods-list-item input:type(checkbox):checked {
     background: #65558f;
 }
 
-.goods-list-item input:not(:checked) {
+.goods-list-item input:type(checkbox):not(:checked) {
     background: #fef7ff;
 }
 
-.goods-list-item input:checked::before {
+.goods-list-item input:type(checkbox):checked::before {
     content: '\2713';
     color: #fef7ff;
     font-size: 16px;
