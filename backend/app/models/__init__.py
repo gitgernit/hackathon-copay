@@ -4,5 +4,9 @@ __all__ = ['SQLModel']
 from sqlmodel import SQLModel
 
 from .event import *
+from .base import *
+from .invite import *
+from .ofd import *
+from .telegram import *
 from .tokens import *
 from .user import *

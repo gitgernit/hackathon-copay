@@ -8,6 +8,7 @@ import app.api.auth.deps
 from app.api.events.routers import events_router
 import app.core.db
 import app.models.event
+import app.models.invite
 from app.models.user import User
 
 
@@ -33,11 +34,11 @@ def create_group(
     group: app.models.event.BaseEvent,
 ) -> app.models.event.Event:
     with sqlmodel.Session(app.core.db.engine) as session:
-        new_group = app.models.event.Event(name=group.name)
-        session.add(new_group)
+        new_event = app.models.event.Event(name=group.name)
+        session.add(new_event)
         session.commit()
 
-    return new_group
+    return new_event
 
 
 @events_router.delete(
@@ -52,9 +53,8 @@ def delete_event(
         session.delete(session.get(app.models.event.Event, event_id))
         session.commit()
 
-
 @events_router.get('/{event_id}', response_model=app.models.event.Event)
 def group_by_id(event_id: uuid.UUID):
     with sqlmodel.Session(app.core.db.engine) as session:
-        group = session.get(app.models.event.Event, event_id)
-        return group
+        event = session.get(app.models.event.Event, event_id)
+        return event

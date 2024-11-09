@@ -16,6 +16,15 @@ class Event(BaseEvent, table=True):
     id: UUID = Field(primary_key=True, default_factory=uuid4)
     owner: User = Relationship(back_populates='groups')
     users: list['User'] = Relationship(back_populates='groups')
+    invites: 'Invite' = Relationship(
+        back_populates='group', cascade_delete=True
+    )
 
     async def add_user(self, user: User):
         self.users.append(user)
+
+
+class OutputGroup(BaseGroup):
+    id: UUID
+    owner: UUID
+    users: list[UUID]
