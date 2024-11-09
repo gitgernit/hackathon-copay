@@ -1,10 +1,9 @@
-from app.models.base import BasicResponse
 import fastapi
 
 import app.api.auth.routers
 import app.api.events.routers
-import app.api.utils.routers
 import app.api.transactions.routers
+import app.api.utils.routers
 
 api_router = fastapi.APIRouter()
 
