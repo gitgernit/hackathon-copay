@@ -14,8 +14,30 @@
 
 
 import * as runtime from '../runtime';
-import type {BaseEvent, Event, OutputEvent,} from '../models/index';
-import {BaseEventToJSON, EventFromJSON, OutputEventFromJSON,} from '../models/index';
+import type {
+  AddUserRequest,
+  BaseEvent,
+  Event,
+  HTTPValidationError,
+  OutputEvent,
+} from '../models/index';
+import {
+    AddUserRequestFromJSON,
+    AddUserRequestToJSON,
+    BaseEventFromJSON,
+    BaseEventToJSON,
+    EventFromJSON,
+    EventToJSON,
+    HTTPValidationErrorFromJSON,
+    HTTPValidationErrorToJSON,
+    OutputEventFromJSON,
+    OutputEventToJSON,
+} from '../models/index';
+
+export interface AddToEventApiEventsEventIdAddPostRequest {
+    eventId: string;
+    addUserRequest: AddUserRequest;
+}
 
 export interface CreateEventApiEventsPostRequest {
     baseEvent: BaseEvent;
@@ -29,6 +51,64 @@ export interface EventByIdApiEventsEventIdGetRequest {
  * 
  */
 export class EventsApi extends runtime.BaseAPI {
+
+    /**
+     * Add user to event
+     * Add To Event
+     */
+    async addToEventApiEventsEventIdAddPostRaw(requestParameters: AddToEventApiEventsEventIdAddPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OutputEvent>> {
+        if (requestParameters['eventId'] == null) {
+            throw new runtime.RequiredError(
+                'eventId',
+                'Required parameter "eventId" was null or undefined when calling addToEventApiEventsEventIdAddPost().'
+            );
+        }
+
+        if (requestParameters['addUserRequest'] == null) {
+            throw new runtime.RequiredError(
+                'addUserRequest',
+                'Required parameter "addUserRequest" was null or undefined when calling addToEventApiEventsEventIdAddPost().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("OAuth2PasswordBearer", []);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/api/events/{event_id}/add`.replace(`{${"event_id"}}`, encodeURIComponent(String(requestParameters['eventId']))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: AddUserRequestToJSON(requestParameters['addUserRequest']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => OutputEventFromJSON(jsonValue));
+    }
+
+    /**
+     * Add user to event
+     * Add To Event
+     */
+    async addToEventApiEventsEventIdAddPost(requestParameters: AddToEventApiEventsEventIdAddPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<OutputEvent> {
+        const response = await this.addToEventApiEventsEventIdAddPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Create event
@@ -53,6 +133,14 @@ export class EventsApi extends runtime.BaseAPI {
             headerParameters["Authorization"] = await this.configuration.accessToken("OAuth2PasswordBearer", []);
         }
 
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
         const response = await this.request({
             path: `/api/events/`,
             method: 'POST',
@@ -117,7 +205,7 @@ export class EventsApi extends runtime.BaseAPI {
      * Return events containing given user (by token)
      * List Events
      */
-    async listEventsApiEventsGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Event>>> {
+    async listEventsApiEventsGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<OutputEvent>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -127,6 +215,14 @@ export class EventsApi extends runtime.BaseAPI {
             headerParameters["Authorization"] = await this.configuration.accessToken("OAuth2PasswordBearer", []);
         }
 
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
         const response = await this.request({
             path: `/api/events/`,
             method: 'GET',
@@ -134,14 +230,14 @@ export class EventsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EventFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(OutputEventFromJSON));
     }
 
     /**
      * Return events containing given user (by token)
      * List Events
      */
-    async listEventsApiEventsGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Event>> {
+    async listEventsApiEventsGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<OutputEvent>> {
         const response = await this.listEventsApiEventsGetRaw(initOverrides);
         return await response.value();
     }

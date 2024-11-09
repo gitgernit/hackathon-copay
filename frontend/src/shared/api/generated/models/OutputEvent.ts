@@ -12,8 +12,14 @@
  * Do not edit the class manually.
  */
 
-import type {User} from './User';
-import {UserFromJSON, UserToJSON,} from './User';
+import { mapValues } from '../runtime';
+import type { User } from './User';
+import {
+    UserFromJSON,
+    UserFromJSONTyped,
+    UserToJSON,
+    UserToJSONTyped,
+} from './User';
 
 /**
  * 
@@ -35,10 +41,10 @@ export interface OutputEvent {
     id: string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof OutputEvent
      */
-    owner: string;
+    owner: number;
     /**
      * 
      * @type {Array<User>}
@@ -50,7 +56,7 @@ export interface OutputEvent {
      * @type {string}
      * @memberof OutputEvent
      */
-    invite: string;
+    invite: string | null;
 }
 
 /**

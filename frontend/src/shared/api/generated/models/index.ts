@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './AddUserRequest';
 export * from './AppModelsItemItem';
 export * from './AppModelsOfdItem';
 export * from './BaseEvent';

@@ -14,8 +14,19 @@
 
 
 import * as runtime from '../runtime';
-import type {AppModelsItemItem, Transaction,} from '../models/index';
-import {AppModelsItemItemFromJSON, TransactionFromJSON,} from '../models/index';
+import type {
+  AppModelsItemItem,
+  HTTPValidationError,
+  Transaction,
+} from '../models/index';
+import {
+    AppModelsItemItemFromJSON,
+    AppModelsItemItemToJSON,
+    HTTPValidationErrorFromJSON,
+    HTTPValidationErrorToJSON,
+    TransactionFromJSON,
+    TransactionToJSON,
+} from '../models/index';
 
 export interface AddItemToTransactionApiTransactionEventIdTransactionIdItemsPostRequest {
     eventId: string;

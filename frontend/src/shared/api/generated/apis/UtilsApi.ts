@@ -14,8 +14,19 @@
 
 
 import * as runtime from '../runtime';
-import type {AppModelsOfdItem, OfdRequest,} from '../models/index';
-import {AppModelsOfdItemFromJSON, OfdRequestToJSON,} from '../models/index';
+import type {
+  AppModelsOfdItem,
+  HTTPValidationError,
+  OfdRequest,
+} from '../models/index';
+import {
+    AppModelsOfdItemFromJSON,
+    AppModelsOfdItemToJSON,
+    HTTPValidationErrorFromJSON,
+    HTTPValidationErrorToJSON,
+    OfdRequestFromJSON,
+    OfdRequestToJSON,
+} from '../models/index';
 
 export interface OfdApiUtilsOfdPostRequest {
     ofdRequest: OfdRequest;
