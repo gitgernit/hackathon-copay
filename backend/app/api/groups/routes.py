@@ -1,4 +1,3 @@
-from http.client import HTTPException
 import typing
 import uuid
 
@@ -44,29 +43,6 @@ def create_group(
         session.commit()
 
     return new_group
-
-
-@groups_router.post(
-    '/invite',
-    dependencies=[fastapi.Depends(app.api.auth.deps.get_current_user)],
-    description='Create invite',
-)
-def create_invite(
-    data: app.models.invite.InputInvite,
-) -> app.models.invite.Invite:
-    with sqlmodel.Session(app.core.db.engine) as session:
-        group = session.get(app.models.group.Group, data.group_id)
-
-        if not group:
-            raise HTTPException(fastapi.status.HTTP_400_BAD_REQUEST)
-
-        invite = app.models.invite.Invite(
-            group=group,
-            usages=data.usages,
-            expiration_date=data.expiration_time,
-        )
-
-    return invite
 
 
 @groups_router.delete(
