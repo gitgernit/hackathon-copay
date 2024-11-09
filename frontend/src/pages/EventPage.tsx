@@ -4,12 +4,12 @@ import {useState} from "react";
 import {Scanner} from "@yudiel/react-qr-scanner";
 import {eventsApi} from "@/shared/api";
 
-export const GroupPage = () => {
+export const EventPage = () => {
   const { id } = useParams();
   const [isScanOpen, setIsScanOpen] = useState(false);
 
   const { data } = useQuery({
-    queryKey: ["group", id],
+    queryKey: ["event", id],
     queryFn: () => eventsApi.eventByIdApiEventsEventIdGet({
       eventId: id!,
     }),
