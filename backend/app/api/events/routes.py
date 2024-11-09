@@ -44,7 +44,7 @@ def list_events(
 
 
 @events_router.post(
-    '/add',
+    '/add/{event_id}',
     response_model=OutputEvent,
     description='Add user to event',
     dependencies=[fastapi.Depends(BearerAuth())],
@@ -59,7 +59,7 @@ async def add_to_event(
     user: typing.Annotated[
         User, fastapi.Depends(app.api.auth.deps.get_current_user)
     ],
-    event_id: typing.Annotated[uuid.UUID, fastapi.Body()],
+    event_id: uuid.UUID,
 ):
     with sqlmodel.Session(app.core.db.engine) as session:
         event = session.get(Event, event_id)
