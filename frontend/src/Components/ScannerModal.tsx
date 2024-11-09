@@ -14,7 +14,7 @@ export const ScannerModal: FC<ModalProps & {
       ofdString: raw,
     }, defaultReq)
     
-    console.log(ofd)
+    alert(JSON.stringify(ofd, null, 2))
     
     onHandle(ofd)
     
