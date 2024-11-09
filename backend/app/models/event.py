@@ -1,10 +1,11 @@
 from uuid import UUID
 from uuid import uuid4
 
-from app.models.transactions import Transaction
 from sqlmodel import Field
 from sqlmodel import Relationship
 from sqlmodel import SQLModel
+
+from app.models.transactions import Transaction
 
 from .user import User
 
@@ -22,7 +23,7 @@ class Event(BaseEvent, table=True):
     )
 
     transactions: list['Transaction'] = Relationship(
-        back_populates="event", cascade_delete=True
+        back_populates='event', cascade_delete=True
     )
 
     async def add_user(self, user: User):
