@@ -2,14 +2,14 @@ import {Link, useParams} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
 import React, {useState} from "react";
 import {Scanner} from "@yudiel/react-qr-scanner";
-import {eventsApi} from "@/shared/api";
+import {eventsApi} from "../shared/api";
 import {CreateTransactionModal} from "../Components/CreateTransactionModal";
+import '../styles/CreateGroup.css'
 
 export const EventPage = () => {
   const { id } = useParams();
   const [isScanOpen, setIsScanOpen] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
-
   const { data } = useQuery({
     queryKey: ["event", id],
     queryFn: () => eventsApi.eventByIdApiEventsEventIdGet({
@@ -29,15 +29,15 @@ export const EventPage = () => {
       </div>
       
       <div className="p-2 overflow-y-auto max-h-[80dvh] grid gap-2">
-        {/*{data.map((product) => (*/}
-        {/*  <div className="p-3 bg-[#F7F2FA] rounded-lg flex justify-between items-start shadow">*/}
-        {/*    <div className="flex flex-col">*/}
-        {/*      <span className="text-lg font-medium">{product.name}</span>*/}
-        {/*      <span>{product.description}</span>*/}
-        {/*    </div>*/}
-        {/*    <div className='text-md'>{product.price} ₽</div>*/}
-        {/*  </div>*/}
-        {/*))}*/}
+        {/* {data?.map((product) => (
+         <div className="p-3 bg-[#F7F2FA] rounded-lg flex justify-between items-start shadow">
+           <div className="flex flex-col">
+             <span className="text-lg font-medium">{product.name}</span>
+             <span>{product.description}</span>
+           </div>
+           <div className='text-md'>{product.price} ₽</div>
+         </div>
+        ))} */}
       </div>
       
       <div className="absolute bottom-2 left-5 right-5">

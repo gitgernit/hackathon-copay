@@ -1,6 +1,7 @@
 import {FC, useState} from "react";
 import {Dialog, DialogContent, DialogHeader} from "../shared/ui/dialog";
 import {Input} from "../shared/ui/input";
+import React from "react";
 
 export interface ModalProps {
   isOpen: boolean;
@@ -10,6 +11,7 @@ export interface ModalProps {
 export const CreateTransactionModal: FC<ModalProps> = ({ isOpen, onClose }) => {
   const [title, setTitle] = useState('')
   const [price, setPrice] = useState(0)
+  const [user, setUser] = useState('')
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
@@ -35,8 +37,14 @@ export const CreateTransactionModal: FC<ModalProps> = ({ isOpen, onClose }) => {
         </div>
         
         <div>
-          <label htmlFor="assign">Заплатит:</label>
-          
+          <label htmlFor="user">Пользователь:</label>
+          <Input
+            id='user'
+            value={user}
+            onChange={(e) => {
+              setUser(e.target.value);
+            }}
+          />
         </div>
       </DialogContent>
     </Dialog>
