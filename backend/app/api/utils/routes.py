@@ -1,3 +1,5 @@
+import typing
+
 from fastapi import Query
 
 from app.api.utils.routers import utils_router
@@ -17,10 +19,13 @@ def health_check() -> dict[str, str]:
     description='Get items info from OFD bare string',
 )
 async def ofd(
-    ofd_string: str = Query(description='Bare string from QR code'),
-) -> list[Item]:
+    ofd_string: typing.Annotated[
+        str, Query(description='Bare string from QR code')
+    ],
+) -> list[Item] | BasicResponse:
     try:
         return OfdResponse(**await get_nalog_data(ofd_string)).data.items
+
     except Exception:
         return BasicResponse(
             detail='Error while getting information about check'
