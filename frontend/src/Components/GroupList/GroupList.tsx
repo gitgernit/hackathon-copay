@@ -30,7 +30,7 @@ const GroupList = () => {
   return (
     <div className='groups'>
         {groups.map((group) => (
-            <GroupItem key={group.id} group={group} />
+            <GroupItem key={group.id} event={group} />
         ))}
     </div>
   )

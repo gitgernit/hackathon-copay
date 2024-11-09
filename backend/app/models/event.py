@@ -1,6 +1,7 @@
 from uuid import UUID
 from uuid import uuid4
 
+from app.models.transactions import Transaction
 from sqlmodel import Field
 from sqlmodel import Relationship
 from sqlmodel import SQLModel
@@ -14,14 +15,21 @@ class BaseEvent(SQLModel):
 
 class Event(BaseEvent, table=True):
     id: UUID = Field(primary_key=True, default_factory=uuid4)
-    owner: User = Relationship(back_populates='groups')
-    users: list['User'] = Relationship(back_populates='groups')
+    owner: User = Relationship(back_populates='events')
+    users: list['User'] = Relationship(back_populates='events')
     invites: 'Invite' = Relationship(
-        back_populates='group', cascade_delete=True
+        back_populates='event', cascade_delete=True
+    )
+
+    transactions: list['Transaction'] = Relationship(
+        back_populates="event", cascade_delete=True
     )
 
     async def add_user(self, user: User):
         self.users.append(user)
+
+    async def add_transaction(self, transaction: Transaction):
+        self.transactions.append(transaction)
 
 
 class OutputEvent(BaseEvent):

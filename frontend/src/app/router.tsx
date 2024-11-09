@@ -18,8 +18,8 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/groups/:id",
-    element: <GroupPage />,
+    path: "/events/:id",
+    element: <EventPage />,
   },
   {
     path: '/edit-group',

@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "lint": "biome check --apply-unsafe --no-errors-on-unmatched --files-ignore-unknown=true ./",
     "preview": "vite preview",
     "generate-client": "openapi-ts --input ./openapi.json --output ./src/shared/api --client axios --exportSchemas true",
-    "generate": "openapi-generator-cli generate -g typescript-axios -i ./openapi.json -o ./src/shared/api/generated"
+    "generate": "openapi-generator-cli generate -g typescript-fetch -i ./openapi.json -o ./src/shared/api/generated"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.2",
@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.6.1",
-    "@hey-api/openapi-ts": "^0.34.5",
+    "@hey-api/openapi-ts": "^0.55.1",
     "@types/bun": "^1.1.13",
     "@types/node": "^20.17.6",
     "@types/react": "^18.3.12",
