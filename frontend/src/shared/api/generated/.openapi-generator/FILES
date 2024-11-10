@@ -9,6 +9,7 @@ apis/index.ts
 index.ts
 models/BaseEvent.ts
 models/BasicResponse.ts
+models/BodyAddItemToTransactionApiTransactionEventIdTransactionIdItemsPost.ts
 models/Debt.ts
 models/Event.ts
 models/HTTPValidationError.ts
@@ -17,6 +18,7 @@ models/ItemRequest.ts
 models/OfdRequest.ts
 models/OutputEvent.ts
 models/OutputItem.ts
+models/OutputTransaction.ts
 models/TelegramInputData.ts
 models/TelegramWebUser.ts
 models/Token.ts

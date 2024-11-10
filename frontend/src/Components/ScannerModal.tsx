@@ -3,12 +3,14 @@ import {FC, useState} from "react";
 import {ModalProps} from "./CreateTransactionModal";
 import {defaultReq, utilsApi} from "../shared/api";
 import {Transaction} from "../shared/api/generated";
+import {Button} from "../shared/ui/button";
 
 export const ScannerModal: FC<ModalProps & {
   onHandle: (trx: Transaction) => void,
   eventId: string,
 }> = ({onHandle, isOpen,onClose, eventId}) => {
   const [tab, setTab] = useState(0)
+  const [transaction, setTransaction] = useState<Transaction | null>(null)
   
   const onSubmit = async (barcode: IDetectedBarcode) => {
     const raw = barcode.rawValue;
@@ -16,6 +18,8 @@ export const ScannerModal: FC<ModalProps & {
     const ofd = await utilsApi.ofdApiUtilsOfdPost({
       ofdRequest: {eventId, ofdString: raw},
     }, defaultReq)
+    
+    setTransaction(transaction)
     
     onHandle(ofd)
     
@@ -34,7 +38,11 @@ export const ScannerModal: FC<ModalProps & {
           )}
           
           {tab == 1 && (
-            <div></div>
+            <div className='flex flex-col gap-2'>
+              <span className='text-xl font-bold'>Продукты из чека заимпортированы</span>
+              
+              <Button className='w-full'>Окей, спасибо</Button>
+            </div>
           )}
         </div>
       </div>
