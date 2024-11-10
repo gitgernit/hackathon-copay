@@ -128,10 +128,10 @@ export const EventPage = () => {
         <DialogContent>
           <canvas id="goida" className="min-w-64 min-h-64 mx-auto" />
           <div className="flex items-center gap-1">
-            <Input disabled value={'https://t.me/copay_robot/?startapp=' + data?.invite || ''} />
+            <Input disabled value={'https://t.me/copay_robot/?startapp=' + data?.id || ''} />
             <Button
               onClick={() => {
-                navigator.clipboard.writeText('https://t.me/copay_robot/?startapp=' + data?.invite || '');
+                navigator.clipboard.writeText('https://t.me/copay_robot/?startapp=' + data?.id || '');
               }}
             >
               Копировать
@@ -139,7 +139,7 @@ export const EventPage = () => {
             <Button
               onClick={() => {
                 utils.openTelegramLink(
-                  `https://t.me/share/url?url=https://t.me/copay_robot/?startapp=${data?.invite}&text=Саня верни сотку!`
+                  `https://t.me/share/url?url=https://t.me/copay_robot/?startapp=${data?.id}&text=Саня верни сотку!`
                 );
               }}
             >
