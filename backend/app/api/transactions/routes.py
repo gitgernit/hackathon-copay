@@ -117,13 +117,23 @@ async def create_transaction(
             )
 
         transaction = app.models.transactions.Transaction(
-            event_id=event.id, owner_id=user.id, title=title
+            title=title,
+            payer_id=user.id,
+            event_id=event.id,
+            items=[],
+        )
+        output_transaction = app.models.transactions.OutputTransaction(
+            id=transaction.id,
+            title=transaction.title,
+            payer=transaction.payer_id,
+            event_id=transaction.event_id,
+            closed=transaction.closed,
+            items=transaction.items,
         )
         session.add(transaction)
         session.commit()
-        session.refresh(transaction)
 
-    return transaction
+    return output_transaction
 
 
 @transactions_router.post(

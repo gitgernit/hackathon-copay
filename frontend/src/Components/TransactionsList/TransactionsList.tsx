@@ -20,57 +20,8 @@ const TransactionsList = ({eventId}: Props) => {
 
   useEffect(() => {
     (async () => {
-        //   const res = await transactionsApi.addItemToTransactionApiTransactionEventIdTransactionIdItemsPost()
-        const res = [
-            {
-                id: 123,
-                title: 'Поход куда-то',
-                items: [
-                    {
-                        id: 124,
-                        title: 'товар 1',
-                        price: 100,
-                        assigned_to: "132",
-                        username: 'user3'
-                    },
-                    {
-                        id: 125,
-                        title: 'товар 2',
-                        price: 40,
-                        assigned_to: "130",
-                        username: 'user1'
-                    },
-                    {
-                        id: 126,
-                        title: 'товар 3',
-                        price: 1000,
-                        assigned_to: "131",
-                        username: 'user2'
-                    }
-                ]
-            },
-            {
-                id: 127,
-                title: 'Поход куда-то ещё',
-                items: [
-                    {
-                        id: 128,
-                        title: 'ещё какой-то товар',
-                        price: 640,
-                        assigned_to: "130",
-                        username: 'user1'
-                    },
-                    {
-                        id: 129,
-                        title: 'товар',
-                        price: 10,
-                        assigned_to: "130",
-                        username: 'user1'
-                    },
-                ]
-            }
-        ]
-
+        const res = await transactionsApi.listTransactionsApiTransactionEventIdGet({eventId})
+        
         setTransactions(res)
         setCurrent(res)
         })()

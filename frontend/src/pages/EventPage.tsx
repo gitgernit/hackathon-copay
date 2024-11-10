@@ -45,15 +45,6 @@ export const EventPage = () => {
       <div className="w-[360px] border ml-auto mr-auto border-#e3e3e3"></div>
       <div className="p-2 overflow-y-auto max-h-[80dvh] grid gap-2">
         <TransactionsList eventId={id!} />
-        {/* {data?.map((product) => (
-         <div className="p-3 bg-[#F7F2FA] rounded-lg flex justify-between items-start shadow">
-           <div className="flex flex-col">
-             <span className="text-lg font-medium">{product.name}</span>
-             <span>{product.description}</span>
-           </div>
-           <div className='text-md'>{product.price} ₽</div>
-         </div>
-        ))} */}
       </div>
       
       <div className="absolute bottom-2 left-5 right-5">
