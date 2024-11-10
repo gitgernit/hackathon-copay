@@ -45,7 +45,7 @@ def list_events(
 
 @events_router.post(
     '/add/{event_id}',
-    response_model=OutputEvent,
+    response_model=Event,
     description='Add user to event',
     dependencies=[fastapi.Depends(BearerAuth())],
     responses={
