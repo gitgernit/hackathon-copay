@@ -36,7 +36,12 @@ const Transaction = ({transaction, deleteItem, users, eventId}: Props) => {
             transaction.items.map((item) => (
                 <div className='p-2 flex justify-between' key={item.id}>
                     <h5>{item.title}</h5>
-                    <p>{item.username} - {item.price}</p>
+                    <p>{item.price}</p>
+                    <div className="users">
+                        {item.assigned_to?.map(user => 
+                            <span>{user.username}</span>
+                        )}
+                    </div>
                     {/* <button onClick={() => deleteItem(item.id)}>
                         <Trash2 />
                     </button> */}

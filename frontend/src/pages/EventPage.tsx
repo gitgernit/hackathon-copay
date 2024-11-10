@@ -16,6 +16,7 @@ import React from "react";
 import { ScannerModal } from "../Components/ScannerModal";
 
 import { initUtils } from "@tma.js/sdk";
+import { queryClient } from "../app";
 
 export const EventPage = () => {
   const { id } = useParams();
@@ -106,7 +107,7 @@ export const EventPage = () => {
       </div>
 
       <ScannerModal isOpen={isScanOpen} onClose={() => setIsScanOpen(false)} onHandle={() => {
-        refetch()
+        queryClient.invalidateQueries({queryKey: ["transaction", eventId]})
       }} eventId={id!} />
 
       <CreateTransactionModal
