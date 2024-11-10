@@ -13,9 +13,10 @@ export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   eventId: string;
+  refetch: () => void
 }
 
-export const CreateTransactionModal: FC<ModalProps> = ({ isOpen, onClose, eventId }) => {
+export const CreateTransactionModal: FC<ModalProps> = ({ isOpen, onClose, eventId, refetch }) => {
   const [title, setTitle] = useState('')
   const navigate = useNavigate()
 
@@ -33,6 +34,7 @@ export const CreateTransactionModal: FC<ModalProps> = ({ isOpen, onClose, eventI
       console.error(error)
     } finally {
       queryClient.invalidateQueries({queryKey: ["event", eventId]})
+      refetch()
       onClose()
     }
   }
