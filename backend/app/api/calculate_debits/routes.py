@@ -24,8 +24,8 @@ class Debt(pydantic.BaseModel):
 
 
 @calculate_debits_router.post(
-    "/events/{event_id}",
-    description="Get debts smeta",
+    '/events/{event_id}',
+    description='Get debts smeta',
     dependencies=[Depends(BearerAuth())],
 )
 def calculate_event_debts(
@@ -36,26 +36,26 @@ def calculate_event_debts(
         event = result.scalars().first()
 
         if not event:
-            raise HTTPException(status_code=404, detail="Event not found")
+            raise HTTPException(status_code=404, detail='Event not found')
 
         if user.id != event.owner_id:
-            raise HTTPException(status_code=403, detail="Permission denied")
+            raise HTTPException(status_code=403, detail='Permission denied')
 
         transactions = []
         for transaction in event.transactions:
             if not transaction.closed:
                 positions = [
                     {
-                        "price": item.price,
+                        'price': item.price,
                         # 'assigned_to_ids': [
                         #     user.id for user in item.assigned_to
                         # ],
-                        "assigned_to_ids": [user.id for user in event.users],
+                        'assigned_to_ids': [user.id for user in event.users],
                     }
                     for item in transaction.items
                 ]
                 transactions.append(
-                    {"owner_id": transaction.payer_id, "positions": positions}
+                    {'owner_id': transaction.payer_id, 'positions': positions}
                 )
 
                 transaction.closed = True
@@ -63,21 +63,21 @@ def calculate_event_debts(
         if not transactions:
             return []
 
-        participants = [{"id": user.id} for user in event.users]
+        participants = [{'id': user.id} for user in event.users]
         input_data = {
-            "participants": participants,
-            "transactions": transactions,
+            'participants': participants,
+            'transactions': transactions,
         }
 
         response = requests.post(
-            "http://optimizetka:8000/optimizetka/api/calculate-debts",
+            'http://optimizetka:8000/optimizetka/api/calculate-debts',
             json=input_data,
         )
 
         if response.status_code != 200:
             raise HTTPException(
                 status_code=response.status_code,
-                detail=f"Failed to calculate debts: {response.text}",
+                detail=f'Failed to calculate debts: {response.text}',
             )
 
         debts = response.json()
@@ -88,15 +88,19 @@ def calculate_event_debts(
 
         for debt in debts:
             print(debts)
-            from_user = next(u for u in event.users if u.id == debt["from_user_id"])
-            to_user = next(u for u in event.users if u.id == debt["to_user_id"])
+            from_user = next(
+                u for u in event.users if u.id == debt['from_user_id']
+            )
+            to_user = next(
+                u for u in event.users if u.id == debt['to_user_id']
+            )
             print(from_user, to_user)
-            amount = debt["amount"]
-            messages[from_user].append(f"You owe {amount} to {to_user}.")
-            messages[to_user.id].append(f"{from_user.name} owes you {amount}.")
+            amount = debt['amount']
+            messages[from_user].append(f'You owe {amount} to {to_user}.')
+            messages[to_user.id].append(f'{from_user.name} owes you {amount}.')
 
         for user in event.users:
-            message_text = "\n".join(messages[user.id])
+            message_text = '\n'.join(messages[user.id])
             if message_text:
                 send_telegram_message(user.chat_id, message_text)
 

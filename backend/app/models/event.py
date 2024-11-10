@@ -1,10 +1,12 @@
 from uuid import UUID
 from uuid import uuid4
 
+from sqlalchemy import BigInteger
+from sqlalchemy import Column
+from sqlalchemy import ForeignKey
 from sqlmodel import Field
 from sqlmodel import Relationship
 from sqlmodel import SQLModel
-from sqlalchemy import Column, BigInteger, ForeignKey
 
 from app.models.transactions import Transaction
 
@@ -18,7 +20,9 @@ class BaseEvent(SQLModel):
 
 class Event(BaseEvent, table=True):
     id: UUID = Field(primary_key=True, default_factory=uuid4)
-    owner_id: int = Field(sa_column=Column(BigInteger(), ForeignKey("user.id")))
+    owner_id: int = Field(
+        sa_column=Column(BigInteger(), ForeignKey('user.id'))
+    )
     invite: str | None = Field(default_factory=uuid4)
     users: list['User'] = Relationship(
         back_populates='events', link_model=EventUserLink
