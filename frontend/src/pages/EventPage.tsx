@@ -107,7 +107,7 @@ export const EventPage = () => {
       </div>
 
       <ScannerModal isOpen={isScanOpen} onClose={() => setIsScanOpen(false)} onHandle={() => {
-        queryClient.invalidateQueries({queryKey: ["transaction", eventId]})
+        queryClient.invalidateQueries({queryKey: ["transaction", id]})
       }} eventId={id!} />
 
       <CreateTransactionModal

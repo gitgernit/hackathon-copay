@@ -1,10 +1,26 @@
-import {Outlet} from "react-router-dom";
+import {Outlet, useParams, useSearchParams} from "react-router-dom";
 import {useEffect} from "react";
-import { AuthToken } from "@/api/server";
 import {useInitData} from "@vkruglikov/react-telegram-web-app";
+import {defaultReq, eventsApi} from "../shared/api";
+import {queryClient} from "../app";
 
 export const Wrapper = () => {
   const [initUnsafe, init] = useInitData();
+  
+  const [url, setUrl] = useSearchParams()
+  
+  useEffect(() => {
+    console.log(url)
+    setTimeout(async () => {
+      if (url.has('tgWebAppStartParam')) {
+        await eventsApi.addToEventApiEventsAddEventIdPost({eventId: url.get('tgWebAppStartParam')}, defaultReq)
+        await queryClient.invalidateQueries({
+          queryKey: ["events"]
+        })
+      } else {}
+    }, 500)
+  }, [url]);
+  
   
   useEffect(() => {
     (async () => {
@@ -17,6 +33,7 @@ export const Wrapper = () => {
         // console.log(await AuthToken.getToken(initUnsafe as any))
       }
     })()
+    
   }, [initUnsafe, init]);
   
   return <Outlet />
