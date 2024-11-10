@@ -26,15 +26,28 @@ from .routers import items_router
         403: {'model': BasicResponse, 'description': 'Unauthorized'},
     },
 )
-async def get_items(transaction_id: UUID) -> list[Item]:
+async def get_items(transaction_id: UUID) -> list[OutputItem]:
     with sqlmodel.Session(bind=app.core.db.engine) as session:
         transaction = session.get(Transaction, transaction_id)
+
         if not transaction:
             raise fastapi.HTTPException(
                 detail='Transaction not found', status_code=404
             )
 
-        return transaction.items
+        output_items = []
+
+        for item in transaction.items:
+            output_item = OutputItem(
+                id=item.id,
+                title=item.title,
+                price=item.price,
+                assigned_to=item.assigned_to,
+                transaction_id=transaction_id,
+            )
+            output_items.append(output_item)
+
+    return output_items
 
 
 @items_router.post(
