@@ -71,7 +71,7 @@ def calculate_event_debts(
         }
 
         response = requests.post(
-            'http://optimizetka:3000/optimizetka/api/calculate-debts',
+            'http://optimizetka:8000/optimizetka/api/calculate-debts',
             json=input_data,
         )
 
