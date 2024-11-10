@@ -85,9 +85,8 @@ def calculate_event_debts(
         session.commit()
 
         messages = {user.id: [] for user in event.users}
-
+        print(debts)
         for debt in debts:
-            print(debts)
             from_user = next(
                 u for u in event.users if u.id == debt['from_user_id']
             )
@@ -96,7 +95,7 @@ def calculate_event_debts(
             )
             print(from_user, to_user)
             amount = debt['amount']
-            messages[from_user].append(f'You owe {amount} to {to_user}.')
+            messages[from_user].append(f'You owe {amount} to {to_user.name}.')
             messages[to_user.id].append(f'{from_user.name} owes you {amount}.')
 
         for user in event.users:
