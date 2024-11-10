@@ -8,49 +8,59 @@ import { BackButton } from "@vkruglikov/react-telegram-web-app";
 import { LucideArrowLeft, Share } from "lucide-react";
 import TransactionsList from "../Components/TransactionsList/TransactionsList";
 import { Dialog, DialogContent } from "../shared/ui/dialog";
-import QRCode from 'qrcode'
+import QRCode from "qrcode";
 import { Input } from "../shared/ui/input";
 import { Button } from "../shared/ui/button";
-import '../styles/EventPage.css'
+import "../styles/EventPage.css";
 import React from "react";
 import { ScannerModal } from "../Components/ScannerModal";
 
+import { initUtils } from "@tma.js/sdk";
+
 export const EventPage = () => {
   const { id } = useParams();
+  const utils = initUtils();
   const [isScanOpen, setIsScanOpen] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [share, setShare] = useState(false);
   const [showDebt, setShowDebt] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const { data, refetch } = useQuery({
     queryKey: ["event", id],
-    queryFn: () => eventsApi.eventByIdApiEventsEventIdGet({
-      eventId: id!,
-    }),
+    queryFn: () =>
+      eventsApi.eventByIdApiEventsEventIdGet({
+        eventId: id!,
+      }),
     enabled: id !== undefined && id !== null,
   });
 
   useEffect(() => {
     (async () => {
       // if (isNaN(Number(id))) navigate('/', {replace: true})
-    })()
-  }, [])
+    })();
+  }, []);
 
   const calculateDebt = async () => {
-    await calculateDebitsApi.calculateEventDebtsApiCalculateDebitsEventsEventIdPost({
-      eventId: id!,
-    }, defaultReq).catch();
+    await calculateDebitsApi
+      .calculateEventDebtsApiCalculateDebitsEventsEventIdPost(
+        {
+          eventId: id!,
+        },
+        defaultReq
+      )
+      .catch();
 
-    setShowDebt(true)
-  }
-
+    setShowDebt(true);
+  };
 
   return (
     <div>
       <div className="px-2 py-4 mb-2 flex justify-between items-center">
         <h1 className="text-4xl font-bold">{data?.name}</h1>
-        <button className="p-2 rounded-2xl bg-red-100" onClick={calculateDebt}>Посчитать долги</button>
+        <button className="p-2 rounded-2xl bg-red-100" onClick={calculateDebt}>
+          Посчитать долги
+        </button>
       </div>
       <div className="w-full border ml-auto mr-auto border-#e3e3e3"></div>
       <div className="p-2 overflow-y-auto max-h-[80dvh] grid gap-2">
@@ -59,10 +69,16 @@ export const EventPage = () => {
 
       <div className="absolute bottom-2 left-5 right-5">
         <div className="flex justify-center gap-2 items-center">
-          <button className='bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl' onClick={() => navigate('/')}>
+          <button
+            className="bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl"
+            onClick={() => navigate("/")}
+          >
             <LucideArrowLeft />
           </button>
-          <button className="bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl" onClick={() => setIsOpenModal(true)}>
+          <button
+            className="bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl"
+            onClick={() => setIsOpenModal(true)}
+          >
             Добавить транзакцию
           </button>
           <button
@@ -72,43 +88,71 @@ export const EventPage = () => {
             Сканировать чек
           </button>
 
-          <button className="bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl" onClick={async () => {
-            setShare(!share)
-            setTimeout(() => {
-              QRCode.toCanvas(document.querySelector('#goida'), data?.id || '')
-            }, 300)
-          }}>
+          <button
+            className="bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl"
+            onClick={async () => {
+              setShare(!share);
+              setTimeout(() => {
+                QRCode.toCanvas(
+                  document.querySelector("#goida"),
+                  data?.invite || ""
+                );
+              }, 300);
+            }}
+          >
             <Share />
           </button>
         </div>
       </div>
 
-      <ScannerModal refetch={refetch} isOpen={isScanOpen} onClose={() => setIsScanOpen(false)} onHandle={() => {
-        refetch()
-      }} eventId={id!} />
+      <ScannerModal
+        refetch={refetch}
+        isOpen={isScanOpen}
+        onClose={() => setIsScanOpen(false)}
+        onHandle={() => {
+          refetch();
+        }}
+        eventId={id!}
+      />
 
       <CreateTransactionModal
         isOpen={isOpenModal}
         onClose={() => setIsOpenModal(false)}
-        eventId={id!} 
-        refetch={refetch}/>
+        eventId={id!}
+        refetch={refetch}
+      />
 
-      <BackButton onClick={() => navigate('/')}></BackButton>
+      <BackButton onClick={() => navigate("/")}></BackButton>
 
       <Dialog open={showDebt} onOpenChange={() => setShowDebt(!showDebt)}>
         <DialogContent>
-          <span className="text-xl">Долги посчитаны, коллекторы отправлены</span>
+          <span className="text-xl">
+            Долги посчитаны, коллекторы отправлены
+          </span>
         </DialogContent>
       </Dialog>
 
       <Dialog open={share} onOpenChange={() => setShare(!share)}>
         <DialogContent>
-          <canvas id="goida" className='min-w-64 min-h-64 mx-auto' />
-          <div className='flex items-center gap-1'>
+          <canvas id="goida" className="min-w-64 min-h-64 mx-auto" />
+          <div className="flex items-center gap-1">
             <Input disabled value={'https://t.me/copay_robot/?startapp=' + data?.invite || ''} />
-            <Button onClick={() => {
-              navigator.clipboard.writeText(data?.invite || '')
-            }}>Копировать</Button>
+            <Button
+              onClick={() => {
+                navigator.clipboard.writeText('https://t.me/copay_robot/?startapp=' + data?.invite || '');
+              }}
+            >
+              Копировать
+            </Button>
+            <Button
+              onClick={() => {
+                utils.openTelegramLink(
+                  `https://t.me/share/url?url=https://t.me/copay_robot/startapp?startapp=${data?.invite}&text=%F0%9F%92%B0Catizen%3A%20Unleash%2C%20Play%2C%20Earn%20-%20Where%20Every%20Game%20Leads%20to%20an%20Airdrop%20Adventure!%0A%F0%9F%8E%81Let%27s%20play-to-earn%20airdrop%20right%20now!`
+                );
+              }}
+            >
+              Поделиться
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
