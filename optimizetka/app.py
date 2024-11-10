@@ -8,7 +8,6 @@ app = FastAPI(openapi_url="/optimizetka/openapi.json", docs_url="/optimizetka/do
 
 class Participant(BaseModel):
     id: int
-    name: str
 
 
 class Position(BaseModel):
