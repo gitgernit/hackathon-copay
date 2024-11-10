@@ -122,6 +122,11 @@ async def create_transaction(
             event_id=event.id,
             items=[],
         )
+
+        session.add(transaction)
+        session.commit()
+        session.refresh(transaction)
+
         output_transaction = app.models.transactions.OutputTransaction(
             id=transaction.id,
             title=transaction.title,
@@ -130,8 +135,6 @@ async def create_transaction(
             closed=transaction.closed,
             items=transaction.items,
         )
-        session.add(transaction)
-        session.commit()
 
     return output_transaction
 
