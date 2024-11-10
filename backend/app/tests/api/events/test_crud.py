@@ -17,10 +17,8 @@ def test_events() -> None:
     token = auth_response.json().get('access_token')
     assert token is not None, 'Token not found in response'
 
-    # Step 2: Use the token as a header for authorization
     headers = {'Authorization': f'Bearer {token}'}
 
-    # Step 3: Post to create an event with a request body containing "name"
     event_data = {'name': 'Sample Event Name'}
 
     response = client.post('/', headers=headers, json=event_data)
@@ -33,7 +31,6 @@ def test_events() -> None:
         assert event.name == event_data['name'], 'Wrong name for event'
 
     response = client.get(f'/{response_event["id"]}', headers=headers)
-    response_event = response.json()
 
     assert response.status_code == 200, 'Event info gathering failed'
 
