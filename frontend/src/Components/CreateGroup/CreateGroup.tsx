@@ -22,7 +22,7 @@ const CreateGroup = () => {
             setState('idle')
             navigate('/')
         } catch (error) {
-            localStorage.removeItem('token')
+            // localStorage.removeItem('token')
             setState('idle')
         } 
     }
