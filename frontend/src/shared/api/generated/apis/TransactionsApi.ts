@@ -53,6 +53,10 @@ export interface GetTransactionApiTransactionEventIdTransactionIdGetRequest {
     transactionId: string;
 }
 
+export interface ListTransactionsApiTransactionEventIdGetRequest {
+    eventId: string;
+}
+
 /**
  * 
  */
@@ -218,6 +222,49 @@ export class TransactionsApi extends runtime.BaseAPI {
      */
     async getTransactionApiTransactionEventIdTransactionIdGet(requestParameters: GetTransactionApiTransactionEventIdTransactionIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<OutputTransaction> {
         const response = await this.getTransactionApiTransactionEventIdTransactionIdGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get all transactions of an event
+     * List Transactions
+     */
+    async listTransactionsApiTransactionEventIdGetRaw(requestParameters: ListTransactionsApiTransactionEventIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<OutputTransaction>>> {
+        if (requestParameters['eventId'] == null) {
+            throw new runtime.RequiredError(
+                'eventId',
+                'Required parameter "eventId" was null or undefined when calling listTransactionsApiTransactionEventIdGet().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/api/transaction/{event_id}`.replace(`{${"event_id"}}`, encodeURIComponent(String(requestParameters['eventId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(OutputTransactionFromJSON));
+    }
+
+    /**
+     * Get all transactions of an event
+     * List Transactions
+     */
+    async listTransactionsApiTransactionEventIdGet(requestParameters: ListTransactionsApiTransactionEventIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<OutputTransaction>> {
+        const response = await this.listTransactionsApiTransactionEventIdGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
