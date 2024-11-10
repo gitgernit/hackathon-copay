@@ -74,6 +74,7 @@ async def create_item(item: ItemRequest, transaction_id: UUID) -> Item:
         )
         session.add(new_item)
         session.commit()
+        session.refresh(new_item)
 
         return new_item
 

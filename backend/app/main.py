@@ -17,3 +17,7 @@ app_router.include_router(
     app.api.routers.api_router,
     prefix='/api',
 )
+
+
+# async def lifespan(app: fastapi.FastAPI):
+#     fill_with_sample_data()

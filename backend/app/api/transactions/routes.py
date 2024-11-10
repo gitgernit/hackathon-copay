@@ -88,7 +88,7 @@ async def list_transactions(
 
 @transactions_router.post(
     '/{event_id}',
-    response_model=app.models.transactions.Transaction,
+    response_model=app.models.transactions.OutputTransaction,
     description='Create a transaction by a event id',
     dependencies=[fastapi.Depends(app.api.auth.deps.get_current_user)],
     responses={
