@@ -22,8 +22,8 @@ const TransactionsList = ({ eventId }: Props) => {
     (async () => {
       const res = await transactionsApi.listTransactionsApiTransactionEventIdGet({ eventId })
 
-      setTransactions(res)
-      setCurrent(res)
+      setTransactions(res || [])
+      setCurrent(res || [])
     })()
   }, [])
 
@@ -45,7 +45,6 @@ const TransactionsList = ({ eventId }: Props) => {
             deleteItem={deleteItem}
             transaction={transaction}
             eventId={eventId}
-            // users={data?.users} />
             users={data?.users || []} />
         )}
       </div>

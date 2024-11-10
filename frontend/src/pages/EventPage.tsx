@@ -75,7 +75,7 @@ export const EventPage = () => {
           <button className="bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl" onClick={async () => {
             setShare(!share)
             setTimeout(() => {
-              QRCode.toCanvas(document.querySelector('#goida'), data?.invite || '')
+              QRCode.toCanvas(document.querySelector('#goida'), "https://t.me/CoPay_robot/app?eventId=" + data?.id || '')
             }, 300)
           }}>
             <Share />
@@ -83,14 +83,15 @@ export const EventPage = () => {
         </div>
       </div>
 
-      <ScannerModal isOpen={isScanOpen} onClose={() => setIsScanOpen(false)} onHandle={() => {
+      <ScannerModal refetch={refetch} isOpen={isScanOpen} onClose={() => setIsScanOpen(false)} onHandle={() => {
         refetch()
       }} eventId={id!} />
 
       <CreateTransactionModal
         isOpen={isOpenModal}
         onClose={() => setIsOpenModal(false)}
-        eventId={id!} />
+        eventId={id!} 
+        refetch={refetch}/>
 
       <BackButton onClick={() => navigate('/')}></BackButton>
 
@@ -104,7 +105,7 @@ export const EventPage = () => {
         <DialogContent>
           <canvas id="goida" className='min-w-64 min-h-64 mx-auto' />
           <div className='flex items-center gap-1'>
-            <Input disabled value={data?.invite || ''} />
+            <Input disabled value={'https://t.me/copay_robot/?startapp=' + data?.invite || ''} />
             <Button onClick={() => {
               navigator.clipboard.writeText(data?.invite || '')
             }}>Копировать</Button>
