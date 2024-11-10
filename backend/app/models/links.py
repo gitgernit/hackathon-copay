@@ -1,6 +1,7 @@
 import uuid
 
 import sqlmodel
+from sqlalchemy import Column, BigInteger, ForeignKey
 
 
 class EventUserLink(sqlmodel.SQLModel, table=True):
@@ -8,7 +9,7 @@ class EventUserLink(sqlmodel.SQLModel, table=True):
         default=None, foreign_key='event.id', primary_key=True
     )
     user_id: int | None = sqlmodel.Field(
-        default=None, foreign_key='user.id', primary_key=True
+        sa_column=Column(BigInteger(), ForeignKey('user.id'), primary_key=True)
     )
 
 
@@ -17,5 +18,5 @@ class ItemUserLink(sqlmodel.SQLModel, table=True):
         default=None, foreign_key='item.id', primary_key=True
     )
     user_id: int | None = sqlmodel.Field(
-        default=None, foreign_key='user.id', primary_key=True
+        sa_column=Column(BigInteger(), ForeignKey('user.id'), primary_key=True)
     )
