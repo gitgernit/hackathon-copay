@@ -125,7 +125,7 @@ async def create_transaction(
         output_transaction = app.models.transactions.OutputTransaction(
             id=transaction.id,
             title=transaction.title,
-            payer=transaction.payer_id,
+            payer=transaction.payer,
             event_id=transaction.event_id,
             closed=transaction.closed,
             items=transaction.items,
