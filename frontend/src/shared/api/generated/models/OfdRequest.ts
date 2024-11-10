@@ -25,6 +25,12 @@ export interface OfdRequest {
      * @memberof OfdRequest
      */
     ofdString: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OfdRequest
+     */
+    eventId: string;
 }
 
 /**
@@ -32,6 +38,7 @@ export interface OfdRequest {
  */
 export function instanceOfOfdRequest(value: object): value is OfdRequest {
     if (!('ofdString' in value) || value['ofdString'] === undefined) return false;
+    if (!('eventId' in value) || value['eventId'] === undefined) return false;
     return true;
 }
 
@@ -46,6 +53,7 @@ export function OfdRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     return {
         
         'ofdString': json['ofd_string'],
+        'eventId': json['event_id'],
     };
 }
 
@@ -61,6 +69,7 @@ export function OfdRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     return {
         
         'ofd_string': value['ofdString'],
+        'event_id': value['eventId'],
     };
 }
 

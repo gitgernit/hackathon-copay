@@ -15,17 +15,20 @@
 
 import * as runtime from '../runtime';
 import type {
-  AppModelsOfdItem,
+  BasicResponse,
   HTTPValidationError,
   OfdRequest,
+  Transaction,
 } from '../models/index';
 import {
-    AppModelsOfdItemFromJSON,
-    AppModelsOfdItemToJSON,
+    BasicResponseFromJSON,
+    BasicResponseToJSON,
     HTTPValidationErrorFromJSON,
     HTTPValidationErrorToJSON,
     OfdRequestFromJSON,
     OfdRequestToJSON,
+    TransactionFromJSON,
+    TransactionToJSON,
 } from '../models/index';
 
 export interface OfdApiUtilsOfdPostRequest {
@@ -67,7 +70,7 @@ export class UtilsApi extends runtime.BaseAPI {
      * Get items info from OFD bare string
      * Ofd
      */
-    async ofdApiUtilsOfdPostRaw(requestParameters: OfdApiUtilsOfdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AppModelsOfdItem>>> {
+    async ofdApiUtilsOfdPostRaw(requestParameters: OfdApiUtilsOfdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Transaction>> {
         if (requestParameters['ofdRequest'] == null) {
             throw new runtime.RequiredError(
                 'ofdRequest',
@@ -81,6 +84,19 @@ export class UtilsApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("OAuth2PasswordBearer", []);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
         const response = await this.request({
             path: `/api/utils/ofd`,
             method: 'POST',
@@ -89,14 +105,14 @@ export class UtilsApi extends runtime.BaseAPI {
             body: OfdRequestToJSON(requestParameters['ofdRequest']),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(AppModelsOfdItemFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => TransactionFromJSON(jsonValue));
     }
 
     /**
      * Get items info from OFD bare string
      * Ofd
      */
-    async ofdApiUtilsOfdPost(requestParameters: OfdApiUtilsOfdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<AppModelsOfdItem>> {
+    async ofdApiUtilsOfdPost(requestParameters: OfdApiUtilsOfdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Transaction> {
         const response = await this.ofdApiUtilsOfdPostRaw(requestParameters, initOverrides);
         return await response.value();
     }

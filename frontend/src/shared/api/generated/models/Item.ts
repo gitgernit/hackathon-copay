@@ -24,7 +24,13 @@ export interface Item {
      * @type {string}
      * @memberof Item
      */
-    name: string;
+    id?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Item
+     */
+    title: string;
     /**
      * 
      * @type {number}
@@ -33,26 +39,19 @@ export interface Item {
     price: number;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof Item
      */
-    quantity: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Item
-     */
-    sum: number;
+    transactionId: string;
 }
 
 /**
  * Check if a given object implements the Item interface.
  */
 export function instanceOfItem(value: object): value is Item {
-    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('title' in value) || value['title'] === undefined) return false;
     if (!('price' in value) || value['price'] === undefined) return false;
-    if (!('quantity' in value) || value['quantity'] === undefined) return false;
-    if (!('sum' in value) || value['sum'] === undefined) return false;
+    if (!('transactionId' in value) || value['transactionId'] === undefined) return false;
     return true;
 }
 
@@ -66,10 +65,10 @@ export function ItemFromJSONTyped(json: any, ignoreDiscriminator: boolean): Item
     }
     return {
         
-        'name': json['name'],
+        'id': json['id'] == null ? undefined : json['id'],
+        'title': json['title'],
         'price': json['price'],
-        'quantity': json['quantity'],
-        'sum': json['sum'],
+        'transactionId': json['transaction_id'],
     };
 }
 
@@ -84,10 +83,10 @@ export function ItemFromJSONTyped(json: any, ignoreDiscriminator: boolean): Item
 
     return {
         
-        'name': value['name'],
+        'id': value['id'],
+        'title': value['title'],
         'price': value['price'],
-        'quantity': value['quantity'],
-        'sum': value['sum'],
+        'transaction_id': value['transactionId'],
     };
 }
 

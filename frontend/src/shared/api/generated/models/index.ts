@@ -1,12 +1,11 @@
 /* tslint:disable */
 /* eslint-disable */
-export * from './AppModelsItemItem';
-export * from './AppModelsOfdItem';
 export * from './BaseEvent';
 export * from './BasicResponse';
 export * from './Debt';
 export * from './Event';
 export * from './HTTPValidationError';
+export * from './Item';
 export * from './ItemRequest';
 export * from './OfdRequest';
 export * from './OutputEvent';
