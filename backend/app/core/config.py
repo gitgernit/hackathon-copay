@@ -19,6 +19,7 @@ class Config(pydantic_settings.BaseSettings):
     SAMPLE_PAYLOAD: dict[str, str] = pydantic.fields.Field(
         default={}, exclude=True
     )
+    TOKEN_TELEGRAM_API: str = pydantic.fields.Field(default=None)
     DEBUG: bool = pydantic.fields.Field(default=False)
 
 

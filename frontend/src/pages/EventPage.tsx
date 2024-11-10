@@ -11,6 +11,7 @@ import {Dialog, DialogContent} from "../shared/ui/dialog";
 import QRCode from 'qrcode'
 import {Input} from "../shared/ui/input";
 import {Button} from "../shared/ui/button";
+import '../styles/EventPage.css'
 import React from "react";
 
 export const EventPage = () => {
@@ -25,20 +26,12 @@ export const EventPage = () => {
     queryFn: () => eventsApi.eventByIdApiEventsEventIdGet({
       eventId: id!,
     }),
-    initialData: () => ({
-      name: 'Название',
-      id: '1',
-      owner: '123',
-      users: [],
-      invite: "goida",
-      
-    }),
     enabled: id !== undefined && id !== null,
   });
 
   useEffect(() => {
     (async () => {
-        if (isNaN(Number(id))) navigate('/', {replace: true})
+        // if (isNaN(Number(id))) navigate('/', {replace: true})
     })()
   }, [])
   
@@ -46,7 +39,7 @@ export const EventPage = () => {
   return (
     <div>
       <div className="px-2 py-4 mb-2">
-        <h1 className="text-4xl font-bold">{data.name}</h1>
+        <h1 className="text-4xl font-bold">{data?.name}</h1>
       </div>
       <div className="w-[360px] border ml-auto mr-auto border-#e3e3e3"></div>
       <div className="p-2 overflow-y-auto max-h-[80dvh] grid gap-2">
@@ -68,7 +61,7 @@ export const EventPage = () => {
             <LucideArrowLeft />
           </button>
           <button className="bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl" onClick={() => setIsOpenModal(true)}>
-            Добавить
+            Добавить транзакцию
           </button>
           <button
             className="bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl"
@@ -80,7 +73,7 @@ export const EventPage = () => {
           <button className="bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl" onClick={async () => {
             setShare(!share)
             setTimeout(() => {
-              QRCode.toCanvas(document.querySelector('#goida'), data?.invite)
+              QRCode.toCanvas(document.querySelector('#goida'), data?.invite || '')
             }, 300)
           }}>
             <Share />
@@ -99,17 +92,19 @@ export const EventPage = () => {
         </div>
       )}
       
-      <CreateTransactionModal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} />
-      
+      <CreateTransactionModal 
+        isOpen={isOpenModal} 
+        onClose={() => setIsOpenModal(false)}/>
+        
       <BackButton onClick={() => navigate('/')}></BackButton>
       
       <Dialog open={share} onOpenChange={() => setShare(!share)}>
         <DialogContent>
           <canvas id="goida" className='min-w-64 min-h-64 mx-auto' />
           <div className='flex items-center gap-1'>
-            <Input disabled value={data.invite} />
+            <Input disabled value={data?.invite || ''} />
             <Button onClick={() => {
-              navigator.clipboard.writeText(data.invite)
+              navigator.clipboard.writeText(data?.invite || '')
             }}>Копировать</Button>
           </div>
         </DialogContent>
