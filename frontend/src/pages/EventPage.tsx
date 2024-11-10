@@ -88,7 +88,8 @@ export const EventPage = () => {
       
       <CreateTransactionModal 
         isOpen={isOpenModal} 
-        onClose={() => setIsOpenModal(false)}/>
+        onClose={() => setIsOpenModal(false)}
+        eventId={id!}/>
         
       <BackButton onClick={() => navigate('/')}></BackButton>
       

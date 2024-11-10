@@ -3,14 +3,15 @@ import {Dialog, DialogContent, DialogHeader} from "../shared/ui/dialog";
 import {Input} from "../shared/ui/input";
 import React from "react";
 import { User } from "../shared/api/generated";
-import { eventsApi } from "../shared/api";
+import { transactionsApi } from "../shared/api";
 
 export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
+  eventId: string;
 }
 
-export const CreateTransactionModal: FC<ModalProps> = ({ isOpen, onClose }) => {
+export const CreateTransactionModal: FC<ModalProps> = ({ isOpen, onClose, eventId }) => {
   const [title, setTitle] = useState('')
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -18,7 +19,10 @@ export const CreateTransactionModal: FC<ModalProps> = ({ isOpen, onClose }) => {
     console.log(title)
 
     try {
-      // eventsApi.ADD_NEW_TRANSACTION
+      transactionsApi.createTransactionApiTransactionEventIdPost({
+        eventId,
+        body: title
+      })
     } catch (error) {
       console.error(error)
     } finally {
