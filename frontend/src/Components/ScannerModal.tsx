@@ -2,21 +2,20 @@ import {IDetectedBarcode, Scanner} from "@yudiel/react-qr-scanner";
 import {FC, useState} from "react";
 import {ModalProps} from "./CreateTransactionModal";
 import {defaultReq, utilsApi} from "../shared/api";
-import {AppModelsOfdItem} from "../shared/api/generated/models/AppModelsOfdItem";
+import {Transaction} from "../shared/api/generated";
 
 export const ScannerModal: FC<ModalProps & {
-  onHandle: (items: AppModelsOfdItem[]) => void
-}> = ({onHandle, isOpen,onClose}) => {
+  onHandle: (trx: Transaction) => void,
+  eventId: string,
+}> = ({onHandle, isOpen,onClose, eventId}) => {
   const [tab, setTab] = useState(0)
   
   const onSubmit = async (barcode: IDetectedBarcode) => {
     const raw = barcode.rawValue;
     
     const ofd = await utilsApi.ofdApiUtilsOfdPost({
-      ofdRequest: {ofdString: raw},
+      ofdRequest: {eventId, ofdString: raw},
     }, defaultReq)
-    
-    alert(JSON.stringify(ofd, null, 2))
     
     onHandle(ofd)
     
