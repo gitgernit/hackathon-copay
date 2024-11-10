@@ -13,19 +13,18 @@ export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   eventId: string;
-  refetch: () => void
 }
 
-export const CreateTransactionModal: FC<ModalProps> = ({ isOpen, onClose, eventId, refetch }) => {
+export const CreateTransactionModal: FC<ModalProps> = ({ isOpen, onClose, eventId }) => {
   const [title, setTitle] = useState('')
   const navigate = useNavigate()
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     console.log(title)
 
     try {
-      transactionsApi.createTransactionApiTransactionEventIdPost({
+      await transactionsApi.createTransactionApiTransactionEventIdPost({
         eventId,
         body: title
       })
@@ -33,8 +32,7 @@ export const CreateTransactionModal: FC<ModalProps> = ({ isOpen, onClose, eventI
     } catch (error) {
       console.error(error)
     } finally {
-      queryClient.invalidateQueries({queryKey: ["event", eventId]})
-      refetch()
+      queryClient.invalidateQueries({queryKey: ["transaction", eventId]})
       onClose()
     }
   }
