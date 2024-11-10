@@ -50,7 +50,7 @@ def calculate_event_debts(
                         # 'assigned_to_ids': [
                         #     user.id for user in item.assigned_to
                         # ],
-                        "assigned_to_ids": [{"id": user.id} for user in event.users],
+                        "assigned_to_ids": [user.id for user in event.users],
                     }
                     for item in transaction.items
                 ]
