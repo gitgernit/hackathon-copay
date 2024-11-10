@@ -24,7 +24,7 @@ const GroupList = () => {
     <div className='groups'>
         {data?.length ? (data?.map((group) => (
             <GroupItem key={group.id} event={group} />
-        ))) : (<GroupItem key={data?.id} event={data} />)
+        ))) : ('Пока нет событий')
       }
     </div>
   )
