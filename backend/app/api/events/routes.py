@@ -1,5 +1,6 @@
 import typing
 import uuid
+from http.client import HTTPException
 
 import fastapi
 import sqlmodel
@@ -125,10 +126,22 @@ def create_event(
     response_model=app.models.event.OutputEvent,
     dependencies=[fastapi.Depends(app.api.auth.deps.get_current_user)],
     description='Get info for an event by the id',
+    responses={
+        fastapi.status.HTTP_404_NOT_FOUND: {
+            'model': app.models.base.BasicResponse,
+            'detail': r'Event \ user not found',
+        },
+    },
 )
 def event_by_id(event_id: uuid.UUID):
     with sqlmodel.Session(app.core.db.engine) as session:
         event = session.get(app.models.event.Event, event_id)
+
+        if not event:
+            raise fastapi.HTTPException(
+                detail='Event not found', status_code=404
+            )
+
         new_event = app.models.event.OutputEvent(
             id=event.id,
             owner=event.owner_id,
