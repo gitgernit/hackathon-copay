@@ -32,7 +32,7 @@ export interface OutputEvent {
      * @type {string}
      * @memberof OutputEvent
      */
-    name?: string;
+    name: string;
     /**
      * 
      * @type {string}
@@ -63,6 +63,7 @@ export interface OutputEvent {
  * Check if a given object implements the OutputEvent interface.
  */
 export function instanceOfOutputEvent(value: object): value is OutputEvent {
+    if (!('name' in value) || value['name'] === undefined) return false;
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('owner' in value) || value['owner'] === undefined) return false;
     if (!('users' in value) || value['users'] === undefined) return false;
@@ -80,7 +81,7 @@ export function OutputEventFromJSONTyped(json: any, ignoreDiscriminator: boolean
     }
     return {
         
-        'name': json['name'] == null ? undefined : json['name'],
+        'name': json['name'],
         'id': json['id'],
         'owner': json['owner'],
         'users': ((json['users'] as Array<any>).map(UserFromJSON)),
