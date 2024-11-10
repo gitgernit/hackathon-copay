@@ -25,6 +25,7 @@ interface Props {
 
 const Transaction = ({transaction, deleteItem, users, eventId}: Props) => {
   const [openedModal, setOpenedModal] = useState(false)
+  console.log(transaction)
 
 
   return (

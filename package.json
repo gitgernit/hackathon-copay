@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@tma.js/sdk": "^2.7.0"
+  }
+}
