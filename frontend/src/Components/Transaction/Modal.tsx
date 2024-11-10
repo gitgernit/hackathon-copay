@@ -49,7 +49,7 @@ export const CreateItemModal: FC<ModalProps> = ({ isOpen, onClose, users, transa
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
-        <DialogHeader>Создать новую транзакцию</DialogHeader>
+        <DialogHeader>Добавить новый товар</DialogHeader>
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="title">Название</label>
