@@ -1,9 +1,10 @@
-import {FC, useState} from "react";
-import {Dialog, DialogContent, DialogHeader} from "../shared/ui/dialog";
-import {Input} from "../shared/ui/input";
+import { FC, useState } from "react";
+import { Dialog, DialogContent, DialogHeader } from "../shared/ui/dialog";
+import { Input } from "../shared/ui/input";
 import React from "react";
 import { User } from "../shared/api/generated";
 import { transactionsApi } from "../shared/api";
+import { Button } from "../shared/ui/button";
 
 export interface ModalProps {
   isOpen: boolean;
@@ -39,7 +40,7 @@ export const CreateTransactionModal: FC<ModalProps> = ({ isOpen, onClose, eventI
             <label htmlFor="title">Название</label>
             <Input id='title' value={title} onChange={e => setTitle(e.target.value)} />
           </div>
-          <button className="add-transaction ibm-plex-sans-semibold" type="submit">Создать</button>
+          <Button className="w-full mt-2" type="submit">Создать</Button>
         </form>
       </DialogContent>
     </Dialog>

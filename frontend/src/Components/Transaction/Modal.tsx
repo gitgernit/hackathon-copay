@@ -1,6 +1,6 @@
-import {FC, useState} from "react";
-import {Dialog, DialogContent, DialogHeader} from "../../shared/ui/dialog";
-import {Input} from "../../shared/ui/input";
+import { FC, useState } from "react";
+import { Dialog, DialogContent, DialogHeader } from "../../shared/ui/dialog";
+import { Input } from "../../shared/ui/input";
 import React from "react";
 import { User } from "../../shared/api/generated";
 import { eventsApi, tagsApi, transactionsApi } from "../../shared/api";
@@ -52,7 +52,7 @@ export const CreateItemModal: FC<ModalProps> = ({ isOpen, onClose, users, transa
             <label htmlFor="title">Название</label>
             <Input id='title' value={title} onChange={e => setTitle(e.target.value)} />
           </div>
-          
+
           <div>
             <label htmlFor="price">Стоимость</label>
             <Input
@@ -66,16 +66,16 @@ export const CreateItemModal: FC<ModalProps> = ({ isOpen, onClose, users, transa
               }}
             />
           </div>
-          
+
           <div>
             <label htmlFor="user">Пользователь: </label>
-            <select 
-              className="select-user" 
-              id="user" 
-              name="user" 
+            <select
+              className="select-user"
+              id="user"
+              name="user"
               value={user}
               onChange={handleChange}
-              >
+            >
               {users.map((user) => (
                 <option key={user.id} value={user.id}>
                   {user.username}
