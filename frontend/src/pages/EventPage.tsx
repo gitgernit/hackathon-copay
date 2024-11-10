@@ -139,7 +139,7 @@ export const EventPage = () => {
             <Button
               onClick={() => {
                 utils.openTelegramLink(
-                  `https://t.me/share/url?url=https://t.me/copay_robot/?startapp=${data?.invite}&text=Присоединяйся к СВОим!`
+                  `https://t.me/share/url?url=https://t.me/copay_robot/?startapp=${data?.invite}&text=Саня верни сотку!`
                 );
               }}
             >
