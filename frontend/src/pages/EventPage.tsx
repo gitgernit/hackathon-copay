@@ -75,7 +75,7 @@ export const EventPage = () => {
           <button className="bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl" onClick={async () => {
             setShare(!share)
             setTimeout(() => {
-              QRCode.toCanvas(document.querySelector('#goida'), data?.invite || '')
+              QRCode.toCanvas(document.querySelector('#goida'), "https://t.me/CoPay_robot/app?eventId=" + data?.id || '')
             }, 300)
           }}>
             <Share />
