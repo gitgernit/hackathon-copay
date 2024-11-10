@@ -43,7 +43,7 @@ async def get_transaction(
             event_id=transaction.event_id,
             closed=transaction.closed,
             items=transaction.items,
-            id=transaction.id
+            id=transaction.id,
         )
 
     return output_transaction
@@ -81,7 +81,7 @@ async def list_transactions(
                     event_id=transaction.event_id,
                     closed=transaction.closed,
                     items=transaction.items,
-                    id=transaction.id
+                    id=transaction.id,
                 )
             )
 
@@ -151,9 +151,9 @@ async def create_transaction(
             'model': app.models.base.BasicResponse,
             'detail': r'Event \ transaction not found',
         },
-        fastapi.status.HTTP_400_BAD_REQUEST: {
+        400: {
             'model': app.models.base.BasicResponse,
-            'detail': r'Transaction is not a child of the given event',
+            'description': 'Invalid data format (ex. negative price)',
         },
     },
 )
@@ -185,7 +185,7 @@ async def add_item_to_transaction(
 
         if transaction.event_id != event.id:
             raise fastapi.HTTPException(
-                status_code=400,
+                status_code=404,
                 detail='This transaction is not a child of this event',
             )
 
@@ -195,6 +195,11 @@ async def add_item_to_transaction(
             assigned_to=[] if not add_all_users else event.users,
             transaction_id=transaction_id,
         )
+
+        if item.price <= 0:
+            raise fastapi.HTTPException(
+                detail='Price cannot be null or negative', status_code=400
+            )
 
         session.add(item)
         session.commit()

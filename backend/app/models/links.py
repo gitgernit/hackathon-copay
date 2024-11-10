@@ -1,7 +1,9 @@
 import uuid
 
+from sqlalchemy import BigInteger
+from sqlalchemy import Column
+from sqlalchemy import ForeignKey
 import sqlmodel
-from sqlalchemy import Column, BigInteger, ForeignKey
 
 
 class EventUserLink(sqlmodel.SQLModel, table=True):

@@ -1,6 +1,5 @@
 import typing
 import uuid
-from http.client import HTTPException
 
 import fastapi
 import sqlmodel
