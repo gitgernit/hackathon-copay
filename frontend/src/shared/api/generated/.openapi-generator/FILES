@@ -1,8 +1,7 @@
 apis/AuthApi.ts
 apis/CalculateDebitsApi.ts
 apis/EventsApi.ts
-apis/InvitesApi.ts
-apis/TagsApi.ts
+apis/ItemsApi.ts
 apis/TransactionsApi.ts
 apis/UtilsApi.ts
 apis/index.ts
