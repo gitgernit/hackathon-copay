@@ -36,24 +36,9 @@ const TransactionsList = ({ eventId }: Props) => {
     setCurrent(newTransactions)
   }
 
-  const filerTransactions = (filter = 'all') => {
-    if (filter === 'all') { setCurrent(transactions) }
-    else {
-      setCurrent(transactions.map(
-        transaction => ({
-          ...transaction,
-          items: transaction.items.filter(
-            item => item.assigned_to === localStorage.getItem('userId')
-          )
-        }
-        )
-      ))
-    }
-  }
-
   return (
     <>
-      <div className='transactions-list'>
+      <div className='transactions-list overflow-y-auto'>
         {current.map(transaction =>
           <Transaction
             key={transaction.id}
@@ -63,10 +48,6 @@ const TransactionsList = ({ eventId }: Props) => {
             // users={data?.users} />
             users={data?.users || []} />
         )}
-      </div>
-      <div className='transactions-list-filters'>
-        <button className={transactions !== current ? 'active' : ''} onClick={() => filerTransactions('my')}>Мои товары</button>
-        <button className={transactions === current ? 'active' : ''} onClick={() => filerTransactions('all')}>Товары группы</button>
       </div>
     </>
   )

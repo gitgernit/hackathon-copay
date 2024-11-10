@@ -32,16 +32,18 @@ export const ScannerModal: FC<ModalProps & {
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="fixed inset-0 bg-black opacity-50" onClick={onClose}></div>
       <div className="bg-white rounded-lg overflow-hidden shadow-lg z-10 w-full h-80">
-        <div className="p-4 min-h-[500px]">
+        <div className="p-4">
           {tab == 0 && (
-            <Scanner onScan={(d) => onSubmit(d[0])} />
+            <div className='min-h-[500px]'>
+              <Scanner onScan={(d) => onSubmit(d[0])} />
+            </div>
           )}
           
           {tab == 1 && (
             <div className='flex flex-col gap-2'>
               <span className='text-xl font-bold'>Продукты из чека заимпортированы</span>
               
-              <Button className='w-full'>Окей, спасибо</Button>
+              <Button className='w-full' onClick={onClose}>Окей, спасибо</Button>
             </div>
           )}
         </div>

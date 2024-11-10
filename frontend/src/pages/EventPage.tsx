@@ -48,13 +48,11 @@ export const EventPage = () => {
 
   return (
     <div>
-      <div className="px-2 py-4 mb-2">
+      <div className="px-2 py-4 mb-2 flex justify-between items-center">
         <h1 className="text-4xl font-bold">{data?.name}</h1>
-      </div>
-      <div className="w-full border ml-auto mr-auto border-#e3e3e3"></div>
-      <div className="m-2">
         <button className="p-2 rounded-2xl bg-red-100" onClick={calculateDebt}>Посчитать долги</button>
       </div>
+      <div className="w-full border ml-auto mr-auto border-#e3e3e3"></div>
       <div className="p-2 overflow-y-auto max-h-[80dvh] grid gap-2">
         <TransactionsList eventId={id!} />
       </div>
