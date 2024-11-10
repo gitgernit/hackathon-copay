@@ -81,3 +81,8 @@
     background-color: #a09ca8;
     color: #e8def8;
 }
+
+.plus-icon:disabled {
+    background-color: #a09ca8;
+    color: #e8def8;
+}

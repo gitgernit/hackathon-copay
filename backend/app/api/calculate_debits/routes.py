@@ -63,7 +63,7 @@ def calculate_event_debts(
             return []
 
         participants = [
-            {'id': user.id, 'name': user.name} for user in event.users
+            {'id': user.id} for user in event.users
         ]
         input_data = {
             'participants': participants,
@@ -88,15 +88,17 @@ def calculate_event_debts(
         messages = {user.id: [] for user in event.users}
 
         for debt in debts:
+            print(debts)
             from_user = next(
                 u for u in event.users if u.id == debt['from_user_id']
             )
             to_user = next(
                 u for u in event.users if u.id == debt['to_user_id']
             )
+            print(from_user, to_user)
             amount = debt['amount']
-            messages[from_user.id].append(
-                f'You owe {amount} to {to_user.name}.'
+            messages[from_user].append(
+                f'You owe {amount} to {to_user}.'
             )
             messages[to_user.id].append(f'{from_user.name} owes you {amount}.')
 

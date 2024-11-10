@@ -43,6 +43,7 @@ async def get_transaction(
             event_id=transaction.event_id,
             closed=transaction.closed,
             items=transaction.items,
+            id=transaction.id
         )
 
     return output_transaction
@@ -80,6 +81,7 @@ async def list_transactions(
                     event_id=transaction.event_id,
                     closed=transaction.closed,
                     items=transaction.items,
+                    id=transaction.id
                 )
             )
 
