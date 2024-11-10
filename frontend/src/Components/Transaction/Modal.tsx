@@ -3,7 +3,9 @@ import { Dialog, DialogContent, DialogHeader } from "../../shared/ui/dialog";
 import { Input } from "../../shared/ui/input";
 import React from "react";
 import { User } from "../../shared/api/generated";
-import { eventsApi, tagsApi, transactionsApi } from "../../shared/api";
+import { transactionsApi } from "../../shared/api";
+import { queryClient } from "../../app";
+import { Button } from "../../shared/ui/button";
 
 export interface ModalProps {
   isOpen: boolean;
@@ -22,11 +24,11 @@ export const CreateItemModal: FC<ModalProps> = ({ isOpen, onClose, users, transa
     setUser(event.target.value)
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     try {
-      transactionsApi.addItemToTransactionApiTransactionEventIdTransactionIdItemsPost({
+      await transactionsApi.addItemToTransactionApiTransactionEventIdTransactionIdItemsPost({
         eventId,
         transactionId,
         bodyAddItemToTransactionApiTransactionEventIdTransactionIdItemsPost:
@@ -39,7 +41,8 @@ export const CreateItemModal: FC<ModalProps> = ({ isOpen, onClose, users, transa
     } catch (error) {
       console.error(error)
     } finally {
-      isOpen = false
+      queryClient.invalidateQueries({queryKey: ["transaction", eventId]})
+      onClose()
     }
   }
 
@@ -84,7 +87,7 @@ export const CreateItemModal: FC<ModalProps> = ({ isOpen, onClose, users, transa
             </select>
           </div>
 
-          <button className="add-transaction ibm-plex-sans-semibold" type="submit">Создать</button>
+          <Button className="w-full mt-2" type="submit">Создать</Button>
         </form>
       </DialogContent>
     </Dialog>

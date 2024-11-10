@@ -21,6 +21,7 @@ export const EventPage = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [share, setShare] = useState(false);
   const [showDebt, setShowDebt] = useState(false);
+  const [reload, setReload] = useState(() => {});
   const navigate = useNavigate()
 
   const { data, refetch } = useQuery({
@@ -54,7 +55,7 @@ export const EventPage = () => {
       </div>
       <div className="w-full border ml-auto mr-auto border-#e3e3e3"></div>
       <div className="p-2 overflow-y-auto max-h-[80dvh] grid gap-2">
-        <TransactionsList eventId={id!} />
+        <TransactionsList users={data?.users || []} eventId={id!} />
       </div>
 
       <div className="absolute bottom-2 left-5 right-5">
@@ -83,15 +84,14 @@ export const EventPage = () => {
         </div>
       </div>
 
-      <ScannerModal refetch={refetch} isOpen={isScanOpen} onClose={() => setIsScanOpen(false)} onHandle={() => {
+      <ScannerModal isOpen={isScanOpen} onClose={() => setIsScanOpen(false)} onHandle={() => {
         refetch()
       }} eventId={id!} />
 
       <CreateTransactionModal
         isOpen={isOpenModal}
         onClose={() => setIsOpenModal(false)}
-        eventId={id!} 
-        refetch={refetch}/>
+        eventId={id!} />
 
       <BackButton onClick={() => navigate('/')}></BackButton>
 

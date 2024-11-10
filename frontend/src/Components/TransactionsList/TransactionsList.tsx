@@ -1,31 +1,26 @@
 import React, { useEffect } from 'react'
 import Transaction from '../Transaction/Transaction'
-import { eventsApi, transactionsApi } from '../../shared/api'
+import { defaultReq, eventsApi, transactionsApi } from '../../shared/api'
 import './TransactionsList.css'
 import { useQuery } from '@tanstack/react-query'
+import { OutputTransaction, User } from '../../shared/api/generated'
 
 interface Props {
   eventId: string
+  users: User[]
 }
 
-const TransactionsList = ({ eventId }: Props) => {
+const TransactionsList = ({ eventId, users }: Props) => {
   const [transactions, setTransactions] = React.useState<any[]>([])
-  const [current, setCurrent] = React.useState<any[]>([])
 
-  const { data } = useQuery({
-    queryKey: ['event', eventId],
-    queryFn: () => eventsApi.eventByIdApiEventsEventIdGet({ eventId }),
+  const { data, refetch } = useQuery({
+    queryKey: ['transaction', eventId],
+    queryFn: () => transactionsApi.listTransactionsApiTransactionEventIdGet({ eventId }, defaultReq),
   })
 
-
   useEffect(() => {
-    (async () => {
-      const res = await transactionsApi.listTransactionsApiTransactionEventIdGet({ eventId })
-
-      setTransactions(res || [])
-      setCurrent(res || [])
-    })()
-  }, [])
+    setTransactions(data || [])
+  }, [data])
 
   const deleteItem = (itemId: string) => {
     // await DELETE_ITEM(itemId)
@@ -33,19 +28,18 @@ const TransactionsList = ({ eventId }: Props) => {
       ...transaction, items: transaction.items.filter(item => item.id !== itemId)
     }))
     setTransactions(newTransactions)
-    setCurrent(newTransactions)
   }
 
   return (
     <>
       <div className='transactions-list overflow-y-auto'>
-        {current.map(transaction =>
+        {transactions.map(transaction =>
           <Transaction
             key={transaction.id}
             deleteItem={deleteItem}
-            transaction={transaction}
+            transaction={transaction!}
             eventId={eventId}
-            users={data?.users || []} />
+            users={users || []} />
         )}
       </div>
     </>
