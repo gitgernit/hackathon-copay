@@ -65,6 +65,7 @@ async def ofd(
 
             transaction.items.append(new_item)
             session.add(transaction)
+            session.refresh(transaction)
             session.commit()
 
         try:
