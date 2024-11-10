@@ -8,7 +8,7 @@ import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {WebAppProvider} from "@vkruglikov/react-telegram-web-app";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 export const App: FC = () => {
   return (
     <WebAppProvider

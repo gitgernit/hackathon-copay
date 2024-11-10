@@ -83,14 +83,15 @@ export const EventPage = () => {
         </div>
       </div>
 
-      <ScannerModal isOpen={isScanOpen} onClose={() => setIsScanOpen(false)} onHandle={() => {
+      <ScannerModal refetch={refetch} isOpen={isScanOpen} onClose={() => setIsScanOpen(false)} onHandle={() => {
         refetch()
       }} eventId={id!} />
 
       <CreateTransactionModal
         isOpen={isOpenModal}
         onClose={() => setIsOpenModal(false)}
-        eventId={id!} />
+        eventId={id!} 
+        refetch={refetch}/>
 
       <BackButton onClick={() => navigate('/')}></BackButton>
 

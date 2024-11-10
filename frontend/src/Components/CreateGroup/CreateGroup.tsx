@@ -48,8 +48,11 @@ const CreateGroup = () => {
               <LucideArrowLeft />
             </button>
             <button type="submit" className="shadow-[1px_3px_7px_1px_rgba(34,_60,_80,_0.2)] bg-[#ece6f0] active:bg-pink-200 p-4 rounded-2xl" disabled={!name}>
-              <span>{state === "idle" ? "Создать" : "..."}</span>
+              <span>{state === "idle" || state === 'success' ? "Создать" : (
+                state === 'pending' ? 'Загрузка...' : 'Успешно!'
+              )}</span>
             </button>
+            {state === 'error' && <div className="error mt[15px]">Произошла ошибка, попробуйте ещё раз</div>}
           </div>
         </div>
       </div>

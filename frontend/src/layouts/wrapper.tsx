@@ -14,7 +14,7 @@ export const Wrapper = () => {
         if (initUnsafe?.user?.id) {
           localStorage.setItem('userId', initUnsafe?.user?.id.toString())
         }
-        console.log(await AuthToken.getToken(initUnsafe as any))
+        // console.log(await AuthToken.getToken(initUnsafe as any))
       }
     })()
   }, [initUnsafe, init]);
