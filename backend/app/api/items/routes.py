@@ -26,7 +26,7 @@ from .routers import items_router
         403: {'model': BasicResponse, 'description': 'Unauthorized'},
     },
 )
-async def get_items(transaction_id: UUID) -> list[Item]:
+async def get_items(transaction_id: UUID) -> list[OutputItem]:
     with sqlmodel.Session(bind=app.core.db.engine) as session:
         transaction = session.get(Transaction, transaction_id)
         if not transaction:
@@ -34,7 +34,16 @@ async def get_items(transaction_id: UUID) -> list[Item]:
                 detail='Transaction not found', status_code=404
             )
 
-        return transaction.items
+        out = []
+        for ti in transaction.items:
+            out.append(OutputItem(
+            title=ti.title,
+            id=ti.id,
+            price=ti.price,
+            assigned_to=ti.assigned_to,
+            transaction_id=ti.transaction_id
+        ))
+        return out
 
 
 @items_router.post(
@@ -52,7 +61,7 @@ async def get_items(transaction_id: UUID) -> list[Item]:
         403: {'model': BasicResponse, 'description': 'Unauthorized'},
     },
 )
-async def create_item(item: ItemRequest, transaction_id: UUID) -> Item:
+async def create_item(item: ItemRequest, transaction_id: UUID) -> OutputItem:
     if item.price <= 0:
         raise fastapi.HTTPException(
             detail='Price cannot be null or negative', status_code=400
@@ -76,7 +85,13 @@ async def create_item(item: ItemRequest, transaction_id: UUID) -> Item:
         session.commit()
         session.refresh(new_item)
 
-        return new_item
+        return OutputItem(
+            title=item.title,
+            id=item.id,
+            price=item.price,
+            assigned_to=item.assigned_to,
+            transaction_id=item.transaction_id
+        )
 
 
 @items_router.get(
