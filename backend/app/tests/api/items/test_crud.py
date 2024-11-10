@@ -14,12 +14,12 @@ def test_items() -> None:
 
     # headers = {'Authorization': f'Bearer {token}'}
 
-    event_data = {
+    event_data = [
         {
             'title': 'vodka',
             'price': 1000,
             'all_users_selected': False,
         },
-    }
+    ]
 
     assert event_data
