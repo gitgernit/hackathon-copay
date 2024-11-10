@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, {useEffect} from 'react'
 import GroupItem from '../GroupItem/GroupItem'
 import './GroupList.css'
 import {useQuery} from "@tanstack/react-query";
 import {defaultReq, eventsApi} from "../../shared/api";
-import { useLocation } from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 
 const GroupList = () => {
   const location = useLocation()

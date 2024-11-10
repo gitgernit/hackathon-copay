@@ -30,10 +30,10 @@ const Transaction = ({transaction, deleteItem, users, eventId}: Props) => {
   return (
     <div className='transaction'>
         <h3 className='ibm-plex-sans-semibold'>Транзакция {transaction.title}</h3>
-        <div className="transaction-items">
+        <div className="transaction-items flex flex-col rounded-md">
             {transaction.items.length > 0 ?
             transaction.items.map((item) => (
-                <div className='transaction-item' key={item.id}>
+                <div className='p-2 flex justify-between' key={item.id}>
                     <h5>{item.title}</h5>
                     <p>{item.username} - {item.price}</p>
                     {/* <button onClick={() => deleteItem(item.id)}>

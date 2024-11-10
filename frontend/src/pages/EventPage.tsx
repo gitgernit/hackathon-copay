@@ -104,7 +104,7 @@ export const EventPage = () => {
         <DialogContent>
           <canvas id="goida" className='min-w-64 min-h-64 mx-auto' />
           <div className='flex items-center gap-1'>
-            <Input disabled value={data?.invite || ''} />
+            <Input disabled value={'https://t.me/copay_robot/?startapp=' + data?.invite || ''} />
             <Button onClick={() => {
               navigator.clipboard.writeText(data?.invite || '')
             }}>Копировать</Button>
