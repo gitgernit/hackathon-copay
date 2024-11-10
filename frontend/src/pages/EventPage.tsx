@@ -1,21 +1,20 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { Scanner } from "@yudiel/react-qr-scanner";
-import { calculateDebitsApi, defaultReq, eventsApi } from "../shared/api";
-import { CreateTransactionModal } from "../Components/CreateTransactionModal";
-import { BackButton } from "@vkruglikov/react-telegram-web-app";
-import { LucideArrowLeft, Share } from "lucide-react";
+import {useNavigate, useParams} from "react-router-dom";
+import {useQuery} from "@tanstack/react-query";
+import React, {useEffect, useState} from "react";
+import {calculateDebitsApi, defaultReq, eventsApi} from "../shared/api";
+import {CreateTransactionModal} from "../Components/CreateTransactionModal";
+import {BackButton} from "@vkruglikov/react-telegram-web-app";
+import {LucideArrowLeft, Share} from "lucide-react";
 import TransactionsList from "../Components/TransactionsList/TransactionsList";
-import { Dialog, DialogContent } from "../shared/ui/dialog";
+import {Dialog, DialogContent} from "../shared/ui/dialog";
 import QRCode from "qrcode";
-import { Input } from "../shared/ui/input";
-import { Button } from "../shared/ui/button";
+import {Input} from "../shared/ui/input";
+import {Button} from "../shared/ui/button";
 import "../styles/EventPage.css";
-import React from "react";
-import { ScannerModal } from "../Components/ScannerModal";
+import {ScannerModal} from "../Components/ScannerModal";
 
-import { initUtils } from "@tma.js/sdk";
+// import {initUtils} from "@tma.js/sdk";
+const initUtils = () => ({})
 
 export const EventPage = () => {
   const { id } = useParams();
@@ -138,9 +137,11 @@ export const EventPage = () => {
             </Button>
             <Button
               onClick={() => {
-                utils.openTelegramLink(
-                  `https://t.me/share/url?url=https://t.me/copay_robot/?startapp=${data?.id}&text=Саня верни сотку!`
-                );
+                try {
+                  utils.openTelegramLink(
+                    `https://t.me/share/url?url=https://t.me/copay_robot/?startapp=${data?.id}&text=Саня верни сотку!`
+                  );
+                } catch(e) {}
               }}
             >
               Поделиться

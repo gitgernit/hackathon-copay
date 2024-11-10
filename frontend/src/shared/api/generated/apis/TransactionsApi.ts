@@ -20,7 +20,6 @@ import type {
   HTTPValidationError,
   Item,
   OutputTransaction,
-  Transaction,
 } from '../models/index';
 import {
     BasicResponseFromJSON,
@@ -33,8 +32,6 @@ import {
     ItemToJSON,
     OutputTransactionFromJSON,
     OutputTransactionToJSON,
-    TransactionFromJSON,
-    TransactionToJSON,
 } from '../models/index';
 
 export interface AddItemToTransactionApiTransactionEventIdTransactionIdItemsPostRequest {
@@ -126,7 +123,7 @@ export class TransactionsApi extends runtime.BaseAPI {
      * Create a transaction by a event id
      * Create Transaction
      */
-    async createTransactionApiTransactionEventIdPostRaw(requestParameters: CreateTransactionApiTransactionEventIdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Transaction>> {
+    async createTransactionApiTransactionEventIdPostRaw(requestParameters: CreateTransactionApiTransactionEventIdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OutputTransaction>> {
         if (requestParameters['eventId'] == null) {
             throw new runtime.RequiredError(
                 'eventId',
@@ -163,14 +160,14 @@ export class TransactionsApi extends runtime.BaseAPI {
             body: requestParameters['body'] as any,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TransactionFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => OutputTransactionFromJSON(jsonValue));
     }
 
     /**
      * Create a transaction by a event id
      * Create Transaction
      */
-    async createTransactionApiTransactionEventIdPost(requestParameters: CreateTransactionApiTransactionEventIdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Transaction> {
+    async createTransactionApiTransactionEventIdPost(requestParameters: CreateTransactionApiTransactionEventIdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<OutputTransaction> {
         const response = await this.createTransactionApiTransactionEventIdPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
